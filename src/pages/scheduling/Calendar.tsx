@@ -19,9 +19,11 @@ import {
   BadgeAlert
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { format, startOfWeek, addDays, startOfMonth, endOfMonth, isSameMonth } from "date-fns";
 
 const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [view, setView] = useState<'day' | 'week' | 'month'>('day');
   const [selectedAppointment, setSelectedAppointment] = useState<any>(null);
 
   // Mock data
@@ -83,6 +85,144 @@ const Calendar = () => {
       description: "Needs accessible room"
     }
   ];
+
+  const renderDayView = () => (
+    <div className="space-y-4">
+      {appointments.map((apt, index) => (
+        <div
+          key={index}
+          className={cn(
+            "flex items-center gap-4 p-4 rounded-lg border-2 transition-colors cursor-pointer",
+            getAppointmentTypeColor(apt.type),
+            apt.status === "checked-in" && "border-green-500",
+          )}
+        >
+          <div className="w-20 text-sm text-muted-foreground">
+            {apt.time}
+          </div>
+          <div className="flex-1 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center">
+                <User className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <p className="font-medium">{apt.patient}</p>
+                <p className="text-sm text-muted-foreground">{apt.type}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Clock className="h-4 w-4" />
+                {apt.duration}
+              </div>
+              {apt.noShowRisk && (
+                <div className="flex items-center gap-1 text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded-full">
+                  <AlertCircle className="h-3 w-3" />
+                  High no-show risk
+                </div>
+              )}
+              {apt.status === "checked-in" && (
+                <div className="flex items-center gap-1 text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
+                  <CheckCircle2 className="h-3 w-3" />
+                  Checked in
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const renderWeekView = () => {
+    const weekStart = startOfWeek(selectedDate);
+    const weekDays = [...Array(7)].map((_, i) => addDays(weekStart, i));
+
+    return (
+      <div className="space-y-4">
+        <div className="grid grid-cols-7 gap-4">
+          {weekDays.map((day, i) => (
+            <div key={i} className="text-center p-2 border-b font-medium">
+              <div className="text-sm text-muted-foreground">{format(day, 'EEE')}</div>
+              <div>{format(day, 'd')}</div>
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-7 gap-4 min-h-[600px]">
+          {weekDays.map((day, i) => (
+            <div key={i} className="border-r last:border-r-0">
+              <div className="space-y-2 p-2">
+                {appointments.map((apt, index) => (
+                  <div
+                    key={index}
+                    className={cn(
+                      "p-2 rounded-md text-xs",
+                      getAppointmentTypeColor(apt.type)
+                    )}
+                  >
+                    <div className="font-medium">{apt.time}</div>
+                    <div>{apt.patient}</div>
+                    <div className="text-muted-foreground">{apt.type}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const renderMonthView = () => {
+    const monthStart = startOfMonth(selectedDate);
+    const monthEnd = endOfMonth(selectedDate);
+    const startDate = startOfWeek(monthStart);
+    const days = [];
+    let day = startDate;
+
+    while (day <= monthEnd) {
+      days.push(day);
+      day = addDays(day, 1);
+    }
+
+    return (
+      <div className="space-y-4">
+        <div className="grid grid-cols-7 gap-4">
+          {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+            <div key={day} className="text-center p-2 font-medium text-sm">
+              {day}
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-7 gap-4 min-h-[600px]">
+          {days.map((day, i) => (
+            <div
+              key={i}
+              className={cn(
+                "border rounded-lg p-2 min-h-[120px]",
+                !isSameMonth(day, selectedDate) && "bg-muted/50"
+              )}
+            >
+              <div className="text-sm font-medium mb-2">{format(day, 'd')}</div>
+              <div className="space-y-1">
+                {appointments.map((apt, index) => (
+                  <div
+                    key={index}
+                    className={cn(
+                      "p-1 rounded text-xs truncate",
+                      getAppointmentTypeColor(apt.type)
+                    )}
+                  >
+                    {apt.time} - {apt.patient}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="space-y-6">
@@ -249,65 +389,41 @@ const Calendar = () => {
         <Card className="p-6">
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold">Today's Schedule</h2>
+              <h2 className="text-lg font-semibold">
+                {view === 'day' ? "Today's Schedule" : 
+                 view === 'week' ? "Weekly Schedule" : "Monthly Schedule"}
+              </h2>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm" className="bg-primary/5">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className={cn(view === 'day' && "bg-primary/5")}
+                  onClick={() => setView('day')}
+                >
                   Day
                 </Button>
-                <Button variant="outline" size="sm">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className={cn(view === 'week' && "bg-primary/5")}
+                  onClick={() => setView('week')}
+                >
                   Week
                 </Button>
-                <Button variant="outline" size="sm">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className={cn(view === 'month' && "bg-primary/5")}
+                  onClick={() => setView('month')}
+                >
                   Month
                 </Button>
               </div>
             </div>
 
-            <div className="space-y-4">
-              {appointments.map((apt, index) => (
-                <div
-                  key={index}
-                  className={cn(
-                    "flex items-center gap-4 p-4 rounded-lg border-2 transition-colors cursor-pointer",
-                    getAppointmentTypeColor(apt.type),
-                    apt.status === "checked-in" && "border-green-500",
-                  )}
-                >
-                  <div className="w-20 text-sm text-muted-foreground">
-                    {apt.time}
-                  </div>
-                  <div className="flex-1 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center">
-                        <User className="h-5 w-5 text-primary" />
-                      </div>
-                      <div>
-                        <p className="font-medium">{apt.patient}</p>
-                        <p className="text-sm text-muted-foreground">{apt.type}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Clock className="h-4 w-4" />
-                        {apt.duration}
-                      </div>
-                      {apt.noShowRisk && (
-                        <div className="flex items-center gap-1 text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded-full">
-                          <AlertCircle className="h-3 w-3" />
-                          High no-show risk
-                        </div>
-                      )}
-                      {apt.status === "checked-in" && (
-                        <div className="flex items-center gap-1 text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
-                          <CheckCircle2 className="h-3 w-3" />
-                          Checked in
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            {view === 'day' && renderDayView()}
+            {view === 'week' && renderWeekView()}
+            {view === 'month' && renderMonthView()}
           </div>
         </Card>
       </div>
