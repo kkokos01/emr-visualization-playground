@@ -8,6 +8,9 @@ import PatientChart from "./pages/patients/PatientChart";
 import Messages from "./pages/communication/Messages";
 import Calendar from "./pages/scheduling/Calendar";
 import Tasks from "./pages/tasks/Tasks";
+import Physician from "./pages/roles/Physician";
+import Nurse from "./pages/roles/Nurse";
+import Admin from "./pages/roles/Admin";
 
 export const router = createBrowserRouter([
   {
@@ -23,7 +26,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/patients",
-        element: <Dashboard />, // Temporary redirect to Dashboard until we have a PatientList component
+        element: <Dashboard />,
       },
       {
         path: "/patient/:id",
@@ -31,7 +34,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/chart",
-        element: <PatientChart />, // Redirect /chart to PatientChart
+        element: <PatientChart />,
       },
       {
         path: "/messages",
@@ -39,7 +42,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/appointments",
-        element: <Calendar />, // Match the URL in sidebar
+        element: <Calendar />,
       },
       {
         path: "/calendar",
@@ -48,6 +51,18 @@ export const router = createBrowserRouter([
       {
         path: "/tasks",
         element: <Tasks />,
+      },
+      {
+        path: "/roles/physician",
+        element: <Physician />,
+      },
+      {
+        path: "/roles/nurse",
+        element: <Nurse />,
+      },
+      {
+        path: "/roles/admin",
+        element: <Admin />,
       },
     ]
   },
