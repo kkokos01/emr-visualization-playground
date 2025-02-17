@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { 
@@ -48,12 +47,12 @@ const PatientChart = () => {
           </div>
           <div className="flex gap-2">
             <Link to={`/patient/${id}/chart`}>
-              <Button variant="outline" size="sm">
+              <Button className="bg-[#0EA5E9] hover:bg-[#0EA5E9]/90 text-white">
                 <FileText className="h-4 w-4 mr-2" />
                 New Note
               </Button>
             </Link>
-            <Button variant="outline" size="sm">
+            <Button className="bg-[#8B5CF6] hover:bg-[#8B5CF6]/90 text-white">
               <Calendar className="h-4 w-4 mr-2" />
               Schedule Visit
             </Button>
@@ -195,31 +194,31 @@ const PatientChart = () => {
         </div>
       </div>
 
-      <Card className="p-4">
+      <Card className="p-4 bg-primary/5">
         <div className="flex items-center gap-2 mb-3">
           <LightbulbIcon className="h-5 w-5 text-primary" />
-          <h4 className="font-medium">Smart Suggestions</h4>
+          <h4 className="font-medium text-primary">Smart Suggestions</h4>
         </div>
         <div className="space-y-2">
-          <div className="p-3 bg-primary/10 rounded-md border border-primary/20">
+          <div className="p-3 bg-white rounded-md border border-primary/20">
             <div className="flex items-start gap-2">
               <AlertCircle className="h-4 w-4 text-primary mt-0.5" />
               <div>
-                <p className="text-sm font-medium text-primary/90">HbA1c Overdue</p>
-                <p className="text-sm text-primary/80">Last result was 3 months ago. Consider ordering new test.</p>
-                <Button size="sm" variant="outline" className="mt-2 border-primary/20 hover:bg-primary/5">
+                <p className="text-sm font-medium text-foreground">HbA1c Overdue</p>
+                <p className="text-sm text-muted-foreground">Last result was 3 months ago. Consider ordering new test.</p>
+                <Button size="sm" className="mt-2 bg-[#0EA5E9] hover:bg-[#0EA5E9]/90 text-white">
                   <Plus className="h-3 w-3 mr-1" />
                   Add to Orders
                 </Button>
               </div>
             </div>
           </div>
-          <div className="p-3 bg-primary/10 rounded-md border border-primary/20">
+          <div className="p-3 bg-white rounded-md border border-primary/20">
             <div className="flex items-start gap-2">
               <TrendingUp className="h-4 w-4 text-primary mt-0.5" />
               <div>
-                <p className="text-sm font-medium text-primary/90">BP Trending Up</p>
-                <p className="text-sm text-primary/80">Last 3 readings show upward trend. Consider adjustment.</p>
+                <p className="text-sm font-medium text-foreground">BP Trending Up</p>
+                <p className="text-sm text-muted-foreground">Last 3 readings show upward trend. Consider adjustment.</p>
               </div>
             </div>
           </div>
