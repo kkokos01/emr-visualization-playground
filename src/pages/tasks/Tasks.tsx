@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { 
@@ -8,6 +9,7 @@ import {
   Filter,
   ClipboardList
 } from "lucide-react";
+import { MetricCard } from "@/components/dashboard/MetricCard";
 
 const Tasks = () => {
   const tasks = [
@@ -41,10 +43,10 @@ const Tasks = () => {
   ];
 
   const stats = [
-    { label: "Total Tasks", value: "12" },
-    { label: "Due Today", value: "5" },
-    { label: "Overdue", value: "2" },
-    { label: "Completed", value: "8" },
+    { label: "Total Tasks", value: "12", icon: ClipboardList },
+    { label: "Due Today", value: "5", icon: Clock },
+    { label: "Overdue", value: "2", icon: AlertCircle },
+    { label: "Completed", value: "8", icon: CheckCircle2 },
   ];
 
   return (
@@ -62,12 +64,12 @@ const Tasks = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, index) => (
-          <Card key={index} className="p-4" data-clickable="true">
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-muted-foreground">{stat.label}</p>
-              <span className="text-2xl font-bold">{stat.value}</span>
-            </div>
-          </Card>
+          <MetricCard
+            key={index}
+            label={stat.label}
+            value={stat.value}
+            icon={stat.icon}
+          />
         ))}
       </div>
 

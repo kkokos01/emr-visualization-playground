@@ -1,5 +1,9 @@
+
 import { ArrowLeft, Calendar, ChartBar, DollarSign, FileText, Users } from "lucide-react";
 import { Link } from "react-router-dom";
+import { MetricCard } from "@/components/dashboard/MetricCard";
+import { ScheduleList } from "@/components/dashboard/ScheduleList";
+import { Card } from "@/components/ui/card";
 
 const Admin = () => {
   const metrics = [
@@ -10,9 +14,9 @@ const Admin = () => {
   ];
 
   const appointments = [
-    { time: "9:00 AM", provider: "Dr. Thompson", patient: "John Smith", type: "Follow-up" },
-    { time: "10:30 AM", provider: "Dr. Wilson", patient: "Sarah Johnson", type: "New Patient" },
-    { time: "11:45 AM", provider: "Dr. Thompson", patient: "Michael Chen", type: "Consultation" },
+    { time: "9:00 AM", patient: "John Smith", type: "Follow-up", status: "Confirmed" },
+    { time: "10:30 AM", patient: "Sarah Johnson", type: "New Patient", status: "Pending" },
+    { time: "11:45 AM", patient: "Michael Chen", type: "Consultation", status: "Arrived" },
   ];
 
   const reports = [
@@ -45,45 +49,22 @@ const Admin = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {metrics.map((metric, index) => (
-            <div
+            <MetricCard
               key={index}
-              className="card-gradient p-6 rounded-lg shadow-sm border border-muted"
-              data-clickable="true"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-medium text-muted-foreground">
-                  {metric.label}
-                </h3>
-                <metric.icon className="w-5 h-5 text-primary opacity-75" />
-              </div>
-              <p className="text-2xl font-semibold text-foreground">{metric.value}</p>
-            </div>
+              label={metric.label}
+              value={metric.value}
+              icon={metric.icon}
+            />
           ))}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="glass p-6" data-clickable="true">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-foreground">Today's Schedule</h2>
-              <Calendar className="w-5 h-5 text-primary" />
-            </div>
-            <div className="space-y-4">
-              {appointments.map((appointment, index) => (
-                <div key={index} className="flex items-center justify-between p-4 bg-white/90 rounded-lg shadow-sm">
-                  <div>
-                    <p className="font-medium text-foreground">{appointment.patient}</p>
-                    <p className="text-sm text-muted-foreground">{appointment.provider}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-medium text-primary">{appointment.time}</p>
-                    <p className="text-sm text-muted-foreground">{appointment.type}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="glass p-6" data-clickable="true">
+          <ScheduleList
+            title="Today's Schedule"
+            icon={Calendar}
+            appointments={appointments}
+          />
+          <Card className="p-6" data-clickable="true">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-foreground">Performance Metrics</h2>
               <ChartBar className="w-5 h-5 text-primary" />
@@ -108,7 +89,7 @@ const Admin = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </Card>
         </div>
       </div>
     </div>
