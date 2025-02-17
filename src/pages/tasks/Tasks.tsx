@@ -138,3 +138,14 @@ const Tasks = () => {
                   )}
                   <Clock className="h-4 w-4" />
                   <span>Due: {task.due}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Card>
+    </div>
+  );
+};
+
+export default Tasks;
