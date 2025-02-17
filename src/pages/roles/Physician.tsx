@@ -1,4 +1,3 @@
-
 import { ArrowLeft, Calendar, ClipboardList, Clock, MessageSquare, Stethoscope, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { MetricCard } from "@/components/dashboard/MetricCard";
@@ -20,9 +19,30 @@ const Physician = () => {
   ];
 
   const tasks = [
-    { type: "Review Lab Results", patient: "David Wilson", details: "CBC Results", time: "Today" },
-    { type: "Sign Prescription", patient: "Maria Garcia", details: "Renewal", time: "Today" },
-    { type: "Complete Chart Notes", patient: "James Brown", details: "Follow-up", time: "Tomorrow" },
+    { 
+      type: "Review Lab Results", 
+      patient: "David Wilson", 
+      details: "CBC Results", 
+      time: "Today",
+      priority: "high" as const,
+      aiInsight: "Hemoglobin levels show significant change from last test",
+      followUp: true
+    },
+    { 
+      type: "Sign Prescription", 
+      patient: "Maria Garcia", 
+      details: "Renewal", 
+      time: "Today",
+      priority: "medium" as const,
+      aiInsight: "Patient due for medication review next month"
+    },
+    { 
+      type: "Complete Chart Notes", 
+      patient: "James Brown", 
+      details: "Follow-up", 
+      time: "Tomorrow",
+      priority: "low" as const
+    },
   ];
 
   return (
