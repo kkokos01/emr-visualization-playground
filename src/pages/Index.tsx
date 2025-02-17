@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Calendar,
   ChartBar,
@@ -11,13 +11,14 @@ import {
 } from "lucide-react";
 
 const Index = () => {
+  const navigate = useNavigate();
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
 
   const metrics = [
-    { label: "Total Patients", value: "1,234", icon: Users },
-    { label: "Appointments Today", value: "28", icon: Calendar },
-    { label: "Pending Labs", value: "15", icon: ClipboardList },
-    { label: "New Messages", value: "7", icon: MessageSquare },
+    { label: "Total Patients", value: "1,234", icon: Users, path: "/patients" },
+    { label: "Appointments Today", value: "28", icon: Calendar, path: "/appointments" },
+    { label: "Pending Labs", value: "15", icon: ClipboardList, path: "/labs" },
+    { label: "New Messages", value: "7", icon: MessageSquare, path: "/messages" },
   ];
 
   const roles = [
@@ -26,18 +27,21 @@ const Index = () => {
       description: "Access patient records, write notes, and manage care plans",
       icon: Stethoscope,
       color: "bg-primary",
+      path: "/physician",
     },
     {
       title: "Nurse",
       description: "Record vitals, manage patient intake, and handle orders",
       icon: ClipboardList,
       color: "bg-success",
+      path: "/nurse",
     },
     {
       title: "Admin",
       description: "Schedule appointments and manage practice operations",
       icon: ChartBar,
       color: "bg-warning",
+      path: "/admin",
     },
   ];
 
@@ -57,18 +61,21 @@ const Index = () => {
         {/* Metrics Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {metrics.map((metric, index) => (
-            <div
+            <button
               key={index}
-              className="card-gradient p-6 rounded-lg shadow-sm border border-gray-100 transition-all hover:shadow-md"
+              onClick={() => navigate(metric.path)}
+              className="text-left w-full"
             >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-medium text-muted-foreground">
-                  {metric.label}
-                </h3>
-                <metric.icon className="w-5 h-5 text-primary opacity-75" />
+              <div className="card-gradient p-6 rounded-lg shadow-sm border border-gray-100 transition-all hover:shadow-md hover:scale-[1.02]">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-sm font-medium text-muted-foreground">
+                    {metric.label}
+                  </h3>
+                  <metric.icon className="w-5 h-5 text-primary opacity-75" />
+                </div>
+                <p className="text-2xl font-semibold">{metric.value}</p>
               </div>
-              <p className="text-2xl font-semibold">{metric.value}</p>
-            </div>
+            </button>
           ))}
         </div>
 
@@ -77,7 +84,10 @@ const Index = () => {
           {roles.map((role, index) => (
             <button
               key={index}
-              onClick={() => setSelectedRole(role.title)}
+              onClick={() => {
+                setSelectedRole(role.title);
+                navigate(role.path);
+              }}
               className={`glass group p-6 text-left transition-all duration-200 hover:scale-[1.02] ${
                 selectedRole === role.title
                   ? "ring-2 ring-primary ring-offset-2"
