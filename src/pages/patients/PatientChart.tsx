@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { 
@@ -196,7 +197,7 @@ const PatientChart = () => {
 
       <Card className="p-4">
         <div className="flex items-center gap-2 mb-3">
-          <Lightbulb className="h-5 w-5 text-primary" />
+          <LightbulbIcon className="h-5 w-5 text-primary" />
           <h4 className="font-medium">Smart Suggestions</h4>
         </div>
         <div className="space-y-2">
