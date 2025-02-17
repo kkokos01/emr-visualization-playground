@@ -207,33 +207,33 @@ const ClinicalChart = () => {
 
             {/* SOAP Note Sections */}
             <Card className="p-4 bg-white shadow-md border-2 border-primary/20">
-              <h3 className="font-semibold mb-2 text-primary-foreground">Subjective</h3>
+              <h3 className="font-semibold mb-2 text-foreground">Subjective</h3>
               <textarea
-                className="w-full h-32 p-2 text-sm rounded-md border-2 border-primary/20 focus:border-primary/40 focus:ring-1 focus:ring-primary/40"
+                className="w-full h-32 p-2 text-sm rounded-md border-2 border-primary/20 focus:border-primary/40 focus:ring-1 focus:ring-primary/40 text-foreground"
                 placeholder="Enter patient's subjective information..."
               />
             </Card>
 
             <Card className="p-4 bg-white shadow-md border-2 border-primary/20">
-              <h3 className="font-semibold mb-2 text-primary-foreground">Objective</h3>
+              <h3 className="font-semibold mb-2 text-foreground">Objective</h3>
               <textarea
-                className="w-full h-32 p-2 text-sm rounded-md border-2 border-primary/20 focus:border-primary/40 focus:ring-1 focus:ring-primary/40"
+                className="w-full h-32 p-2 text-sm rounded-md border-2 border-primary/20 focus:border-primary/40 focus:ring-1 focus:ring-primary/40 text-foreground"
                 placeholder="Enter objective findings..."
               />
             </Card>
 
             <Card className="p-4 bg-white shadow-md border-2 border-primary/20">
-              <h3 className="font-semibold mb-2 text-primary-foreground">Assessment</h3>
+              <h3 className="font-semibold mb-2 text-foreground">Assessment</h3>
               <textarea
-                className="w-full h-32 p-2 text-sm rounded-md border-2 border-primary/20 focus:border-primary/40 focus:ring-1 focus:ring-primary/40"
+                className="w-full h-32 p-2 text-sm rounded-md border-2 border-primary/20 focus:border-primary/40 focus:ring-1 focus:ring-primary/40 text-foreground"
                 placeholder="Enter assessment..."
               />
             </Card>
 
             <Card className="p-4 bg-white shadow-md border-2 border-primary/20">
-              <h3 className="font-semibold mb-2 text-primary-foreground">Plan</h3>
+              <h3 className="font-semibold mb-2 text-foreground">Plan</h3>
               <textarea
-                className="w-full h-32 p-2 text-sm rounded-md border-2 border-primary/20 focus:border-primary/40 focus:ring-1 focus:ring-primary/40"
+                className="w-full h-32 p-2 text-sm rounded-md border-2 border-primary/20 focus:border-primary/40 focus:ring-1 focus:ring-primary/40 text-foreground"
                 placeholder="Enter treatment plan..."
                 value={planText}
                 onChange={(e) => setPlanText(e.target.value)}
