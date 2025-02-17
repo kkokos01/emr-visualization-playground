@@ -40,7 +40,7 @@ const ClinicalChart = () => {
   });
 
   return (
-    <div className="h-[calc(100vh-4rem)] flex flex-col">
+    <div className="h-[calc(100vh-4rem)] flex flex-col bg-gray-50">
       {/* Header with Patient Context */}
       <Card className="rounded-none border-x-0 border-t-0">
         <div className="p-4 flex items-center justify-between">
@@ -86,14 +86,14 @@ const ClinicalChart = () => {
         {/* Left Sidebar - Patient Data */}
         <div className="hidden lg:block col-span-3 h-full overflow-y-auto">
           <Tabs defaultValue="problems" className="h-full flex flex-col">
-            <TabsList className="w-full justify-start">
+            <TabsList className="w-full justify-start bg-white shadow-sm">
               <TabsTrigger value="problems">Problems</TabsTrigger>
               <TabsTrigger value="labs">Labs</TabsTrigger>
               <TabsTrigger value="meds">Medications</TabsTrigger>
             </TabsList>
             <ScrollArea className="flex-1 w-full">
               <TabsContent value="problems" className="m-0">
-                <Card className="p-4">
+                <Card className="p-4 bg-white shadow-sm border-muted">
                   <h4 className="font-medium mb-2">Active Problems</h4>
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm">
@@ -108,7 +108,7 @@ const ClinicalChart = () => {
                 </Card>
               </TabsContent>
               <TabsContent value="labs" className="m-0">
-                <Card className="p-4">
+                <Card className="p-4 bg-white shadow-sm border-muted">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="font-medium">Recent Labs</h4>
                     <Button variant="outline" size="sm">View Trends</Button>
@@ -132,7 +132,7 @@ const ClinicalChart = () => {
                 </Card>
               </TabsContent>
               <TabsContent value="meds" className="m-0">
-                <Card className="p-4">
+                <Card className="p-4 bg-white shadow-sm border-muted">
                   <h4 className="font-medium mb-2">Current Medications</h4>
                   <div className="space-y-2 text-sm">
                     <div className="p-2 bg-muted rounded-md">
@@ -156,43 +156,43 @@ const ClinicalChart = () => {
             <div className="flex items-center gap-2 mb-4">
               <Input
                 placeholder="Note Title"
-                className="text-lg font-semibold"
+                className="text-lg font-semibold bg-white border-2 border-primary/20 focus-visible:border-primary/40"
                 defaultValue="Office Visit Note"
               />
-              <Button variant="outline" size="icon">
+              <Button variant="outline" size="icon" className="bg-white hover:bg-primary/5">
                 <Mic className="h-4 w-4" />
               </Button>
             </div>
 
             {/* SOAP Note Sections */}
-            <Card className="p-4">
-              <h3 className="font-semibold mb-2">Subjective</h3>
+            <Card className="p-4 bg-white shadow-md border-2 border-primary/20">
+              <h3 className="font-semibold mb-2 text-primary-foreground">Subjective</h3>
               <textarea
-                className="w-full h-32 p-2 text-sm border rounded-md"
+                className="w-full h-32 p-2 text-sm rounded-md border-2 border-primary/20 focus:border-primary/40 focus:ring-1 focus:ring-primary/40"
                 placeholder="Enter patient's subjective information..."
               />
             </Card>
 
-            <Card className="p-4">
-              <h3 className="font-semibold mb-2">Objective</h3>
+            <Card className="p-4 bg-white shadow-md border-2 border-primary/20">
+              <h3 className="font-semibold mb-2 text-primary-foreground">Objective</h3>
               <textarea
-                className="w-full h-32 p-2 text-sm border rounded-md"
+                className="w-full h-32 p-2 text-sm rounded-md border-2 border-primary/20 focus:border-primary/40 focus:ring-1 focus:ring-primary/40"
                 placeholder="Enter objective findings..."
               />
             </Card>
 
-            <Card className="p-4">
-              <h3 className="font-semibold mb-2">Assessment</h3>
+            <Card className="p-4 bg-white shadow-md border-2 border-primary/20">
+              <h3 className="font-semibold mb-2 text-primary-foreground">Assessment</h3>
               <textarea
-                className="w-full h-32 p-2 text-sm border rounded-md"
+                className="w-full h-32 p-2 text-sm rounded-md border-2 border-primary/20 focus:border-primary/40 focus:ring-1 focus:ring-primary/40"
                 placeholder="Enter assessment..."
               />
             </Card>
 
-            <Card className="p-4">
-              <h3 className="font-semibold mb-2">Plan</h3>
+            <Card className="p-4 bg-white shadow-md border-2 border-primary/20">
+              <h3 className="font-semibold mb-2 text-primary-foreground">Plan</h3>
               <textarea
-                className="w-full h-32 p-2 text-sm border rounded-md"
+                className="w-full h-32 p-2 text-sm rounded-md border-2 border-primary/20 focus:border-primary/40 focus:ring-1 focus:ring-primary/40"
                 placeholder="Enter treatment plan..."
                 value={planText}
                 onChange={(e) => setPlanText(e.target.value)}
@@ -200,7 +200,7 @@ const ClinicalChart = () => {
               <div className="mt-4 flex items-center gap-2">
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant="outline" size="sm">
+                    <Button variant="secondary" size="sm" className="bg-secondary hover:bg-secondary/90">
                       <Plus className="h-4 w-4 mr-2" />
                       Add Order
                     </Button>
@@ -232,7 +232,7 @@ const ClinicalChart = () => {
                 </Dialog>
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant="outline" size="sm">
+                    <Button variant="secondary" size="sm" className="bg-secondary hover:bg-secondary/90">
                       <TestTube className="h-4 w-4 mr-2" />
                       Order Labs
                     </Button>
@@ -372,17 +372,17 @@ const ClinicalChart = () => {
       </div>
 
       {/* Footer Toolbar */}
-      <Card className="rounded-none border-x-0 border-b-0 mt-auto">
+      <Card className="rounded-none border-x-0 border-b-0 mt-auto bg-white shadow-md">
         <div className="p-4 flex items-center justify-between">
           <div className="text-sm text-muted-foreground">
             Last auto-saved: 2 mins ago
           </div>
           <div className="flex gap-2">
-            <Button variant="outline">
+            <Button variant="outline" className="bg-white hover:bg-destructive/5 hover:text-destructive">
               <XCircle className="h-4 w-4 mr-2" />
               Cancel
             </Button>
-            <Button>
+            <Button className="bg-primary hover:bg-primary/90">
               <Save className="h-4 w-4 mr-2" />
               Save & Sign Note
             </Button>
