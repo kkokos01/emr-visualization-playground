@@ -1,5 +1,4 @@
-
-import { ArrowLeft, Calendar, ChartBarIcon, DollarSign, FileText, Users } from "lucide-react";
+import { ArrowLeft, Calendar, ChartBar, DollarSign, FileText, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Admin = () => {
@@ -39,12 +38,11 @@ const Admin = () => {
             <p className="text-muted-foreground">Practice Overview</p>
           </div>
           <div className="flex items-center gap-2">
-            <ChartBarIcon className="w-5 h-5 text-warning" />
+            <ChartBar className="w-5 h-5 text-warning" />
             <span className="text-sm text-muted-foreground">Today's Summary</span>
           </div>
         </div>
 
-        {/* Metrics Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {metrics.map((metric, index) => (
             <div
@@ -63,7 +61,6 @@ const Admin = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Today's Schedule */}
           <div className="glass p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-foreground">Today's Schedule</h2>
@@ -71,7 +68,7 @@ const Admin = () => {
             </div>
             <div className="space-y-4">
               {appointments.map((appointment, index) => (
-                <div key={index} className="flex items-center justify-between p-4 bg-white/50 rounded-lg">
+                <div key={index} className="flex items-center justify-between p-4 bg-white/90 rounded-lg shadow-sm">
                   <div>
                     <p className="font-medium text-foreground">{appointment.patient}</p>
                     <p className="text-sm text-muted-foreground">{appointment.provider}</p>
@@ -85,15 +82,14 @@ const Admin = () => {
             </div>
           </div>
 
-          {/* Performance Reports */}
           <div className="glass p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-foreground">Performance Metrics</h2>
-              <ChartBarIcon className="w-5 h-5 text-primary" />
+              <ChartBar className="w-5 h-5 text-primary" />
             </div>
             <div className="space-y-4">
               {reports.map((report, index) => (
-                <div key={index} className="flex items-center justify-between p-4 bg-white/50 rounded-lg">
+                <div key={index} className="flex items-center justify-between p-4 bg-white/90 rounded-lg shadow-sm">
                   <div>
                     <p className="font-medium text-foreground">{report.title}</p>
                     <p className="text-sm text-muted-foreground">

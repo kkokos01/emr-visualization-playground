@@ -44,7 +44,6 @@ const Physician = () => {
           </div>
         </div>
 
-        {/* Metrics Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {metrics.map((metric, index) => (
             <div
@@ -63,7 +62,6 @@ const Physician = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Upcoming Appointments */}
           <div className="glass p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-foreground">Today's Schedule</h2>
@@ -71,7 +69,7 @@ const Physician = () => {
             </div>
             <div className="space-y-4">
               {upcomingAppointments.map((appointment, index) => (
-                <div key={index} className="flex items-center justify-between p-4 bg-white/50 rounded-lg">
+                <div key={index} className="flex items-center justify-between p-4 bg-white/90 rounded-lg shadow-sm">
                   <div>
                     <p className="font-medium text-foreground">{appointment.patient}</p>
                     <p className="text-sm text-muted-foreground">{appointment.type}</p>
@@ -85,7 +83,6 @@ const Physician = () => {
             </div>
           </div>
 
-          {/* Tasks & Notifications */}
           <div className="glass p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-foreground">Pending Tasks</h2>
@@ -93,7 +90,7 @@ const Physician = () => {
             </div>
             <div className="space-y-4">
               {tasks.map((task, index) => (
-                <div key={index} className="flex items-center justify-between p-4 bg-white/50 rounded-lg">
+                <div key={index} className="flex items-center justify-between p-4 bg-white/90 rounded-lg shadow-sm">
                   <div>
                     <p className="font-medium text-foreground">{task.title}</p>
                     <p className="text-sm text-muted-foreground">Patient: {task.patient}</p>
