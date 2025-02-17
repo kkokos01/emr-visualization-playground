@@ -36,7 +36,7 @@ export const Sidebar = () => {
   ];
 
   return (
-    <SidebarContainer>
+    <SidebarContainer className="bg-primary/10">
       <SidebarContent>
         {menuItems.map((group) => (
           <SidebarGroup key={group.label}>
