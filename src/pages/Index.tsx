@@ -46,10 +46,10 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-background to-muted">
       <div className="container max-w-7xl mx-auto px-4 py-8">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold tracking-tight mb-4">
+          <h1 className="text-4xl font-bold tracking-tight mb-4 text-foreground">
             Practice Management Portal
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -66,14 +66,14 @@ const Index = () => {
               onClick={() => navigate(metric.path)}
               className="text-left w-full"
             >
-              <div className="card-gradient p-6 rounded-lg shadow-sm border border-gray-100 transition-all hover:shadow-md hover:scale-[1.02]">
+              <div className="card-gradient p-6 rounded-lg shadow-sm border border-muted transition-all hover:shadow-md hover:scale-[1.02]">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-sm font-medium text-muted-foreground">
                     {metric.label}
                   </h3>
                   <metric.icon className="w-5 h-5 text-primary opacity-75" />
                 </div>
-                <p className="text-2xl font-semibold">{metric.value}</p>
+                <p className="text-2xl font-semibold text-foreground">{metric.value}</p>
               </div>
             </button>
           ))}
@@ -99,7 +99,7 @@ const Index = () => {
               >
                 <role.icon className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">{role.title}</h3>
+              <h3 className="text-xl font-semibold mb-2 text-foreground">{role.title}</h3>
               <p className="text-muted-foreground text-sm">
                 {role.description}
               </p>
