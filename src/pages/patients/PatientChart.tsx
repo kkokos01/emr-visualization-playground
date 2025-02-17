@@ -1,9 +1,11 @@
+
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
-  Activity, AlertCircle, Calendar, ClipboardList, 
-  FileText, Heart, Pill, User 
+  Activity, AlertCircle, Brain, Calendar, ChartBar, 
+  ClipboardList, FileText, Heart, LightbulbIcon, 
+  Pill, Stethoscope, User 
 } from "lucide-react";
 
 const PatientChart = () => {
@@ -24,9 +26,11 @@ const PatientChart = () => {
               </div>
               <div className="flex gap-2 mt-2">
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                  <AlertCircle className="h-3 w-3 mr-1" />
                   Allergy: Penicillin
                 </span>
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                  <AlertCircle className="h-3 w-3 mr-1" />
                   Diabetic
                 </span>
               </div>
@@ -35,7 +39,7 @@ const PatientChart = () => {
           <div className="flex gap-2">
             <Button variant="outline" size="sm">
               <Calendar className="h-4 w-4 mr-2" />
-              Schedule
+              Schedule Visit
             </Button>
             <Button variant="outline" size="sm">
               <FileText className="h-4 w-4 mr-2" />
@@ -45,107 +49,134 @@ const PatientChart = () => {
         </div>
       </Card>
 
-      <Tabs defaultValue="summary" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="summary">Summary</TabsTrigger>
-          <TabsTrigger value="problems">Problems</TabsTrigger>
-          <TabsTrigger value="medications">Medications</TabsTrigger>
-          <TabsTrigger value="vitals">Vitals</TabsTrigger>
-          <TabsTrigger value="notes">Notes</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="summary">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <Activity className="h-5 w-5 text-primary" />
-                Recent Vitals
-              </h3>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Blood Pressure</span>
-                  <span className="font-medium">120/80 mmHg</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Heart Rate</span>
-                  <span className="font-medium">72 bpm</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Temperature</span>
-                  <span className="font-medium">98.6°F</span>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <AlertCircle className="h-5 w-5 text-primary" />
-                Alerts
-              </h3>
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 text-red-600">
-                  <AlertCircle className="h-4 w-4" />
-                  <span>Due for flu vaccine</span>
-                </div>
-                <div className="flex items-center gap-2 text-yellow-600">
-                  <AlertCircle className="h-4 w-4" />
-                  <span>Lab results pending review</span>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <Heart className="h-5 w-5 text-primary" />
-                Current Problems
-              </h3>
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span>Type 2 Diabetes</span>
-                  <span className="text-sm text-muted-foreground">Diagnosed: 2020</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span>Hypertension</span>
-                  <span className="text-sm text-muted-foreground">Diagnosed: 2019</span>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <Pill className="h-5 w-5 text-primary" />
-                Active Medications
-              </h3>
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span>Metformin 500mg</span>
-                  <span className="text-sm text-muted-foreground">Twice daily</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span>Lisinopril 10mg</span>
-                  <span className="text-sm text-muted-foreground">Once daily</span>
-                </div>
-              </div>
-            </Card>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* AI Insights Panel */}
+        <Card className="p-6 md:col-span-3 bg-blue-50">
+          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-blue-700">
+            <Brain className="h-5 w-5" />
+            AI Clinical Insights
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="flex items-center gap-2 text-blue-600">
+              <LightbulbIcon className="h-4 w-4" />
+              <span>Due for annual diabetic eye exam</span>
+            </div>
+            <div className="flex items-center gap-2 text-blue-600">
+              <LightbulbIcon className="h-4 w-4" />
+              <span>BP trending higher than usual</span>
+            </div>
+            <div className="flex items-center gap-2 text-blue-600">
+              <LightbulbIcon className="h-4 w-4" />
+              <span>Consider HbA1c check (last: 3 months ago)</span>
+            </div>
           </div>
-        </TabsContent>
+        </Card>
 
-        <TabsContent value="problems">
-          <Card className="p-6">
-            <div className="space-y-4">
+        {/* Vitals Panel */}
+        <Card className="p-6">
+          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+            <Activity className="h-5 w-5 text-primary" />
+            Recent Vitals
+          </h3>
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <span className="text-muted-foreground">Blood Pressure</span>
+              <span className="font-medium text-red-600">142/88 mmHg ↑</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-muted-foreground">Heart Rate</span>
+              <span className="font-medium">72 bpm</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-muted-foreground">Temperature</span>
+              <span className="font-medium">98.6°F</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-muted-foreground">Weight</span>
+              <span className="font-medium">185 lbs</span>
+            </div>
+          </div>
+        </Card>
+
+        {/* Problems Panel */}
+        <Card className="p-6">
+          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+            <Heart className="h-5 w-5 text-primary" />
+            Active Problems
+          </h3>
+          <div className="space-y-3">
+            <div className="p-3 bg-muted rounded-lg">
               <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold">Problem List</h3>
-                <Button variant="outline" size="sm">
-                  <ClipboardList className="h-4 w-4 mr-2" />
-                  Add Problem
-                </Button>
+                <span className="font-medium">Type 2 Diabetes</span>
+                <span className="text-sm text-muted-foreground">Since 2020</span>
+              </div>
+              <p className="text-sm text-muted-foreground mt-1">Last A1c: 7.2 (2 months ago)</p>
+            </div>
+            <div className="p-3 bg-muted rounded-lg">
+              <div className="flex justify-between items-center">
+                <span className="font-medium">Hypertension</span>
+                <span className="text-sm text-muted-foreground">Since 2019</span>
+              </div>
+              <p className="text-sm text-muted-foreground mt-1">Target: &lt;140/90</p>
+            </div>
+          </div>
+        </Card>
+
+        {/* Medications Panel */}
+        <Card className="p-6">
+          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+            <Pill className="h-5 w-5 text-primary" />
+            Active Medications
+          </h3>
+          <div className="space-y-3">
+            <div className="p-3 bg-muted rounded-lg">
+              <div className="flex justify-between items-center">
+                <span className="font-medium">Metformin 500mg</span>
+                <span className="text-sm text-muted-foreground">Twice daily</span>
+              </div>
+              <p className="text-sm text-muted-foreground mt-1">Last refill: Oct 15, 2023</p>
+            </div>
+            <div className="p-3 bg-muted rounded-lg">
+              <div className="flex justify-between items-center">
+                <span className="font-medium">Lisinopril 10mg</span>
+                <span className="text-sm text-muted-foreground">Once daily</span>
+              </div>
+              <p className="text-sm text-muted-foreground mt-1">Last refill: Sep 30, 2023</p>
+            </div>
+          </div>
+        </Card>
+
+        {/* Recent Activity Panel */}
+        <Card className="p-6 md:col-span-3">
+          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+            <ChartBar className="h-5 w-5 text-primary" />
+            Recent Activity
+          </h3>
+          <div className="space-y-3">
+            <div className="p-3 bg-muted rounded-lg flex items-center gap-4">
+              <Calendar className="h-5 w-5 text-primary" />
+              <div>
+                <p className="font-medium">Upcoming Visit: Dr. Thompson</p>
+                <p className="text-sm text-muted-foreground">Nov 15, 2023 at 2:30 PM - Annual Physical</p>
               </div>
             </div>
-          </Card>
-        </TabsContent>
-
-        {/* Other tab contents would follow the same pattern */}
-      </Tabs>
+            <div className="p-3 bg-muted rounded-lg flex items-center gap-4">
+              <Stethoscope className="h-5 w-5 text-primary" />
+              <div>
+                <p className="font-medium">Last Visit: Dr. Smith</p>
+                <p className="text-sm text-muted-foreground">Oct 1, 2023 - Diabetes Follow-up</p>
+              </div>
+            </div>
+            <div className="p-3 bg-muted rounded-lg flex items-center gap-4">
+              <FileText className="h-5 w-5 text-primary" />
+              <div>
+                <p className="font-medium">Lab Results Available</p>
+                <p className="text-sm text-muted-foreground">Comprehensive Metabolic Panel - Oct 5, 2023</p>
+              </div>
+            </div>
+          </div>
+        </Card>
+      </div>
     </div>
   );
 };
