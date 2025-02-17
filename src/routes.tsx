@@ -1,5 +1,6 @@
 
 import { createBrowserRouter } from "react-router-dom";
+import { MainLayout } from "./components/layout/MainLayout";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Physician from "./pages/roles/Physician";
@@ -12,36 +13,41 @@ import Messages from "./pages/metrics/Messages";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Index />,
-  },
-  {
-    path: "/physician",
-    element: <Physician />,
-  },
-  {
-    path: "/nurse",
-    element: <Nurse />,
-  },
-  {
-    path: "/admin",
-    element: <Admin />,
-  },
-  {
-    path: "/patients",
-    element: <Patients />,
-  },
-  {
-    path: "/appointments",
-    element: <Appointments />,
-  },
-  {
-    path: "/labs",
-    element: <Labs />,
-  },
-  {
-    path: "/messages",
-    element: <Messages />,
+    element: <MainLayout />,
+    children: [
+      {
+        path: "/",
+        element: <Index />,
+      },
+      {
+        path: "/physician",
+        element: <Physician />,
+      },
+      {
+        path: "/nurse",
+        element: <Nurse />,
+      },
+      {
+        path: "/admin",
+        element: <Admin />,
+      },
+      {
+        path: "/patients",
+        element: <Patients />,
+      },
+      {
+        path: "/appointments",
+        element: <Appointments />,
+      },
+      {
+        path: "/labs",
+        element: <Labs />,
+      },
+      {
+        path: "/messages",
+        element: <Messages />,
+      },
+    ]
   },
   {
     path: "*",
