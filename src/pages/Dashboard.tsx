@@ -1,6 +1,6 @@
-
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Link } from "react-router-dom";
 import { 
   Bell, Calendar, ChartBar, ClipboardList, 
   FileText, MessageSquare, Users, AlertTriangle 
@@ -21,6 +21,21 @@ const Dashboard = () => {
     { label: "Upcoming Appointments", value: "8", icon: Calendar },
   ];
 
+  const getCardLink = (label: string) => {
+    switch (label) {
+      case "Today's Patients":
+        return "/patients";
+      case "Pending Tasks":
+        return "/tasks";
+      case "Unread Messages":
+        return "/messages";
+      case "Upcoming Appointments":
+        return "/appointments";
+      default:
+        return "#";
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -36,13 +51,19 @@ const Dashboard = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {quickStats.map((stat, index) => (
-          <Card key={index} className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <stat.icon className="h-5 w-5 text-primary" />
-              <span className="text-2xl font-bold">{stat.value}</span>
-            </div>
-            <p className="text-muted-foreground">{stat.label}</p>
-          </Card>
+          <Link 
+            key={index} 
+            to={getCardLink(stat.label)}
+            className="transition-all duration-200 hover:scale-105"
+          >
+            <Card className="p-6 cursor-pointer hover:border-primary/50 hover:shadow-md transition-all duration-200">
+              <div className="flex items-center justify-between mb-4">
+                <stat.icon className="h-5 w-5 text-primary" />
+                <span className="text-2xl font-bold">{stat.value}</span>
+              </div>
+              <p className="text-muted-foreground">{stat.label}</p>
+            </Card>
+          </Link>
         ))}
       </div>
 
