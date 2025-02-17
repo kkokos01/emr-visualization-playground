@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
@@ -74,10 +73,14 @@
   /* Glass effect with improved contrast */
   .glass {
     @apply bg-white/90 backdrop-blur-lg border border-white/40 rounded-2xl shadow-lg;
+    @apply hover:shadow-xl hover:border-primary/20 hover:bg-white transition-all duration-200;
+    @apply data-[clickable=true]:cursor-pointer data-[clickable=true]:hover:scale-[1.02];
   }
 
-  /* Card gradient with improved contrast */
+  /* Card styles with hover effects */
   .card-gradient {
-    @apply bg-gradient-to-br from-white via-white to-muted/90 backdrop-blur-sm shadow-md;
+    @apply bg-card border border-border shadow-sm;
+    @apply hover:shadow-md hover:border-primary/20 hover:bg-white/50 transition-all duration-200;
+    @apply data-[clickable=true]:cursor-pointer data-[clickable=true]:hover:scale-[1.02];
   }
 }
