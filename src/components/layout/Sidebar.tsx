@@ -1,6 +1,7 @@
 
 import { Calendar, ClipboardList, Stethoscope, Users, UserCog } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { cn } from "@/lib/utils";
 import {
   Sidebar as SidebarContainer,
   SidebarContent,
