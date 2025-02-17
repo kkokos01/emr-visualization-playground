@@ -22,7 +22,7 @@ export const Sidebar = () => {
         { title: "Patients", icon: Users, url: "/patients" },
         { title: "Schedule", icon: Calendar, url: "/appointments" },
         { title: "Tasks", icon: ClipboardList, url: "/tasks" },
-        { title: "Chart", icon: Stethoscope, url: "/chart" },
+        { title: "Chart", icon: Stethoscope, url: "/patient/1" }, // Changed from /chart to /patient/1 as a default
       ],
     },
   ];

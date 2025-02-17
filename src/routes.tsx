@@ -22,12 +22,24 @@ export const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
+        path: "/patients",
+        element: <Dashboard />, // Temporary redirect to Dashboard until we have a PatientList component
+      },
+      {
         path: "/patient/:id",
         element: <PatientChart />,
       },
       {
+        path: "/chart",
+        element: <PatientChart />, // Redirect /chart to PatientChart
+      },
+      {
         path: "/messages",
         element: <Messages />,
+      },
+      {
+        path: "/appointments",
+        element: <Calendar />, // Match the URL in sidebar
       },
       {
         path: "/calendar",
