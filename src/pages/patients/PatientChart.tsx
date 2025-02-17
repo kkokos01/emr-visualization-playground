@@ -12,8 +12,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const PatientChart = () => {
+  const { id } = useParams();
+
   return (
     <div className="space-y-6">
       <Card className="p-6">
@@ -42,35 +46,15 @@ const PatientChart = () => {
             </div>
           </div>
           <div className="flex gap-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Order
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem>
-                  <Pill className="h-4 w-4 mr-2" />
-                  New Medication
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <TestTube className="h-4 w-4 mr-2" />
-                  Order Labs
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Image className="h-4 w-4 mr-2" />
-                  Order Imaging
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Link to={`/patient/${id}/chart`}>
+              <Button variant="outline" size="sm">
+                <FileText className="h-4 w-4 mr-2" />
+                New Note
+              </Button>
+            </Link>
             <Button variant="outline" size="sm">
               <Calendar className="h-4 w-4 mr-2" />
               Schedule Visit
-            </Button>
-            <Button variant="outline" size="sm">
-              <FileText className="h-4 w-4 mr-2" />
-              New Note
             </Button>
           </div>
         </div>
