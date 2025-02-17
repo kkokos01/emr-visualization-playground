@@ -1,4 +1,3 @@
-
 import { ArrowLeft, Calendar, ClipboardCheck, ClipboardList, Pill, Stethoscope, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { MetricCard } from "@/components/dashboard/MetricCard";
@@ -13,15 +12,55 @@ const Nurse = () => {
   ];
 
   const patientQueue = [
-    { type: "Vitals Check", patient: "John Smith", details: "Room 1", time: "Current" },
-    { type: "Check-in", patient: "Lisa Anderson", details: "Room 2", time: "Next" },
-    { type: "Pre-appointment", patient: "Robert Taylor", details: "Room 3", time: "Upcoming" },
+    { 
+      type: "Vitals Check", 
+      patient: "John Smith", 
+      details: "Room 1", 
+      time: "Current",
+      priority: "high" as const,
+      aiInsight: "Blood pressure trending high over last 3 visits"
+    },
+    { 
+      type: "Check-in", 
+      patient: "Lisa Anderson", 
+      details: "Room 2", 
+      time: "Next",
+      priority: "medium" as const,
+      followUp: true
+    },
+    { 
+      type: "Pre-appointment", 
+      patient: "Robert Taylor", 
+      details: "Room 3", 
+      time: "Upcoming",
+      aiInsight: "Patient has difficulty with mobility, may need assistance"
+    },
   ];
 
   const tasks = [
-    { type: "Medication", patient: "Alice Cooper", details: "Administer insulin", time: "10:30 AM" },
-    { type: "Vitals Check", patient: "Tom Wilson", details: "Pre-appointment check", time: "11:00 AM" },
-    { type: "Lab Draw", patient: "Sarah Johnson", details: "Routine bloodwork", time: "11:30 AM" },
+    { 
+      type: "Medication", 
+      patient: "Alice Cooper", 
+      details: "Administer insulin", 
+      time: "10:30 AM",
+      priority: "high" as const,
+      aiInsight: "Last reading was borderline high"
+    },
+    { 
+      type: "Vitals Check", 
+      patient: "Tom Wilson", 
+      details: "Pre-appointment check", 
+      time: "11:00 AM",
+      priority: "medium" as const
+    },
+    { 
+      type: "Lab Draw", 
+      patient: "Sarah Johnson", 
+      details: "Routine bloodwork", 
+      time: "11:30 AM",
+      priority: "low" as const,
+      aiInsight: "Patient has history of difficult draws, right arm preferred"
+    },
   ];
 
   return (

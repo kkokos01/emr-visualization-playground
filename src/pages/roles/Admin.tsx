@@ -1,4 +1,3 @@
-
 import { ArrowLeft, Calendar, ChartBar, DollarSign, FileText, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { MetricCard } from "@/components/dashboard/MetricCard";
@@ -14,9 +13,28 @@ const Admin = () => {
   ];
 
   const appointments = [
-    { time: "9:00 AM", patient: "John Smith", type: "Follow-up", status: "Confirmed" },
-    { time: "10:30 AM", patient: "Sarah Johnson", type: "New Patient", status: "Pending" },
-    { time: "11:45 AM", patient: "Michael Chen", type: "Consultation", status: "Arrived" },
+    { 
+      time: "9:00 AM", 
+      patient: "John Smith", 
+      type: "Follow-up", 
+      status: "Confirmed",
+      aiInsight: "Patient consistently arrives 10 minutes early"
+    },
+    { 
+      time: "10:30 AM", 
+      patient: "Sarah Johnson", 
+      type: "New Patient", 
+      status: "Pending",
+      noShowRisk: true,
+      aiInsight: "First-time patient, high cancellation risk based on demographic data"
+    },
+    { 
+      time: "11:45 AM", 
+      patient: "Michael Chen", 
+      type: "Consultation", 
+      status: "Checked In",
+      isCheckedIn: true
+    },
   ];
 
   const reports = [
