@@ -20,7 +20,7 @@ const PatientChart = () => {
 
   return (
     <div className="space-y-6">
-      <Card className="p-6">
+      <Card className="p-6" data-clickable="true">
         <div className="flex items-start justify-between">
           <div className="flex gap-4">
             <div className="h-16 w-16 bg-muted rounded-full flex items-center justify-center">
@@ -83,7 +83,7 @@ const PatientChart = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-6">
-          <Card className="p-6">
+          <Card className="p-6" data-clickable="true">
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
               <Heart className="h-5 w-5 text-primary" />
               Active Problems
@@ -106,7 +106,7 @@ const PatientChart = () => {
             </div>
           </Card>
 
-          <Card className="p-6">
+          <Card className="p-6" data-clickable="true">
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
               <Pill className="h-5 w-5 text-primary" />
               Active Medications
@@ -131,7 +131,7 @@ const PatientChart = () => {
         </div>
 
         <div className="space-y-6">
-          <Card className="p-6">
+          <Card className="p-6" data-clickable="true">
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
               <Activity className="h-5 w-5 text-primary" />
               Recent Vitals
@@ -156,7 +156,7 @@ const PatientChart = () => {
             </div>
           </Card>
 
-          <Card className="p-6">
+          <Card className="p-6" data-clickable="true">
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
               <TestTube className="h-5 w-5 text-primary" />
               Recent Lab Results
@@ -194,7 +194,7 @@ const PatientChart = () => {
         </div>
       </div>
 
-      <Card className="p-6">
+      <Card className="p-6" data-clickable="true">
         <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
           <ChartBar className="h-5 w-5 text-primary" />
           Recent Activity
