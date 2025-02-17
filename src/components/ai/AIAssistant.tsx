@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { MessageSquare, Mic, Robot, X } from "lucide-react";
+import { MessageSquare, Mic, Bot, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -20,7 +20,7 @@ export const AIAssistant = () => {
           onClick={() => setIsOpen(true)}
           className="fixed bottom-4 right-4 h-14 w-14 rounded-full shadow-lg"
         >
-          <Robot className="h-6 w-6" />
+          <Bot className="h-6 w-6" />
         </Button>
       )}
 
@@ -28,7 +28,7 @@ export const AIAssistant = () => {
         <Card className="fixed bottom-4 right-4 w-96 h-[600px] p-4 shadow-xl flex flex-col animate-in slide-in-from-bottom-2">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Robot className="h-5 w-5 text-primary" />
+              <Bot className="h-5 w-5 text-primary" />
               <h3 className="font-semibold">AI Assistant</h3>
             </div>
             <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
