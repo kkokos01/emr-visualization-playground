@@ -1,13 +1,12 @@
-
-import { ArrowLeft, Calendar, ClipboardCheck, ClipboardList, Pills, Users, Vitals } from "lucide-react";
+import { ArrowLeft, Calendar, ClipboardCheck, ClipboardList, Pill, Stethoscope, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Nurse = () => {
   const metrics = [
     { label: "Active Patients", value: "8", icon: Users },
     { label: "Completed Tasks", value: "15", icon: ClipboardCheck },
-    { label: "Pending Vitals", value: "3", icon: Vitals },
-    { label: "Med Administration", value: "6", icon: Pills },
+    { label: "Pending Vitals", value: "3", icon: Stethoscope },
+    { label: "Med Administration", value: "6", icon: Pill },
   ];
 
   const patientQueue = [
@@ -44,7 +43,6 @@ const Nurse = () => {
           </div>
         </div>
 
-        {/* Metrics Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {metrics.map((metric, index) => (
             <div
@@ -63,7 +61,6 @@ const Nurse = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Patient Queue */}
           <div className="glass p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-foreground">Patient Queue</h2>
@@ -71,7 +68,7 @@ const Nurse = () => {
             </div>
             <div className="space-y-4">
               {patientQueue.map((patient, index) => (
-                <div key={index} className="flex items-center justify-between p-4 bg-white/50 rounded-lg">
+                <div key={index} className="flex items-center justify-between p-4 bg-white/90 rounded-lg shadow-sm">
                   <div>
                     <p className="font-medium text-foreground">{patient.name}</p>
                     <p className="text-sm text-muted-foreground">{patient.room}</p>
@@ -85,7 +82,6 @@ const Nurse = () => {
             </div>
           </div>
 
-          {/* Task List */}
           <div className="glass p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-foreground">Upcoming Tasks</h2>
@@ -93,7 +89,7 @@ const Nurse = () => {
             </div>
             <div className="space-y-4">
               {tasks.map((task, index) => (
-                <div key={index} className="flex items-center justify-between p-4 bg-white/50 rounded-lg">
+                <div key={index} className="flex items-center justify-between p-4 bg-white/90 rounded-lg shadow-sm">
                   <div>
                     <p className="font-medium text-foreground">{task.type}</p>
                     <p className="text-sm text-muted-foreground">Patient: {task.patient}</p>

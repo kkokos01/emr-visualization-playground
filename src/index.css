@@ -60,12 +60,13 @@
     to { transform: translateY(0); opacity: 1; }
   }
 
-  /* Glass effect */
+  /* Glass effect with improved contrast */
   .glass {
-    @apply bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl;
+    @apply bg-white/90 backdrop-blur-lg border border-white/40 rounded-2xl shadow-lg;
   }
 
+  /* Card gradient with improved contrast */
   .card-gradient {
-    @apply bg-gradient-to-br from-white to-muted/80 backdrop-blur-sm;
+    @apply bg-gradient-to-br from-white via-white to-muted/90 backdrop-blur-sm shadow-md;
   }
 }
