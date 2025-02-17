@@ -60,22 +60,22 @@ const PatientChart = () => {
         </div>
       </Card>
 
-      <Card className="p-6 bg-primary/5 border-primary/10">
+      <Card className="p-6 bg-primary/10 border-primary/20">
         <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-primary">
           <Brain className="h-5 w-5" />
           AI Clinical Insights
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="flex items-center gap-2 text-blue-600">
-            <LightbulbIcon className="h-4 w-4" />
+          <div className="flex items-center gap-2 text-primary/90">
+            <LightbulbIcon className="h-4 w-4 text-primary" />
             <span>Due for annual diabetic eye exam</span>
           </div>
-          <div className="flex items-center gap-2 text-blue-600">
-            <LightbulbIcon className="h-4 w-4" />
+          <div className="flex items-center gap-2 text-primary/90">
+            <LightbulbIcon className="h-4 w-4 text-primary" />
             <span>BP trending higher than usual</span>
           </div>
-          <div className="flex items-center gap-2 text-blue-600">
-            <LightbulbIcon className="h-4 w-4" />
+          <div className="flex items-center gap-2 text-primary/90">
+            <LightbulbIcon className="h-4 w-4 text-primary" />
             <span>Consider HbA1c check (last: 3 months ago)</span>
           </div>
         </div>
@@ -193,6 +193,37 @@ const PatientChart = () => {
           </Card>
         </div>
       </div>
+
+      <Card className="p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Lightbulb className="h-5 w-5 text-primary" />
+          <h4 className="font-medium">Smart Suggestions</h4>
+        </div>
+        <div className="space-y-2">
+          <div className="p-3 bg-primary/10 rounded-md border border-primary/20">
+            <div className="flex items-start gap-2">
+              <AlertCircle className="h-4 w-4 text-primary mt-0.5" />
+              <div>
+                <p className="text-sm font-medium text-primary/90">HbA1c Overdue</p>
+                <p className="text-sm text-primary/80">Last result was 3 months ago. Consider ordering new test.</p>
+                <Button size="sm" variant="outline" className="mt-2 border-primary/20 hover:bg-primary/5">
+                  <Plus className="h-3 w-3 mr-1" />
+                  Add to Orders
+                </Button>
+              </div>
+            </div>
+          </div>
+          <div className="p-3 bg-primary/10 rounded-md border border-primary/20">
+            <div className="flex items-start gap-2">
+              <TrendingUp className="h-4 w-4 text-primary mt-0.5" />
+              <div>
+                <p className="text-sm font-medium text-primary/90">BP Trending Up</p>
+                <p className="text-sm text-primary/80">Last 3 readings show upward trend. Consider adjustment.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Card>
 
       <Card className="p-6" data-clickable="true">
         <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
