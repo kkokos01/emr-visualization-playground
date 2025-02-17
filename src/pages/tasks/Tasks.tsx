@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { 
@@ -63,7 +62,7 @@ const Tasks = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, index) => (
-          <Card key={index} className="p-4">
+          <Card key={index} className="p-4" data-clickable="true">
             <div className="flex items-center justify-between">
               <p className="text-sm text-muted-foreground">{stat.label}</p>
               <span className="text-2xl font-bold">{stat.value}</span>
@@ -72,7 +71,7 @@ const Tasks = () => {
         ))}
       </div>
 
-      <Card className="p-6">
+      <Card className="p-6" data-clickable="true">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold flex items-center gap-2">
             <ClipboardList className="h-5 w-5" />

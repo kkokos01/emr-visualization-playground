@@ -48,6 +48,7 @@ const Nurse = () => {
             <div
               key={index}
               className="card-gradient p-6 rounded-lg shadow-sm border border-muted"
+              data-clickable="true"
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-medium text-muted-foreground">
@@ -61,7 +62,7 @@ const Nurse = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="glass p-6">
+          <div className="glass p-6" data-clickable="true">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-foreground">Patient Queue</h2>
               <Users className="w-5 h-5 text-primary" />
@@ -82,7 +83,7 @@ const Nurse = () => {
             </div>
           </div>
 
-          <div className="glass p-6">
+          <div className="glass p-6" data-clickable="true">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-foreground">Upcoming Tasks</h2>
               <Calendar className="w-5 h-5 text-primary" />
