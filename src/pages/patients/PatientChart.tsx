@@ -17,8 +17,8 @@ const PatientChart = () => {
     name: "John Doe",
     details: "Male, 45 years • DOB: 1978-05-15 • MRN: 123456",
     alerts: [
-      { type: "allergy", message: "Allergy: Penicillin", severity: "error" },
-      { type: "condition", message: "Diabetic", severity: "warning" }
+      { type: "allergy", message: "Allergy: Penicillin", severity: "error" as const },
+      { type: "condition", message: "Diabetic", severity: "warning" as const }
     ],
     actions: [
       {
@@ -35,7 +35,7 @@ const PatientChart = () => {
   };
 
   const vitals = [
-    { title: "Blood Pressure", value: "142/88 mmHg", trend: "up", trendColor: "text-red-600" },
+    { title: "Blood Pressure", value: "142/88 mmHg", trend: "up" as const, trendColor: "text-red-600" as const },
     { title: "Heart Rate", value: "72 bpm" },
     { title: "Temperature", value: "98.6°F" },
     { title: "Weight", value: "185 lbs" }
@@ -45,15 +45,15 @@ const PatientChart = () => {
     { 
       title: "HbA1c", 
       value: "7.2%", 
-      trend: "up", 
-      trendColor: "text-red-600",
+      trend: "up" as const, 
+      trendColor: "text-red-600" as const,
       subtitle: "Target: <6.5% - Oct 15, 2023"
     },
     {
       title: "Creatinine",
       value: "1.1 mg/dL",
-      trend: "down",
-      trendColor: "text-green-600",
+      trend: "down" as const,
+      trendColor: "text-green-600" as const,
       subtitle: "Within range - Oct 15, 2023"
     }
   ];

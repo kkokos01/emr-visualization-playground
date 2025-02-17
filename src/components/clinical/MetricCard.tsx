@@ -36,3 +36,5 @@ export const MetricCard = ({
     </div>
   );
 };
+
+export type { MetricCardProps };
