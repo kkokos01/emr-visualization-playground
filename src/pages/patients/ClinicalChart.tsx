@@ -25,7 +25,7 @@ import {
   Pill,
   Lightbulb,
   Book,
-  ChartLineUp,
+  TrendingUp,
 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
@@ -315,7 +315,7 @@ const ClinicalChart = () => {
                 </div>
                 <div className="p-3 bg-muted rounded-md">
                   <div className="flex items-start gap-2">
-                    <ChartLineUp className="h-4 w-4 text-orange-500 mt-0.5" />
+                    <TrendingUp className="h-4 w-4 text-orange-500 mt-0.5" />
                     <div>
                       <p className="text-sm font-medium">BP Trending Up</p>
                       <p className="text-xs text-muted-foreground">Last 3 readings show upward trend. Consider adjustment.</p>
