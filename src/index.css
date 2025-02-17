@@ -7,14 +7,14 @@
  
 @layer base {
   :root {
-    --background: 0 0% 100%; /* #FFFFFF - Changed to white */
+    --background: 0 0% 100%; /* #FFFFFF */
     --foreground: 209 42% 24%; /* #2C3E50 */
-    --card: 204 94% 97%; /* #F5FAFD - Lighter blue for cards */
+    --card: 0 0% 100%; /* #FFFFFF */
     --card-foreground: 209 42% 24%; /* #2C3E50 */
     --popover: 0 0% 100%; /* #FFFFFF */
     --popover-foreground: 209 42% 24%; /* #2C3E50 */
     
-    /* Primary Colors - Keeping the vibrant blue */
+    /* Primary Colors - Vibrant blue */
     --primary: 207 91% 39%; /* #0A6EBD */
     --primary-dark: 207 91% 29%; /* #085a9d */
     --primary-light: 207 91% 49%; /* #0c82dd */
@@ -23,7 +23,7 @@
     /* Secondary Colors */
     --secondary: 146 32% 36%; /* #2E8B57 */
     --secondary-foreground: 0 0% 100%; /* #FFFFFF */
-    --muted: 204 94% 97%; /* #F5FAFD - Lighter blue for muted areas */
+    --muted: 204 94% 97%; /* #F5FAFD */
     --muted-foreground: 209 42% 44%; /* #4a6278 */
     
     /* Status Colors */
@@ -37,8 +37,8 @@
     --info-foreground: 0 0% 100%;
     
     /* Border and Input Colors */
-    --border: 204 94% 92%; /* #E5F3FA - Lighter border */
-    --input: 204 94% 92%;
+    --border: 207 91% 95%; /* #e8f3fc */
+    --input: 207 91% 95%;
     --ring: 207 91% 80%; /* #a5d3f3 */
     
     --radius: 0.75rem;

@@ -60,8 +60,8 @@ const PatientChart = () => {
         </div>
       </Card>
 
-      <Card className="p-6 bg-blue-50">
-        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-blue-700">
+      <Card className="p-6 bg-primary/5 border-primary/10">
+        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-primary">
           <Brain className="h-5 w-5" />
           AI Clinical Insights
         </h3>
@@ -89,19 +89,19 @@ const PatientChart = () => {
               Active Problems
             </h3>
             <div className="space-y-3">
-              <div className="p-3 bg-muted rounded-lg">
+              <div className="p-3 bg-primary/5 rounded-lg border border-primary/10">
                 <div className="flex justify-between items-center">
-                  <span className="font-medium">Type 2 Diabetes</span>
-                  <span className="text-sm text-muted-foreground">Since 2020</span>
+                  <span className="font-medium text-foreground">Type 2 Diabetes</span>
+                  <span className="text-sm text-primary">Since 2020</span>
                 </div>
-                <p className="text-sm text-muted-foreground mt-1">Last A1c: 7.2 (2 months ago)</p>
+                <p className="text-sm text-primary/70 mt-1">Last A1c: 7.2 (2 months ago)</p>
               </div>
-              <div className="p-3 bg-muted rounded-lg">
+              <div className="p-3 bg-primary/5 rounded-lg border border-primary/10">
                 <div className="flex justify-between items-center">
-                  <span className="font-medium">Hypertension</span>
-                  <span className="text-sm text-muted-foreground">Since 2019</span>
+                  <span className="font-medium text-foreground">Hypertension</span>
+                  <span className="text-sm text-primary">Since 2019</span>
                 </div>
-                <p className="text-sm text-muted-foreground mt-1">Target: &lt;140/90</p>
+                <p className="text-sm text-primary/70 mt-1">Target: &lt;140/90</p>
               </div>
             </div>
           </Card>
@@ -112,19 +112,19 @@ const PatientChart = () => {
               Active Medications
             </h3>
             <div className="space-y-3">
-              <div className="p-3 bg-muted rounded-lg">
+              <div className="p-3 bg-primary/5 rounded-lg border border-primary/10">
                 <div className="flex justify-between items-center">
-                  <span className="font-medium">Metformin 500mg</span>
-                  <span className="text-sm text-muted-foreground">Twice daily</span>
+                  <span className="font-medium text-foreground">Metformin 500mg</span>
+                  <span className="text-sm text-primary">Twice daily</span>
                 </div>
-                <p className="text-sm text-muted-foreground mt-1">Last refill: Oct 15, 2023</p>
+                <p className="text-sm text-primary/70 mt-1">Last refill: Oct 15, 2023</p>
               </div>
-              <div className="p-3 bg-muted rounded-lg">
+              <div className="p-3 bg-primary/5 rounded-lg border border-primary/10">
                 <div className="flex justify-between items-center">
-                  <span className="font-medium">Lisinopril 10mg</span>
-                  <span className="text-sm text-muted-foreground">Once daily</span>
+                  <span className="font-medium text-foreground">Lisinopril 10mg</span>
+                  <span className="text-sm text-primary">Once daily</span>
                 </div>
-                <p className="text-sm text-muted-foreground mt-1">Last refill: Sep 30, 2023</p>
+                <p className="text-sm text-primary/70 mt-1">Last refill: Sep 30, 2023</p>
               </div>
             </div>
           </Card>
