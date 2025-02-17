@@ -1,16 +1,30 @@
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { PatientSearch } from "@/components/shared/PatientSearch";
 import { 
   Calendar as CalendarIcon, 
   ChevronLeft, 
   ChevronRight,
   Clock,
   User,
-  Plus
+  Plus,
+  Wand2,
+  AlertCircle,
+  CheckCircle2,
+  Users,
+  ArrowRightLeft,
+  BadgeAlert
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const Calendar = () => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedAppointment, setSelectedAppointment] = useState<any>(null);
+
   // Mock data
   const appointments = [
     {
@@ -18,36 +32,103 @@ const Calendar = () => {
       patient: "John Smith",
       type: "Follow-up",
       duration: "30min",
+      status: "checked-in",
+      noShowRisk: false
     },
     {
       time: "10:00 AM",
       patient: "Sarah Johnson",
       type: "New Patient",
       duration: "60min",
+      status: "scheduled",
+      noShowRisk: true
     },
     {
       time: "11:30 AM",
       patient: "Michael Brown",
       type: "Lab Review",
       duration: "30min",
+      status: "scheduled",
+      noShowRisk: false
     },
   ];
 
+  const getAppointmentTypeColor = (type: string) => {
+    switch (type.toLowerCase()) {
+      case "follow-up":
+        return "bg-green-100 border-green-200 hover:bg-green-200";
+      case "new patient":
+        return "bg-blue-100 border-blue-200 hover:bg-blue-200";
+      case "lab review":
+        return "bg-purple-100 border-purple-200 hover:bg-purple-200";
+      default:
+        return "bg-gray-100";
+    }
+  };
+
   return (
     <div className="space-y-6">
+      {/* Header Section */}
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Schedule</h1>
           <p className="text-muted-foreground">Manage appointments and view calendar</p>
         </div>
-        <Button className="gap-2">
-          <Plus className="h-4 w-4" />
-          New Appointment
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" className="gap-2">
+            <Wand2 className="h-4 w-4" />
+            Optimize Schedule
+          </Button>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button className="gap-2">
+                <Plus className="h-4 w-4" />
+                New Appointment
+              </Button>
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>Schedule New Appointment</SheetTitle>
+              </SheetHeader>
+              <div className="space-y-4 mt-6">
+                <PatientSearch />
+                <Input type="datetime-local" />
+                <select className="w-full p-2 rounded-md border">
+                  <option>Follow-up (30min)</option>
+                  <option>New Patient (60min)</option>
+                  <option>Lab Review (30min)</option>
+                </select>
+                <textarea 
+                  className="w-full p-2 rounded-md border min-h-[100px]"
+                  placeholder="Notes..."
+                />
+                <div className="p-4 bg-blue-50 rounded-md">
+                  <h4 className="font-medium flex items-center gap-2">
+                    <Wand2 className="h-4 w-4" />
+                    AI Suggestions
+                  </h4>
+                  <ul className="mt-2 space-y-2 text-sm">
+                    <li className="flex items-center gap-2">
+                      <ArrowRightLeft className="h-4 w-4 text-blue-500" />
+                      Consider 2:30 PM slot for better schedule distribution
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Clock className="h-4 w-4 text-blue-500" />
+                      Patient's preferred time based on history: Morning
+                    </li>
+                  </ul>
+                </div>
+                <Button className="w-full">Schedule Appointment</Button>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6">
+        {/* Left Sidebar */}
         <div className="space-y-6">
+          {/* Mini Calendar */}
           <Card className="p-4">
             <div className="text-center space-y-4">
               <div className="flex items-center justify-between">
@@ -83,30 +164,42 @@ const Calendar = () => {
             </div>
           </Card>
 
+          {/* Daily Overview */}
           <Card className="p-4">
-            <h3 className="font-medium mb-4">Upcoming Appointments</h3>
-            <div className="space-y-4">
-              {appointments.map((apt, index) => (
-                <div key={index} className="flex items-start gap-3">
-                  <div className="h-8 w-8 bg-primary/10 rounded-full flex items-center justify-center">
-                    <CalendarIcon className="h-4 w-4 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-medium">{apt.patient}</p>
-                    <p className="text-sm text-muted-foreground">{apt.time} - {apt.type}</p>
-                  </div>
-                </div>
-              ))}
+            <h3 className="font-medium mb-4">Today's Overview</h3>
+            <div className="space-y-3 text-sm">
+              <div className="flex items-center justify-between">
+                <span className="flex items-center gap-2">
+                  <Users className="h-4 w-4 text-muted-foreground" />
+                  Total Appointments
+                </span>
+                <span className="font-medium">12</span>
+              </div>
+              <div className="flex items-center justify-between text-orange-600">
+                <span className="flex items-center gap-2">
+                  <BadgeAlert className="h-4 w-4" />
+                  Predicted No-shows
+                </span>
+                <span className="font-medium">2</span>
+              </div>
+              <div className="flex items-center justify-between text-green-600">
+                <span className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4" />
+                  Checked-in
+                </span>
+                <span className="font-medium">5</span>
+              </div>
             </div>
           </Card>
         </div>
 
+        {/* Main Calendar View */}
         <Card className="p-6">
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">Today's Schedule</h2>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="bg-primary/5">
                   Day
                 </Button>
                 <Button variant="outline" size="sm">
@@ -122,14 +215,18 @@ const Calendar = () => {
               {appointments.map((apt, index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg"
+                  className={cn(
+                    "flex items-center gap-4 p-4 rounded-lg border-2 transition-colors cursor-pointer",
+                    getAppointmentTypeColor(apt.type),
+                    apt.status === "checked-in" && "border-green-500",
+                  )}
                 >
                   <div className="w-20 text-sm text-muted-foreground">
                     {apt.time}
                   </div>
                   <div className="flex-1 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center">
+                      <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center">
                         <User className="h-5 w-5 text-primary" />
                       </div>
                       <div>
@@ -137,9 +234,23 @@ const Calendar = () => {
                         <p className="text-sm text-muted-foreground">{apt.type}</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Clock className="h-4 w-4" />
-                      {apt.duration}
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Clock className="h-4 w-4" />
+                        {apt.duration}
+                      </div>
+                      {apt.noShowRisk && (
+                        <div className="flex items-center gap-1 text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded-full">
+                          <AlertCircle className="h-3 w-3" />
+                          High no-show risk
+                        </div>
+                      )}
+                      {apt.status === "checked-in" && (
+                        <div className="flex items-center gap-1 text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
+                          <CheckCircle2 className="h-3 w-3" />
+                          Checked in
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
