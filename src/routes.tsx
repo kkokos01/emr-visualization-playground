@@ -5,6 +5,7 @@ import { Outlet } from "react-router-dom";
 import Login from "./pages/auth/Login";
 import Dashboard from "./pages/Dashboard";
 import PatientChart from "./pages/patients/PatientChart";
+import ClinicalChart from "./pages/patients/ClinicalChart";
 import Messages from "./pages/communication/Messages";
 import Calendar from "./pages/scheduling/Calendar";
 import Tasks from "./pages/tasks/Tasks";
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
       {
         path: "/patient/:id",
         element: <PatientChart />,
+      },
+      {
+        path: "/patient/:id/chart",
+        element: <ClinicalChart />,
       },
       {
         path: "/chart",
