@@ -1,9 +1,11 @@
-
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   AlertCircle,
   Brain,
@@ -19,11 +21,18 @@ import {
   TestTube,
   User,
   XCircle,
+  Search,
+  Pill,
+  Lightbulb,
+  Book,
+  ChartLineUp,
 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
+import { useState } from "react";
 
 const ClinicalChart = () => {
   const { id } = useParams();
+  const [planText, setPlanText] = useState("");
   const currentDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -74,20 +83,18 @@ const ClinicalChart = () => {
 
       {/* Main Content Area */}
       <div className="flex-1 grid grid-cols-12 gap-4 p-4 overflow-hidden">
-        {/* Patient Data Sidebar */}
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline" className="col-span-12 lg:hidden mb-4">
-              Show Patient Data
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="w-[400px] sm:w-[540px]">
-            <div className="h-full flex flex-col">
-              <h3 className="text-lg font-semibold mb-4">Patient Data</h3>
-              <div className="space-y-4 flex-1 overflow-y-auto">
-                {/* Problem List */}
+        {/* Left Sidebar - Patient Data */}
+        <div className="hidden lg:block col-span-3 h-full overflow-y-auto">
+          <Tabs defaultValue="problems" className="h-full flex flex-col">
+            <TabsList className="w-full justify-start">
+              <TabsTrigger value="problems">Problems</TabsTrigger>
+              <TabsTrigger value="labs">Labs</TabsTrigger>
+              <TabsTrigger value="meds">Medications</TabsTrigger>
+            </TabsList>
+            <ScrollArea className="flex-1 w-full">
+              <TabsContent value="problems" className="m-0">
                 <Card className="p-4">
-                  <h4 className="font-medium mb-2">Problem List</h4>
+                  <h4 className="font-medium mb-2">Active Problems</h4>
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm">
                       <CircleDot className="h-3 w-3 text-red-500" />
@@ -99,55 +106,48 @@ const ClinicalChart = () => {
                     </div>
                   </div>
                 </Card>
-                {/* Recent Labs */}
+              </TabsContent>
+              <TabsContent value="labs" className="m-0">
                 <Card className="p-4">
-                  <h4 className="font-medium mb-2">Recent Labs</h4>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span>HbA1c</span>
-                      <span className="text-red-600">7.2%</span>
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="font-medium">Recent Labs</h4>
+                    <Button variant="outline" size="sm">View Trends</Button>
+                  </div>
+                  <div className="space-y-3">
+                    <div>
+                      <div className="flex justify-between text-sm font-medium">
+                        <span>HbA1c</span>
+                        <span className="text-red-600">7.2%</span>
+                      </div>
+                      <div className="text-xs text-muted-foreground">3 months ago</div>
                     </div>
-                    <div className="flex justify-between">
-                      <span>Creatinine</span>
-                      <span>1.1 mg/dL</span>
+                    <div>
+                      <div className="flex justify-between text-sm font-medium">
+                        <span>Creatinine</span>
+                        <span>1.1 mg/dL</span>
+                      </div>
+                      <div className="text-xs text-muted-foreground">1 month ago</div>
                     </div>
                   </div>
                 </Card>
-              </div>
-            </div>
-          </SheetContent>
-        </Sheet>
-
-        {/* Left Sidebar - Patient Data (Desktop) */}
-        <div className="hidden lg:block col-span-3 h-full overflow-y-auto">
-          <div className="space-y-4">
-            <Card className="p-4">
-              <h4 className="font-medium mb-2">Problem List</h4>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-sm">
-                  <CircleDot className="h-3 w-3 text-red-500" />
-                  <span>Type 2 Diabetes (since 2020)</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <CircleDot className="h-3 w-3 text-orange-500" />
-                  <span>Hypertension (since 2019)</span>
-                </div>
-              </div>
-            </Card>
-            <Card className="p-4">
-              <h4 className="font-medium mb-2">Recent Labs</h4>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span>HbA1c</span>
-                  <span className="text-red-600">7.2%</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Creatinine</span>
-                  <span>1.1 mg/dL</span>
-                </div>
-              </div>
-            </Card>
-          </div>
+              </TabsContent>
+              <TabsContent value="meds" className="m-0">
+                <Card className="p-4">
+                  <h4 className="font-medium mb-2">Current Medications</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="p-2 bg-muted rounded-md">
+                      <div className="font-medium">Metformin</div>
+                      <div className="text-muted-foreground">500mg twice daily</div>
+                    </div>
+                    <div className="p-2 bg-muted rounded-md">
+                      <div className="font-medium">Lisinopril</div>
+                      <div className="text-muted-foreground">10mg daily</div>
+                    </div>
+                  </div>
+                </Card>
+              </TabsContent>
+            </ScrollArea>
+          </Tabs>
         </div>
 
         {/* Main Note Editor */}
@@ -194,65 +194,81 @@ const ClinicalChart = () => {
               <textarea
                 className="w-full h-32 p-2 text-sm border rounded-md"
                 placeholder="Enter treatment plan..."
+                value={planText}
+                onChange={(e) => setPlanText(e.target.value)}
               />
               <div className="mt-4 flex items-center gap-2">
-                <Button variant="outline" size="sm">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Order
-                </Button>
-                <Button variant="outline" size="sm">
-                  <TestTube className="h-4 w-4 mr-2" />
-                  Order Labs
-                </Button>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" size="sm">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Add Order
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle>Add Order</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4 py-4">
+                      <div className="flex items-center space-x-2">
+                        <Search className="h-4 w-4 text-muted-foreground" />
+                        <Input placeholder="Search medications, labs, or imaging..." />
+                      </div>
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-medium">Common Orders</h4>
+                        <div className="grid grid-cols-2 gap-2">
+                          <Button variant="outline" size="sm" className="justify-start">
+                            <TestTube className="h-4 w-4 mr-2" />
+                            Diabetic Panel
+                          </Button>
+                          <Button variant="outline" size="sm" className="justify-start">
+                            <Pill className="h-4 w-4 mr-2" />
+                            Metformin
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" size="sm">
+                      <TestTube className="h-4 w-4 mr-2" />
+                      Order Labs
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Order Labs</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4 py-4">
+                      <Input placeholder="Search labs..." />
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-medium">Common Lab Panels</h4>
+                        <div className="space-y-2">
+                          <Button variant="outline" className="w-full justify-start">
+                            <TestTube className="h-4 w-4 mr-2" />
+                            Comprehensive Metabolic Panel
+                          </Button>
+                          <Button variant="outline" className="w-full justify-start">
+                            <TestTube className="h-4 w-4 mr-2" />
+                            HbA1c
+                          </Button>
+                          <Button variant="outline" className="w-full justify-start">
+                            <TestTube className="h-4 w-4 mr-2" />
+                            Lipid Panel
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </div>
             </Card>
           </div>
         </div>
 
         {/* Right Sidebar - AI Assistant */}
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline" className="col-span-12 lg:hidden mb-4">
-              Show AI Assistant
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-[400px] sm:w-[540px]">
-            <div className="h-full flex flex-col">
-              <h3 className="text-lg font-semibold mb-4">AI Assistant</h3>
-              <div className="space-y-4 flex-1 overflow-y-auto">
-                <Card className="p-4 bg-blue-50">
-                  <div className="flex items-center gap-2 text-blue-700 mb-2">
-                    <Brain className="h-5 w-5" />
-                    <h4 className="font-medium">AI Generated Draft</h4>
-                  </div>
-                  <p className="text-sm text-blue-600 mb-4">
-                    Based on the current visit data, here's a suggested note:
-                  </p>
-                  <div className="bg-white p-3 rounded-md text-sm">
-                    <p>Patient presents for follow-up of diabetes and hypertension...</p>
-                  </div>
-                  <Button className="w-full mt-3" variant="outline">
-                    <StickyNote className="h-4 w-4 mr-2" />
-                    Insert to Note
-                  </Button>
-                </Card>
-                <Card className="p-4">
-                  <h4 className="font-medium mb-2">Smart Suggestions</h4>
-                  <div className="space-y-2">
-                    <div className="text-sm p-2 bg-muted rounded-md">
-                      Consider ordering HbA1c test (last result: 3 months ago)
-                    </div>
-                    <div className="text-sm p-2 bg-muted rounded-md">
-                      BP has been trending higher than usual
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            </div>
-          </SheetContent>
-        </Sheet>
-
-        {/* Right Sidebar - AI Assistant (Desktop) */}
         <div className="hidden lg:block col-span-3 h-full overflow-y-auto">
           <div className="space-y-4">
             <Card className="p-4 bg-blue-50">
@@ -261,27 +277,96 @@ const ClinicalChart = () => {
                 <h4 className="font-medium">AI Generated Draft</h4>
               </div>
               <p className="text-sm text-blue-600 mb-4">
-                Based on the current visit data, here's a suggested note:
+                Based on the visit data and patient history:
               </p>
-              <div className="bg-white p-3 rounded-md text-sm">
-                <p>Patient presents for follow-up of diabetes and hypertension...</p>
+              <div className="bg-white p-3 rounded-md text-sm space-y-2">
+                <p><strong>S:</strong> Patient presents for routine follow-up of diabetes and hypertension. Reports good medication compliance. No new symptoms.</p>
+                <p><strong>O:</strong> BP 138/82, HR 72, Weight 185 lbs</p>
+                <p><strong>A:</strong> 1. Type 2 Diabetes - Fair control
+                   2. Hypertension - Well controlled</p>
+                <p><strong>P:</strong> 1. Continue current medications
+                   2. Order HbA1c and CMP
+                   3. Follow up in 3 months</p>
               </div>
               <Button className="w-full mt-3" variant="outline">
                 <StickyNote className="h-4 w-4 mr-2" />
                 Insert to Note
               </Button>
             </Card>
+
             <Card className="p-4">
-              <h4 className="font-medium mb-2">Smart Suggestions</h4>
+              <div className="flex items-center gap-2 mb-3">
+                <Lightbulb className="h-5 w-5 text-amber-500" />
+                <h4 className="font-medium">Smart Suggestions</h4>
+              </div>
               <div className="space-y-2">
-                <div className="text-sm p-2 bg-muted rounded-md">
-                  Consider ordering HbA1c test (last result: 3 months ago)
+                <div className="p-3 bg-muted rounded-md">
+                  <div className="flex items-start gap-2">
+                    <AlertCircle className="h-4 w-4 text-red-500 mt-0.5" />
+                    <div>
+                      <p className="text-sm font-medium">HbA1c Overdue</p>
+                      <p className="text-xs text-muted-foreground">Last result was 3 months ago. Consider ordering new test.</p>
+                      <Button size="sm" variant="outline" className="mt-2">
+                        <Plus className="h-3 w-3 mr-1" />
+                        Add to Orders
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-sm p-2 bg-muted rounded-md">
-                  BP has been trending higher than usual
+                <div className="p-3 bg-muted rounded-md">
+                  <div className="flex items-start gap-2">
+                    <ChartLineUp className="h-4 w-4 text-orange-500 mt-0.5" />
+                    <div>
+                      <p className="text-sm font-medium">BP Trending Up</p>
+                      <p className="text-xs text-muted-foreground">Last 3 readings show upward trend. Consider adjustment.</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </Card>
+
+            <Card className="p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <Book className="h-5 w-5 text-indigo-500" />
+                <h4 className="font-medium">Clinical Guidelines</h4>
+              </div>
+              <div className="space-y-2">
+                <div className="p-3 border rounded-md">
+                  <h5 className="text-sm font-medium mb-1">Type 2 Diabetes Management</h5>
+                  <p className="text-xs text-muted-foreground mb-2">ADA Guidelines 2024</p>
+                  <Button size="sm" variant="outline" className="w-full">View Guidelines</Button>
+                </div>
+                <div className="p-3 border rounded-md">
+                  <h5 className="text-sm font-medium mb-1">Hypertension Treatment</h5>
+                  <p className="text-xs text-muted-foreground mb-2">JNC 8 Guidelines</p>
+                  <Button size="sm" variant="outline" className="w-full">View Guidelines</Button>
+                </div>
+              </div>
+            </Card>
+
+            {planText.toLowerCase().includes('metformin') && (
+              <Card className="p-4 bg-green-50 border-green-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <Lightbulb className="h-5 w-5 text-green-600" />
+                  <h4 className="font-medium text-green-700">Suggested Order</h4>
+                </div>
+                <p className="text-sm text-green-600 mb-3">
+                  Based on your plan, would you like to order:
+                </p>
+                <div className="bg-white p-3 rounded-md border border-green-200">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium">Metformin 500mg</p>
+                      <p className="text-xs text-muted-foreground">Take 1 tablet twice daily</p>
+                    </div>
+                    <Button size="sm" variant="outline" className="shrink-0">
+                      <Plus className="h-3 w-3 mr-1" />
+                      Add
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            )}
           </div>
         </div>
       </div>
