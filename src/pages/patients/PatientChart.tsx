@@ -89,14 +89,14 @@ const PatientChart = () => {
               Active Problems
             </h3>
             <div className="space-y-3">
-              <div className="p-3 bg-primary/5 rounded-lg border border-primary/10">
+              <div className="p-3 bg-muted rounded-lg border border-primary/10">
                 <div className="flex justify-between items-center">
                   <span className="font-medium text-foreground">Type 2 Diabetes</span>
                   <span className="text-sm text-primary">Since 2020</span>
                 </div>
                 <p className="text-sm text-primary/70 mt-1">Last A1c: 7.2 (2 months ago)</p>
               </div>
-              <div className="p-3 bg-primary/5 rounded-lg border border-primary/10">
+              <div className="p-3 bg-muted rounded-lg border border-primary/10">
                 <div className="flex justify-between items-center">
                   <span className="font-medium text-foreground">Hypertension</span>
                   <span className="text-sm text-primary">Since 2019</span>
@@ -112,14 +112,14 @@ const PatientChart = () => {
               Active Medications
             </h3>
             <div className="space-y-3">
-              <div className="p-3 bg-primary/5 rounded-lg border border-primary/10">
+              <div className="p-3 bg-muted rounded-lg border border-primary/10">
                 <div className="flex justify-between items-center">
                   <span className="font-medium text-foreground">Metformin 500mg</span>
                   <span className="text-sm text-primary">Twice daily</span>
                 </div>
                 <p className="text-sm text-primary/70 mt-1">Last refill: Oct 15, 2023</p>
               </div>
-              <div className="p-3 bg-primary/5 rounded-lg border border-primary/10">
+              <div className="p-3 bg-muted rounded-lg border border-primary/10">
                 <div className="flex justify-between items-center">
                   <span className="font-medium text-foreground">Lisinopril 10mg</span>
                   <span className="text-sm text-primary">Once daily</span>
@@ -162,7 +162,7 @@ const PatientChart = () => {
               Recent Lab Results
             </h3>
             <div className="space-y-3">
-              <div className="p-3 bg-muted rounded-lg">
+              <div className="p-3 bg-muted rounded-lg border border-primary/10">
                 <div className="flex justify-between items-center">
                   <span className="font-medium">HbA1c</span>
                   <div className="flex items-center gap-2">
@@ -172,7 +172,7 @@ const PatientChart = () => {
                 </div>
                 <p className="text-sm text-muted-foreground mt-1">Target: &lt;6.5% - Oct 15, 2023</p>
               </div>
-              <div className="p-3 bg-muted rounded-lg">
+              <div className="p-3 bg-muted rounded-lg border border-primary/10">
                 <div className="flex justify-between items-center">
                   <span className="font-medium">Creatinine</span>
                   <div className="flex items-center gap-2">
@@ -182,7 +182,7 @@ const PatientChart = () => {
                 </div>
                 <p className="text-sm text-muted-foreground mt-1">Within range - Oct 15, 2023</p>
               </div>
-              <div className="p-3 bg-muted rounded-lg">
+              <div className="p-3 bg-muted rounded-lg border border-primary/10">
                 <div className="flex justify-between items-center">
                   <span className="font-medium">Lipid Panel</span>
                   <span className="text-orange-500 font-medium">Pending</span>
@@ -200,24 +200,24 @@ const PatientChart = () => {
           Recent Activity
         </h3>
         <div className="space-y-3">
-          <div className="p-3 bg-muted rounded-lg flex items-center gap-4">
+          <div className="p-3 bg-muted rounded-lg border border-primary/10">
             <Calendar className="h-5 w-5 text-primary" />
             <div>
-              <p className="font-medium">Upcoming Visit: Dr. Thompson</p>
+              <p className="font-medium text-foreground">Upcoming Visit: Dr. Thompson</p>
               <p className="text-sm text-muted-foreground">Nov 15, 2023 at 2:30 PM - Annual Physical</p>
             </div>
           </div>
-          <div className="p-3 bg-muted rounded-lg flex items-center gap-4">
+          <div className="p-3 bg-muted rounded-lg border border-primary/10">
             <Stethoscope className="h-5 w-5 text-primary" />
             <div>
-              <p className="font-medium">Last Visit: Dr. Smith</p>
+              <p className="font-medium text-foreground">Last Visit: Dr. Smith</p>
               <p className="text-sm text-muted-foreground">Oct 1, 2023 - Diabetes Follow-up</p>
             </div>
           </div>
-          <div className="p-3 bg-muted rounded-lg flex items-center gap-4">
+          <div className="p-3 bg-muted rounded-lg border border-primary/10">
             <FileText className="h-5 w-5 text-primary" />
             <div>
-              <p className="font-medium">Lab Results Available</p>
+              <p className="font-medium text-foreground">Lab Results Available</p>
               <p className="text-sm text-muted-foreground">Comprehensive Metabolic Panel - Oct 5, 2023</p>
             </div>
           </div>
