@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Activity, AlertCircle, Calendar, ClipboardList, 
-  FileText, Heart, Pills, User 
+  FileText, Heart, Pill, User 
 } from "lucide-react";
 
 const PatientChart = () => {
@@ -113,7 +113,7 @@ const PatientChart = () => {
 
             <Card className="p-6">
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <Pills className="h-5 w-5 text-primary" />
+                <Pill className="h-5 w-5 text-primary" />
                 Active Medications
               </h3>
               <div className="space-y-2">
@@ -140,7 +140,6 @@ const PatientChart = () => {
                   Add Problem
                 </Button>
               </div>
-              {/* Problem list content would go here */}
             </div>
           </Card>
         </TabsContent>
