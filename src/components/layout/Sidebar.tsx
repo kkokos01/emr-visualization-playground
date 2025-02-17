@@ -36,11 +36,11 @@ export const Sidebar = () => {
   ];
 
   return (
-    <SidebarContainer className="bg-primary/10">
+    <SidebarContainer className="bg-muted border-r border-border">
       <SidebarContent>
         {menuItems.map((group) => (
           <SidebarGroup key={group.label}>
-            <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
+            <SidebarGroupLabel className="text-foreground/70">{group.label}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {group.items.map((item) => (
@@ -48,7 +48,10 @@ export const Sidebar = () => {
                     <SidebarMenuButton asChild>
                       <Link 
                         to={item.url}
-                        className={location.pathname === item.url ? "text-primary" : ""}
+                        className={cn(
+                          "text-foreground/70 hover:text-primary hover:bg-primary/5",
+                          location.pathname === item.url && "text-primary bg-primary/5"
+                        )}
                       >
                         <item.icon className="w-5 h-5" />
                         <span>{item.title}</span>

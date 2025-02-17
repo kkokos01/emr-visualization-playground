@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
@@ -6,39 +7,39 @@
  
 @layer base {
   :root {
-    --background: 0 0% 100%; /* #FFFFFF */
-    --foreground: 222 20% 27%; /* #374151 */
-    --card: 0 0% 100%; /* #FFFFFF */
-    --card-foreground: 222 20% 27%; /* #374151 */
-    --popover: 0 0% 100%; /* #FFFFFF */
-    --popover-foreground: 222 20% 27%; /* #374151 */
+    --background: 204 94% 94%; /* #EBF5FB */
+    --foreground: 209 42% 24%; /* #2C3E50 */
+    --card: 0 0% 99%; /* #FCFCFC */
+    --card-foreground: 209 42% 24%; /* #2C3E50 */
+    --popover: 0 0% 99%; /* #FCFCFC */
+    --popover-foreground: 209 42% 24%; /* #2C3E50 */
     
-    /* Updated Primary Colors */
-    --primary: 230 31% 49%; /* #5964A2 */
-    --primary-dark: 230 28% 39%; /* #464F80 */
-    --primary-light: 230 41% 65%; /* #8690C4 */
-    --primary-foreground: 0 0% 100%; /* #FFFFFF */
+    /* Primary Colors */
+    --primary: 207 91% 39%; /* #0A6EBD */
+    --primary-dark: 207 91% 29%; /* #085a9d */
+    --primary-light: 207 91% 49%; /* #0c82dd */
+    --primary-foreground: 0 0% 99%; /* #FCFCFC */
     
-    /* Updated Secondary/Surface Colors */
-    --secondary: 220 20% 97%; /* #F9FAFC */
-    --secondary-foreground: 222 20% 27%; /* #374151 */
-    --muted: 220 13% 95%; /* #F3F4F6 */
-    --muted-foreground: 215 14% 65%; /* #9CA3AF */
+    /* Secondary Colors */
+    --secondary: 146 32% 36%; /* #2E8B57 */
+    --secondary-foreground: 0 0% 99%; /* #FCFCFC */
+    --muted: 204 94% 94%; /* #EBF5FB */
+    --muted-foreground: 209 42% 44%; /* #4a6278 */
     
-    /* Updated Accent/Status Colors */
-    --success: 142 55% 41%; /* #2EA44F */
-    --success-foreground: 0 0% 100%;
-    --warning: 38 100% 56%; /* #FFB020 */
-    --warning-foreground: 0 0% 100%;
-    --destructive: 4 68% 52%; /* #D43C33 */
-    --destructive-foreground: 0 0% 100%;
-    --info: 190 77% 41%; /* #17A2B8 */
-    --info-foreground: 0 0% 100%;
+    /* Status Colors */
+    --success: 145 55% 41%; /* #27AE60 */
+    --success-foreground: 0 0% 99%;
+    --warning: 37 91% 51%; /* #F39C12 */
+    --warning-foreground: 0 0% 99%;
+    --destructive: 360 71% 51%; /* #D63031 */
+    --destructive-foreground: 0 0% 99%;
+    --info: 207 91% 39%; /* #0A6EBD */
+    --info-foreground: 0 0% 99%;
     
     /* Border and Input Colors */
-    --border: 220 13% 91%; /* #E5E7EB */
-    --input: 220 13% 91%;
-    --ring: 230 31% 82%; /* #B5BFEF */
+    --border: 204 94% 89%; /* #d9ebf7 */
+    --input: 204 94% 89%;
+    --ring: 207 91% 80%; /* #a5d3f3 */
     
     --radius: 0.75rem;
   }
