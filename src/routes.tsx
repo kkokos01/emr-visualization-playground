@@ -1,6 +1,7 @@
 
 import { createBrowserRouter } from "react-router-dom";
 import { MainLayout } from "./components/layout/MainLayout";
+import { Outlet } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Physician from "./pages/roles/Physician";
@@ -13,7 +14,7 @@ import Messages from "./pages/metrics/Messages";
 
 export const router = createBrowserRouter([
   {
-    element: <MainLayout />,
+    element: <MainLayout><Outlet /></MainLayout>,
     children: [
       {
         path: "/",
