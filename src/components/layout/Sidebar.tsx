@@ -1,13 +1,13 @@
 
-import { Calendar, ClipboardList, Stethoscope, Users, UserCog, MessageSquare, UserPlus, DollarSign } from "lucide-react";
+import { Calendar, ClipboardList, Stethoscope, Users, UserCog, MessageSquare, UserPlus, DollarSign, Receipt } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
   Sidebar as SidebarContainer,
   SidebarContent,
   SidebarGroup,
-  SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarGroupContent,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -40,6 +40,7 @@ export const Sidebar = () => {
         { title: "New Patient", icon: UserPlus, url: "/patient/register" },
         { title: "Clinical Chart", icon: Stethoscope, url: "/patient/1/chart" },
         { title: "Billing Dashboard", icon: DollarSign, url: "/billing" },
+        { title: "Payments & Invoices", icon: Receipt, url: "/billing/payments" },
       ],
     },
   ];

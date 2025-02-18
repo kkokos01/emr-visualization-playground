@@ -1,9 +1,9 @@
-
-import { FileText, DollarSign, AlertCircle, CheckCircle, Calendar } from "lucide-react";
+import { FileText, DollarSign, AlertCircle, CheckCircle, Calendar, Receipt } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 interface ClaimEntry {
   id: string;
@@ -107,15 +107,25 @@ const BillingDashboard = () => {
           <h1 className="text-3xl font-bold">Billing Dashboard</h1>
           <p className="text-muted-foreground">Manage claims and patient balances</p>
         </div>
-        <div className="flex gap-4">
-          <Card className="p-4">
-            <p className="text-sm text-muted-foreground">Total Outstanding</p>
-            <p className="text-2xl font-bold">$12,450.00</p>
-          </Card>
-          <Card className="p-4">
-            <p className="text-sm text-muted-foreground">Today's Claims</p>
-            <p className="text-2xl font-bold">8</p>
-          </Card>
+        <div className="flex items-center gap-4">
+          <Button 
+            variant="outline"
+            className="gap-2"
+            onClick={() => navigate('/billing/payments')}
+          >
+            <Receipt className="w-4 h-4" />
+            Payments & Invoices
+          </Button>
+          <div className="flex gap-4">
+            <Card className="p-4">
+              <p className="text-sm text-muted-foreground">Total Outstanding</p>
+              <p className="text-2xl font-bold">$12,450.00</p>
+            </Card>
+            <Card className="p-4">
+              <p className="text-sm text-muted-foreground">Today's Claims</p>
+              <p className="text-2xl font-bold">8</p>
+            </Card>
+          </div>
         </div>
       </div>
 
