@@ -4,7 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
-import { Brain, Calendar, Search } from "lucide-react";
+import { Brain, Calendar, Search, Upload, MessageSquare, FilePlus } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 interface ResearchConfigurationPanelProps {
   patientId?: string;
@@ -12,6 +16,30 @@ interface ResearchConfigurationPanelProps {
 }
 
 export const ResearchConfigurationPanel = ({ patientId, mode = "physician" }: ResearchConfigurationPanelProps) => {
+  const [additionalContext, setAdditionalContext] = useState("");
+  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+  const [selectedNotes, setSelectedNotes] = useState<string[]>([]);
+
+  const physicianNotes = [
+    { id: "note1", date: "2024-03-01", title: "Primary Care Visit Note", provider: "Dr. Smith" },
+    { id: "note2", date: "2024-02-15", title: "Cardiology Consultation", provider: "Dr. Johnson" },
+    { id: "note3", date: "2024-01-30", title: "Endocrinology Follow-up", provider: "Dr. Wilson" },
+  ];
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setSelectedFiles(e.target.files);
+    }
+  };
+
+  const toggleNote = (noteId: string) => {
+    setSelectedNotes(prev => 
+      prev.includes(noteId) 
+        ? prev.filter(id => id !== noteId)
+        : [...prev, noteId]
+    );
+  };
+
   return (
     <div className="space-y-6 p-4">
       <Card>
@@ -70,6 +98,75 @@ export const ResearchConfigurationPanel = ({ patientId, mode = "physician" }: Re
           <Button className="w-full mt-6">
             Start Deep Analysis
           </Button>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg font-medium">Additional Context</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="space-y-4">
+            <Label>Research Objective</Label>
+            <Textarea 
+              placeholder="Please describe what you'd like to learn from this analysis..."
+              value={additionalContext}
+              onChange={(e) => setAdditionalContext(e.target.value)}
+              className="min-h-[100px]"
+            />
+          </div>
+          <div className="space-y-4">
+            <Label>Relevant Files</Label>
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Input
+                id="files"
+                type="file"
+                multiple
+                onChange={handleFileChange}
+                className="cursor-pointer"
+              />
+              <p className="text-sm text-muted-foreground">
+                Upload any relevant medical records, test results, or other documents
+              </p>
+            </div>
+            {selectedFiles && Array.from(selectedFiles).map((file, index) => (
+              <div key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
+                <FilePlus className="w-4 h-4" />
+                {file.name}
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg font-medium">Physician Notes</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {physicianNotes.map((note) => (
+              <div key={note.id} className="flex items-start space-x-3 p-3 border rounded-lg">
+                <Checkbox
+                  id={note.id}
+                  checked={selectedNotes.includes(note.id)}
+                  onCheckedChange={() => toggleNote(note.id)}
+                />
+                <div className="flex-1">
+                  <label
+                    htmlFor={note.id}
+                    className="text-sm font-medium cursor-pointer"
+                  >
+                    {note.title}
+                  </label>
+                  <div className="text-sm text-muted-foreground mt-1">
+                    {note.provider} • {note.date}
+                  </div>
+                </div>
+                <MessageSquare className="w-4 h-4 text-muted-foreground" />
+              </div>
+            ))}
+          </div>
         </CardContent>
       </Card>
     </div>
