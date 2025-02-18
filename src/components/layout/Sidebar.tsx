@@ -1,5 +1,5 @@
 
-import { Calendar, ClipboardList, Stethoscope, Users, UserCog, MessageSquare, UserPlus, DollarSign, Receipt, TestTube } from "lucide-react";
+import { Calendar, ClipboardList, Stethoscope, Users, UserCog, MessageSquare, UserPlus, DollarSign, Receipt, TestTube, CircleUser, Heart, FileText } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
@@ -23,6 +23,7 @@ export const Sidebar = () => {
         { title: "Physician View", icon: UserCog, url: "/roles/physician" },
         { title: "Nurse View", icon: UserCog, url: "/roles/nurse" },
         { title: "Admin View", icon: UserCog, url: "/roles/admin" },
+        { title: "Patient View", icon: CircleUser, url: "/roles/patient" },
       ],
     },
     {
@@ -33,6 +34,16 @@ export const Sidebar = () => {
         { title: "Orders & Results", icon: TestTube, url: "/clinical/orders" },
         { title: "Tasks", icon: ClipboardList, url: "/tasks" },
         { title: "Messages", icon: MessageSquare, url: "/messages" },
+      ],
+    },
+    {
+      label: "Patient Portal",
+      items: [
+        { title: "My Health", icon: Heart, url: "/roles/patient" },
+        { title: "Test Results", icon: TestTube, url: "/patient/1/results" },
+        { title: "My Records", icon: FileText, url: "/patient/1/records" },
+        { title: "My Messages", icon: MessageSquare, url: "/messages" },
+        { title: "My Appointments", icon: Calendar, url: "/appointments" },
       ],
     },
     {

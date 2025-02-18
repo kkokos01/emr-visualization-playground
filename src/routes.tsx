@@ -13,6 +13,7 @@ import Tasks from "./pages/tasks/Tasks";
 import Physician from "./pages/roles/Physician";
 import Nurse from "./pages/roles/Nurse";
 import Admin from "./pages/roles/Admin";
+import Patient from "./pages/roles/Patient";
 import BillingDashboard from "./pages/billing/BillingDashboard";
 import ClaimDetail from "./pages/billing/ClaimDetail";
 import PaymentsAndInvoices from "./pages/billing/PaymentsAndInvoices";
@@ -86,6 +87,10 @@ export const router = createBrowserRouter([
       {
         path: "/roles/admin",
         element: <Admin />,
+      },
+      {
+        path: "/roles/patient",
+        element: <Patient />,
       },
       {
         path: "/billing",
