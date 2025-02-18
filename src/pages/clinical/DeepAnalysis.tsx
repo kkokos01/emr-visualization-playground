@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -8,8 +9,8 @@ import { CitationExplorer } from "@/components/clinical/CitationExplorer";
 
 const DeepAnalysis = () => {
   const [activeSection, setActiveSection] = useState("executive-summary");
-  const [isCitationExplorerOpen, setIsCitationExplorerOpen = useState(false);
-  const [selectedSource, setSelectedSource = useState<{
+  const [isCitationExplorerOpen, setIsCitationExplorerOpen] = useState(false);
+  const [selectedSource, setSelectedSource] = useState<{
     title: string;
     content: string;
     date: string;
