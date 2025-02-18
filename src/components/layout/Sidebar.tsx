@@ -57,8 +57,19 @@ export const Sidebar = () => {
       label: "Patient Portal",
       items: [
         { title: "My Health", icon: Heart, url: "/roles/patient" },
+        { 
+          title: "Health Analysis", 
+          icon: Brain, 
+          url: "/patient/analysis/1",
+          subItems: [
+            { 
+              title: "Second Opinion", 
+              url: "/patient/1/second-opinion",
+              icon: Stethoscope
+            }
+          ]
+        },
         { title: "Test Results", icon: TestTube, url: "/patient/results" },
-        { title: "Health Analysis", icon: Brain, url: "/patient/analysis/1" },
         { title: "My Messages", icon: MessageSquare, url: "/messages" },
         { title: "My Appointments", icon: Calendar, url: "/appointments" },
       ],
@@ -75,6 +86,44 @@ export const Sidebar = () => {
       ],
     },
   ];
+
+  const renderMenuItem = (item: any) => (
+    <SidebarMenuItem key={item.title}>
+      <SidebarMenuButton asChild>
+        <Link 
+          to={item.url}
+          className={cn(
+            "text-foreground/70 hover:text-primary hover:bg-primary/5",
+            location.pathname === item.url && "text-primary bg-primary/5",
+            item.className
+          )}
+        >
+          <item.icon className="w-5 h-5" />
+          <span>{item.title}</span>
+        </Link>
+      </SidebarMenuButton>
+      {item.subItems && (
+        <div className="ml-6 mt-2 space-y-1">
+          {item.subItems.map((subItem: any) => (
+            <SidebarMenuItem key={subItem.title}>
+              <SidebarMenuButton asChild>
+                <Link 
+                  to={subItem.url}
+                  className={cn(
+                    "text-sm text-foreground/70 hover:text-primary hover:bg-primary/5",
+                    location.pathname === subItem.url && "text-primary bg-primary/5"
+                  )}
+                >
+                  <subItem.icon className="w-4 h-4" />
+                  <span>{subItem.title}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </div>
+      )}
+    </SidebarMenuItem>
+  );
 
   return (
     <SidebarContainer className="bg-muted border-r border-border">
@@ -93,23 +142,7 @@ export const Sidebar = () => {
               <SidebarGroupLabel className="text-foreground/70">{group.label}</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
-                  {('items' in group) && group.items.map((item) => (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild>
-                        <Link 
-                          to={item.url}
-                          className={cn(
-                            "text-foreground/70 hover:text-primary hover:bg-primary/5",
-                            location.pathname === item.url && "text-primary bg-primary/5",
-                            item.className
-                          )}
-                        >
-                          <item.icon className="w-5 h-5" />
-                          <span>{item.title}</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
+                  {('items' in group) && group.items.map(renderMenuItem)}
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
