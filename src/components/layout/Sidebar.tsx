@@ -2,7 +2,8 @@
 import { 
   Calendar, ClipboardList, Stethoscope, Users, UserCog, 
   MessageSquare, UserPlus, DollarSign, Receipt, TestTube, 
-  CircleUser, Heart, Brain, Sparkles, Activity, Settings
+  CircleUser, Heart, Brain, Sparkles, Activity, Settings,
+  ChevronLeft
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -16,6 +17,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarSeparator,
+  SidebarHeader,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 
 export const Sidebar = () => {
@@ -143,8 +146,14 @@ export const Sidebar = () => {
 
   return (
     <SidebarContainer className={cn(
-      "bg-muted border-r border-border"
+      "bg-[#D3E4FD] border-r border-border"
     )}>
+      <SidebarHeader className="flex items-center justify-between p-4">
+        <span className="text-lg font-semibold text-foreground">Dashboard</span>
+        <SidebarTrigger>
+          <ChevronLeft className="h-5 w-5" />
+        </SidebarTrigger>
+      </SidebarHeader>
       <SidebarContent>
         {menuItems.map((group, index) => {
           if ('type' in group && group.type === 'separator') {
