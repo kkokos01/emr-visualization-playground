@@ -1,10 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ChevronDown, ChevronUp, AlertCircle, Info, AlertTriangle } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
-import { LabResultVisual } from "@/components/clinical/LabResultVisual";
-import { cn } from "@/lib/utils";
+import { LabResultsDisclaimer } from "@/components/clinical/LabResultsDisclaimer";
+import { LabResultsSummary } from "@/components/clinical/LabResultsSummary";
+import { LabResultCard } from "@/components/clinical/LabResultCard";
 
 interface LabResult {
   id: string;
@@ -118,179 +118,23 @@ const LabResults = () => {
 
       <div className="mb-8 space-y-4">
         <h1 className="text-3xl font-bold">Your Lab Results</h1>
-        
-        <Card className="border-l-4 border-l-amber-500">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 text-amber-800 mb-2">
-              <AlertTriangle className="w-5 h-5" />
-              <span className="font-medium">Important Notice</span>
-            </div>
-            <p className="text-muted-foreground text-sm">
-              These results and their interpretations are for informational purposes only and do not constitute a medical diagnosis. 
-              Always discuss your results with your healthcare provider during your next visit.
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-sky-50 border-sky-200">
-          <CardHeader className="p-6 pb-0">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-xl text-sky-900">Results Summary</CardTitle>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setSummaryExpanded(!summaryExpanded)}
-                className="gap-2"
-              >
-                {summaryExpanded ? (
-                  <>
-                    <ChevronUp className="w-4 h-4" />
-                    Less
-                  </>
-                ) : (
-                  <>
-                    <ChevronDown className="w-4 h-4" />
-                    More
-                  </>
-                )}
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent className="p-6 pt-4">
-            <div className="space-y-4">
-              <div className="flex items-start gap-3">
-                <Info className="w-5 h-5 text-sky-600 mt-1 shrink-0" />
-                <div>
-                  <h3 className="text-lg font-medium text-sky-900 mb-2">Areas Needing Attention</h3>
-                  <div className="space-y-2">
-                    {abnormalResults.map(result => (
-                      <div 
-                        key={result.id}
-                        className={cn(
-                          "p-3 rounded-md",
-                          result.status === "high" && "bg-red-50 text-red-800",
-                          result.status === "low" && "bg-orange-50 text-orange-800",
-                          result.status === "critical" && "bg-red-100 text-red-900"
-                        )}
-                      >
-                        <p className="font-medium">
-                          {result.name}: {result.value} {result.unit}
-                        </p>
-                        <p className="text-sm mt-1">
-                          {result.interpretation}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {summaryExpanded && (
-                <>
-                  <div className="pl-8">
-                    <div className="space-y-4">
-                      <div className="bg-white rounded-lg p-4">
-                        <h4 className="font-medium text-sky-900 mb-2">Narrative Summary</h4>
-                        <p className="text-sky-800">
-                          Your recent lab results show {abnormalResults.length} value{abnormalResults.length !== 1 ? 's' : ''} outside 
-                          the normal range. The most significant findings are related to 
-                          {abnormalResults.map((result, index) => (
-                            <span key={result.id}>
-                              {index === 0 ? ' ' : index === abnormalResults.length - 1 ? ' and ' : ', '}
-                              {result.name.toLowerCase()}
-                            </span>
-                          ))}.
-                          These results suggest that adjustments to your current treatment plan may be needed.
-                        </p>
-                      </div>
-                      <div className="bg-white rounded-lg p-4">
-                        <h4 className="font-medium text-sky-900 mb-2">Key Points for Discussion</h4>
-                        <ul className="list-disc list-inside space-y-2 text-sky-800">
-                          <li>What lifestyle changes could help improve my elevated results?</li>
-                          <li>Should we adjust any medications based on these results?</li>
-                          <li>When should we retest to monitor these values?</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+        <LabResultsDisclaimer />
+        <LabResultsSummary 
+          abnormalResults={abnormalResults}
+          isExpanded={summaryExpanded}
+          onToggle={() => setSummaryExpanded(!summaryExpanded)}
+        />
       </div>
 
       <ScrollArea className="h-[600px] pr-4">
         <div className="space-y-4">
           {mockResults.map(result => (
-            <Card
+            <LabResultCard
               key={result.id}
-              className={cn(
-                "border-l-4",
-                result.status === "normal" && "border-l-green-500",
-                result.status === "high" && "border-l-red-500",
-                result.status === "low" && "border-l-orange-500",
-                result.status === "critical" && "border-l-red-700"
-              )}
-            >
-              <CardHeader className="p-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      {result.name}
-                      {result.status !== "normal" && (
-                        <AlertCircle className={cn(
-                          "w-4 h-4",
-                          result.status === "high" && "text-red-500",
-                          result.status === "low" && "text-orange-500",
-                          result.status === "critical" && "text-red-700"
-                        )} />
-                      )}
-                    </CardTitle>
-                    <div className="text-sm text-muted-foreground mt-1">
-                      {result.category} • {result.date.toLocaleDateString()}
-                    </div>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => toggleResult(result.id)}
-                    className="gap-2"
-                  >
-                    {expandedResults.includes(result.id) ? (
-                      <>
-                        <ChevronUp className="w-4 h-4" />
-                        Less
-                      </>
-                    ) : (
-                      <>
-                        <ChevronDown className="w-4 h-4" />
-                        More
-                      </>
-                    )}
-                  </Button>
-                </div>
-                
-                <div className="mt-4">
-                  <LabResultVisual result={result} />
-                </div>
-              </CardHeader>
-
-              {expandedResults.includes(result.id) && (
-                <CardContent className="px-4 pb-4">
-                  <div className="space-y-4">
-                    <div>
-                      <h4 className="font-medium mb-2">What is this test?</h4>
-                      <p className="text-muted-foreground">{result.description}</p>
-                    </div>
-                    <div>
-                      <h4 className="font-medium mb-2">What do your results mean?</h4>
-                      <p className="text-muted-foreground">{result.interpretation}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              )}
-            </Card>
+              result={result}
+              isExpanded={expandedResults.includes(result.id)}
+              onToggle={() => toggleResult(result.id)}
+            />
           ))}
         </div>
       </ScrollArea>
