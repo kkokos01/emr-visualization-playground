@@ -19,6 +19,7 @@ import ClaimDetail from "./pages/billing/ClaimDetail";
 import PaymentsAndInvoices from "./pages/billing/PaymentsAndInvoices";
 import OrdersAndResults from "./pages/clinical/OrdersAndResults";
 import LabResults from "./pages/patient/LabResults";
+import PatientAppointments from "./pages/patient/Appointments";
 
 export const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ export const router = createBrowserRouter([
       },
       {
         path: "/appointments",
+        element: <PatientAppointments />,
+      },
+      {
+        path: "/admin/appointments",
         element: <Calendar />,
       },
       {
