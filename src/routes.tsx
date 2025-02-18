@@ -16,6 +16,7 @@ import Nurse from "./pages/roles/Nurse";
 import Admin from "./pages/roles/Admin";
 import BillingDashboard from "./pages/billing/BillingDashboard";
 import ClaimDetail from "./pages/billing/ClaimDetail";
+import PaymentsAndInvoices from "./pages/billing/PaymentsAndInvoices";
 
 export const router = createBrowserRouter([
   {
@@ -84,6 +85,10 @@ export const router = createBrowserRouter([
       {
         path: "/billing/claim/:id",
         element: <ClaimDetail />,
+      },
+      {
+        path: "/billing/payments",
+        element: <PaymentsAndInvoices />,
       }
     ]
   },
