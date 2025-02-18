@@ -1,264 +1,214 @@
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import {
-  AlertCircle,
-  Calendar as CalendarIcon,
-  CheckCircle2,
-  Clock,
-  CreditCard,
-  FileText,
-  Plus,
-  Printer,
-  ShieldCheck,
-  User
-} from "lucide-react";
-import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { ChevronRight, Clock, Video } from "lucide-react";
 
 interface AppointmentModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  appointment?: {
-    patientName: string;
-    date: Date;
-    type: string;
-    status: "scheduled" | "checked-in" | "completed";
-    insuranceStatus?: "verified" | "pending" | "expired";
-    balance?: number;
-  };
+  appointmentType?: string;
 }
 
-export const AppointmentModal = ({
-  open,
-  onOpenChange,
-  appointment
-}: AppointmentModalProps) => {
-  const [activeTab, setActiveTab] = useState("check-in");
-  const [followUpDate, setFollowUpDate] = useState<Date>();
+const mockTimeSlots = [
+  { time: "9:00 AM", available: true },
+  { time: "9:30 AM", available: false },
+  { time: "10:00 AM", available: true },
+  { time: "10:30 AM", available: true },
+  { time: "11:00 AM", available: false },
+  { time: "11:30 AM", available: true },
+  { time: "1:00 PM", available: true },
+  { time: "1:30 PM", available: true },
+  { time: "2:00 PM", available: false },
+  { time: "2:30 PM", available: true },
+  { time: "3:00 PM", available: true },
+  { time: "3:30 PM", available: true },
+];
+
+export const AppointmentModal = ({ open, onOpenChange, appointmentType }: AppointmentModalProps) => {
+  const [step, setStep] = useState(1);
+  const [selectedProvider, setSelectedProvider] = useState("");
+  const [selectedDate, setSelectedDate] = useState<Date>();
+  const [selectedTime, setSelectedTime] = useState("");
+  const [visitType, setVisitType] = useState<"virtual" | "in-person">("in-person");
+
+  const handleNext = () => {
+    if (step < 4) setStep(step + 1);
+  };
+
+  const handleBack = () => {
+    if (step > 1) setStep(step - 1);
+  };
+
+  const handleSubmit = () => {
+    // Here we would submit the appointment
+    onOpenChange(false);
+    setStep(1);
+  };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-semibold">
-            Appointment Details
-          </DialogTitle>
-        </DialogHeader>
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent className="w-full sm:max-w-xl">
+        <SheetHeader>
+          <SheetTitle>Schedule Appointment</SheetTitle>
+        </SheetHeader>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-4">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="check-in">Check In</TabsTrigger>
-            <TabsTrigger value="check-out">Check Out</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="check-in" className="mt-4">
-            <div className="grid grid-cols-2 gap-6">
-              {/* Left Column - Patient Info */}
-              <div className="space-y-6">
-                <div className="p-6 bg-muted/30 rounded-lg border-2 border-muted">
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h3 className="font-semibold flex items-center gap-2">
-                        <User className="h-4 w-4" />
-                        {appointment?.patientName}
-                      </h3>
-                      <div className="text-sm text-muted-foreground mt-1">
-                        <div className="flex items-center gap-2">
-                          <Clock className="h-4 w-4" />
-                          {appointment?.date && format(appointment.date, "PPp")}
-                        </div>
-                        <div className="mt-1">{appointment?.type}</div>
-                      </div>
-                    </div>
-                    <div className="px-2 py-1 rounded text-sm bg-primary/10 text-primary">
-                      {appointment?.status}
-                    </div>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number</Label>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        placeholder="Update phone if changed"
-                        className="bg-white border-2 border-input/50 shadow-[inset_0_1px_3px_0_rgb(0,0,0,0.08)] focus:border-primary"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-6 bg-muted/30 rounded-lg border-2 border-muted">
-                  <h3 className="font-semibold mb-4 flex items-center gap-2">
-                    <FileText className="h-4 w-4" />
-                    Required Forms
-                  </h3>
-                  <div className="space-y-2">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="consent" />
-                      <label
-                        htmlFor="consent"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Consent Form
-                      </label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="hipaa" />
-                      <label
-                        htmlFor="hipaa"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        HIPAA Agreement
-                      </label>
-                    </div>
-                  </div>
-                </div>
+        <div className="mt-6">
+          {step === 1 && (
+            <div className="space-y-4">
+              <div>
+                <Label>Visit Type</Label>
+                <Select
+                  value={appointmentType || ""}
+                  onValueChange={(value) => console.log(value)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select type of visit" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="annual">Annual Physical</SelectItem>
+                    <SelectItem value="followup">Follow-up Visit</SelectItem>
+                    <SelectItem value="urgent">Urgent Care</SelectItem>
+                    <SelectItem value="vaccine">Vaccination</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
-              {/* Right Column - Insurance & Payment */}
-              <div className="space-y-6">
-                <div className="p-6 bg-muted/30 rounded-lg border-2 border-muted">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-semibold flex items-center gap-2">
-                      <ShieldCheck className="h-4 w-4" />
-                      Insurance Status
-                    </h3>
-                    <Button variant="outline" size="sm">
-                      Run Eligibility Check
-                    </Button>
-                  </div>
-                  
-                  <div className="flex items-center gap-2 text-sm">
-                    {appointment?.insuranceStatus === "verified" ? (
-                      <CheckCircle2 className="h-4 w-4 text-green-500" />
-                    ) : (
-                      <AlertCircle className="h-4 w-4 text-orange-500" />
-                    )}
-                    {appointment?.insuranceStatus || "pending"}
-                  </div>
-                </div>
+              <div>
+                <Label>Provider</Label>
+                <Select value={selectedProvider} onValueChange={setSelectedProvider}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Choose a provider" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="dr-thompson">Dr. Sarah Thompson</SelectItem>
+                    <SelectItem value="dr-wilson">Dr. James Wilson</SelectItem>
+                    <SelectItem value="dr-davis">Dr. Emily Davis</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
-                <div className="p-6 bg-muted/30 rounded-lg border-2 border-muted">
-                  <h3 className="font-semibold mb-4 flex items-center gap-2">
-                    <CreditCard className="h-4 w-4" />
-                    Payment Details
-                  </h3>
-                  
-                  {appointment?.balance && appointment.balance > 0 ? (
-                    <div className="space-y-4">
-                      <div className="text-sm">
-                        Outstanding Balance: ${appointment.balance.toFixed(2)}
-                      </div>
-                      <div className="space-y-2">
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="copay" />
-                          <label
-                            htmlFor="copay"
-                            className="text-sm font-medium leading-none"
-                          >
-                            Copay Collected
-                          </label>
-                        </div>
-                        <Input
-                          type="number"
-                          placeholder="Payment amount"
-                          className="bg-white border-2 border-input/50 shadow-[inset_0_1px_3px_0_rgb(0,0,0,0.08)] focus:border-primary"
-                        />
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="text-sm text-muted-foreground">
-                      No outstanding balance
-                    </div>
-                  )}
+              <div className="space-y-2">
+                <Label>Visit Method</Label>
+                <div className="grid grid-cols-2 gap-4">
+                  <Button
+                    variant={visitType === "in-person" ? "default" : "outline"}
+                    className="w-full justify-start gap-2"
+                    onClick={() => setVisitType("in-person")}
+                  >
+                    <MapPin className="h-4 w-4" />
+                    In-Person Visit
+                  </Button>
+                  <Button
+                    variant={visitType === "virtual" ? "default" : "outline"}
+                    className="w-full justify-start gap-2"
+                    onClick={() => setVisitType("virtual")}
+                  >
+                    <Video className="h-4 w-4" />
+                    Virtual Visit
+                  </Button>
                 </div>
-
-                <Button className="w-full">Mark as Checked In</Button>
               </div>
             </div>
-          </TabsContent>
+          )}
 
-          <TabsContent value="check-out" className="mt-4">
-            <div className="grid grid-cols-2 gap-6">
-              <div className="space-y-6">
-                <div className="p-6 bg-muted/30 rounded-lg border-2 border-muted">
-                  <h3 className="font-semibold mb-4 flex items-center gap-2">
-                    <CalendarIcon className="h-4 w-4" />
-                    Schedule Follow-up
-                  </h3>
-                  <div className="space-y-4">
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className="w-full justify-start text-left font-normal"
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {followUpDate ? (
-                            format(followUpDate, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
-                        <Calendar
-                          mode="single"
-                          selected={followUpDate}
-                          onSelect={setFollowUpDate}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    <Button className="w-full">
-                      <Plus className="w-4 h-4 mr-2" />
-                      Schedule Appointment
+          {step === 2 && (
+            <div className="space-y-4">
+              <Label>Select Date</Label>
+              <Calendar
+                mode="single"
+                selected={selectedDate}
+                onSelect={setSelectedDate}
+                className="rounded-md border"
+                disabled={(date) => date < new Date() || date.getDay() === 0 || date.getDay() === 6}
+              />
+            </div>
+          )}
+
+          {step === 3 && (
+            <div className="space-y-4">
+              <Label>Available Times</Label>
+              <ScrollArea className="h-[300px]">
+                <div className="grid grid-cols-2 gap-2">
+                  {mockTimeSlots.map((slot) => (
+                    <Button
+                      key={slot.time}
+                      variant={selectedTime === slot.time ? "default" : "outline"}
+                      className={cn(
+                        "w-full justify-start gap-2",
+                        !slot.available && "opacity-50 cursor-not-allowed"
+                      )}
+                      disabled={!slot.available}
+                      onClick={() => setSelectedTime(slot.time)}
+                    >
+                      <Clock className="h-4 w-4" />
+                      {slot.time}
                     </Button>
-                  </div>
+                  ))}
                 </div>
+              </ScrollArea>
+            </div>
+          )}
 
-                <div className="p-6 bg-muted/30 rounded-lg border-2 border-muted">
-                  <h3 className="font-semibold mb-4 flex items-center gap-2">
-                    <Printer className="h-4 w-4" />
-                    Print Documents
-                  </h3>
-                  <div className="space-y-2">
-                    <Button variant="outline" className="w-full justify-start">
-                      Visit Summary
-                    </Button>
-                    <Button variant="outline" className="w-full justify-start">
-                      Prescriptions
-                    </Button>
-                    <Button variant="outline" className="w-full justify-start">
-                      Lab Orders
-                    </Button>
-                  </div>
+          {step === 4 && (
+            <div className="space-y-4">
+              <div className="rounded-lg border p-4 space-y-3">
+                <h3 className="font-medium">Appointment Summary</h3>
+                <div className="space-y-2 text-sm">
+                  <p><span className="text-muted-foreground">Provider:</span> Dr. Sarah Thompson</p>
+                  <p><span className="text-muted-foreground">Date:</span> {selectedDate?.toLocaleDateString()}</p>
+                  <p><span className="text-muted-foreground">Time:</span> {selectedTime}</p>
+                  <p><span className="text-muted-foreground">Visit Type:</span> {visitType === "virtual" ? "Virtual Visit" : "In-Person Visit"}</p>
                 </div>
               </div>
 
-              <div className="space-y-6">
-                <div className="p-6 bg-muted/30 rounded-lg border-2 border-muted">
-                  <h3 className="font-semibold mb-4">Visit Notes</h3>
-                  <textarea
-                    className="w-full h-32 p-3 rounded-md bg-white border-2 border-input/50 shadow-[inset_0_1px_3px_0_rgb(0,0,0,0.08)] focus:border-primary resize-none"
-                    placeholder="Add any notes about the visit..."
-                  />
+              <div className="space-y-2">
+                <Label>Insurance on File</Label>
+                <div className="rounded-lg border p-3 text-sm">
+                  <p className="font-medium">Blue Cross Blue Shield</p>
+                  <p className="text-muted-foreground">Policy #: XXXX-XXX-XXX</p>
                 </div>
+              </div>
 
-                <Button className="w-full">Complete Visit</Button>
+              <div className="space-y-2">
+                <Label>Special Instructions</Label>
+                <div className="text-sm text-muted-foreground space-y-2">
+                  <p>• Please arrive 15 minutes before your appointment time</p>
+                  <p>• Bring a list of current medications</p>
+                  <p>• Wear a mask in the clinic</p>
+                </div>
               </div>
             </div>
-          </TabsContent>
-        </Tabs>
-      </DialogContent>
-    </Dialog>
+          )}
+
+          <div className="mt-6 flex gap-2">
+            {step > 1 && (
+              <Button variant="outline" onClick={handleBack}>
+                Back
+              </Button>
+            )}
+            <Button 
+              className="flex-1 gap-2" 
+              onClick={step === 4 ? handleSubmit : handleNext}
+            >
+              {step === 4 ? (
+                "Confirm Appointment"
+              ) : (
+                <>
+                  Next
+                  <ChevronRight className="w-4 h-4" />
+                </>
+              )}
+            </Button>
+          </div>
+        </div>
+      </SheetContent>
+    </Sheet>
   );
 };
