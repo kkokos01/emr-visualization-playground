@@ -26,6 +26,8 @@ import PatientAnalysis from "./pages/patient/PatientAnalysis";
 import SecondOpinion from "./pages/patient/SecondOpinion";
 import HealthAvatar from "./pages/gamified/HealthAvatar";
 import FlowBoard from "./pages/clinical/FlowBoard";
+import AdminDashboard from "./pages/admin/Dashboard";
+import Users from "./pages/admin/Users";
 
 export const router = createBrowserRouter([
   {
@@ -146,6 +148,14 @@ export const router = createBrowserRouter([
       {
         path: "/clinical/flow-board",
         element: <FlowBoard />,
+      },
+      {
+        path: "/admin",
+        element: <AdminDashboard />,
+      },
+      {
+        path: "/admin/users",
+        element: <Users />,
       }
     ]
   },

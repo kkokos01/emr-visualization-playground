@@ -1,8 +1,7 @@
-
 import { 
   Calendar, ClipboardList, Stethoscope, Users, UserCog, 
   MessageSquare, UserPlus, DollarSign, Receipt, TestTube, 
-  CircleUser, Heart, Brain, Sparkles, Activity 
+  CircleUser, Heart, Brain, Sparkles, Activity, Settings
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -87,6 +86,17 @@ export const Sidebar = () => {
           icon: Sparkles, 
           url: "/health-avatar",
           className: "text-[#8B5CF6] hover:text-[#7C3AED] hover:bg-[#F5F3FF]"
+        },
+      ],
+    },
+    {
+      label: "Administration",
+      items: [
+        { 
+          title: "Admin Dashboard", 
+          icon: Settings, 
+          url: "/admin",
+          className: "text-orange-600 hover:text-orange-700 hover:bg-orange-50"
         },
       ],
     },
