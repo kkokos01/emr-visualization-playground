@@ -277,7 +277,7 @@ export default function SecondOpinion() {
                         <span>Cholesterol (Total)</span>
                         <span>195 mg/dL</span>
                       </div>
-                      <p className="text-xs text-muted-foreground">Reference range: <200 mg/dL</p>
+                      <p className="text-xs text-muted-foreground">Reference range: &lt;200 mg/dL</p>
                     </div>
                   </div>
                 </Card>
