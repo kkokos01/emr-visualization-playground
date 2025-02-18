@@ -22,39 +22,42 @@ export default function HealthAvatar() {
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6">
-        <Card className="p-6 bg-[#F8FAFC] border-[#D3E4FD]">
-          <AvatarDisplay 
-            timeOffset={timeOffset[0]} 
-            selectedBodyPart={selectedBodyPart}
-            onBodyPartSelect={setSelectedBodyPart}
-          />
-          <div className="mt-6 space-y-2">
-            <div className="flex justify-between text-sm text-slate-600">
-              <span>Past</span>
-              <span>Present</span>
-              <span>Future</span>
-            </div>
-            <Slider
-              value={timeOffset}
-              onValueChange={handleTimeChange}
-              min={-5}
-              max={5}
-              step={1}
-              className="w-full"
-            />
-            <div className="text-center text-sm text-slate-600">
-              {timeOffset[0] === 0 ? "Current" : 
-               timeOffset[0] < 0 ? `${Math.abs(timeOffset[0])} years ago` :
-               `${timeOffset[0]} years from now`}
-            </div>
-          </div>
-        </Card>
-
         <div className="space-y-6">
-          <HealthStats timeOffset={timeOffset[0]} />
+          <Card className="p-6 bg-[#F8FAFC] border-[#D3E4FD]">
+            <AvatarDisplay 
+              timeOffset={timeOffset[0]} 
+              selectedBodyPart={selectedBodyPart}
+              onBodyPartSelect={setSelectedBodyPart}
+            />
+            <div className="mt-6 space-y-2">
+              <div className="flex justify-between text-sm text-slate-600">
+                <span>Past</span>
+                <span>Present</span>
+                <span>Future</span>
+              </div>
+              <Slider
+                value={timeOffset}
+                onValueChange={handleTimeChange}
+                min={-5}
+                max={5}
+                step={1}
+                className="w-full"
+              />
+              <div className="text-center text-sm text-slate-600">
+                {timeOffset[0] === 0 ? "Current" : 
+                 timeOffset[0] < 0 ? `${Math.abs(timeOffset[0])} years ago` :
+                 `${timeOffset[0]} years from now`}
+              </div>
+            </div>
+          </Card>
+
           {selectedBodyPart && (
             <BodyMetricsPanel bodyPart={selectedBodyPart} timeOffset={timeOffset[0]} />
           )}
+        </div>
+
+        <div>
+          <HealthStats timeOffset={timeOffset[0]} />
         </div>
       </div>
     </div>
