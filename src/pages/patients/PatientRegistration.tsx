@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Save, ChevronDown, ChevronUp } from "lucide-react";
+import { Save, ChevronDown, ChevronUp, Expand, Shrink } from "lucide-react";
 import { DemographicsForm } from "@/components/registration/DemographicsForm";
 import { InsuranceForm } from "@/components/registration/InsuranceForm";
 import { PharmacyForm } from "@/components/registration/PharmacyForm";
@@ -41,6 +41,15 @@ const PatientRegistration = () => {
     }));
   };
 
+  const toggleAll = (expand: boolean) => {
+    setExpandedSections({
+      demographics: expand,
+      insurance: expand,
+      pharmacy: expand,
+      contacts: expand,
+    });
+  };
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -65,55 +74,75 @@ const PatientRegistration = () => {
       <div 
         ref={navRef}
         className={cn(
-          "flex gap-4 p-4 bg-background rounded-t-lg border-b transition-all duration-200",
+          "flex items-center justify-between p-4 bg-background rounded-lg border mb-6 transition-all duration-200",
           isSticky && "fixed top-0 left-0 right-0 z-50 shadow-md"
         )}
       >
-        {sections.map(section => (
-          <button
-            key={section.id}
-            onClick={() => scrollToSection(section.id)}
-            className="text-muted-foreground hover:text-primary hover:underline px-4 py-2"
-          >
-            {section.label}
-          </button>
-        ))}
-      </div>
-
-      <Card className="p-6">
-        <div className="space-y-6">
-          {sections.map(({ id, label, component: Component }) => (
-            <div key={id} id={id} className="scroll-mt-20">
-              <div 
-                className="flex items-center justify-between cursor-pointer py-4"
-                onClick={() => toggleSection(id)}
-              >
-                <h2 className="text-xl font-semibold">{label}</h2>
-                <Button variant="ghost" size="icon">
-                  {expandedSections[id] ? (
-                    <ChevronUp className="h-4 w-4" />
-                  ) : (
-                    <ChevronDown className="h-4 w-4" />
-                  )}
-                </Button>
-              </div>
-              {expandedSections[id] && (
-                <div className="pt-4">
-                  <Component />
-                </div>
-              )}
-            </div>
+        <div className="flex gap-4">
+          {sections.map(section => (
+            <button
+              key={section.id}
+              onClick={() => scrollToSection(section.id)}
+              className="text-muted-foreground hover:text-primary hover:underline px-4 py-2"
+            >
+              {section.label}
+            </button>
           ))}
         </div>
-
-        <div className="flex justify-end gap-4 mt-8 pt-4 border-t">
-          <Button variant="outline">Cancel</Button>
-          <Button className="bg-primary hover:bg-primary/90">
-            <Save className="w-4 h-4 mr-2" />
-            Save Changes
+        <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => toggleAll(true)}
+          >
+            <Expand className="w-4 h-4 mr-2" />
+            Expand All
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => toggleAll(false)}
+          >
+            <Shrink className="w-4 h-4 mr-2" />
+            Collapse All
           </Button>
         </div>
-      </Card>
+      </div>
+
+      <div className="space-y-6">
+        {sections.map(({ id, label, component: Component }) => (
+          <Card key={id} id={id} className="p-6 scroll-mt-20">
+            <div 
+              className="flex items-center justify-between cursor-pointer"
+              onClick={() => toggleSection(id)}
+            >
+              <h2 className="text-xl font-semibold">{label}</h2>
+              <Button variant="ghost" size="icon">
+                {expandedSections[id] ? (
+                  <ChevronUp className="h-4 w-4" />
+                ) : (
+                  <ChevronDown className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
+            {expandedSections[id] && (
+              <div className="pt-6">
+                <Component />
+              </div>
+            )}
+          </Card>
+        ))}
+
+        <Card className="p-6">
+          <div className="flex justify-end gap-4">
+            <Button variant="outline">Cancel</Button>
+            <Button className="bg-primary hover:bg-primary/90">
+              <Save className="w-4 h-4 mr-2" />
+              Save Changes
+            </Button>
+          </div>
+        </Card>
+      </div>
     </div>
   );
 };
