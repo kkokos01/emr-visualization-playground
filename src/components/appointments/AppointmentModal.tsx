@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Label } from "@/components/ui/label";
@@ -8,12 +7,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
-import { ChevronRight, Clock, Video } from "lucide-react";
+import { ChevronRight, Clock, Video, MapPin } from "lucide-react";
+import { Appointment } from "@/types/appointments";
 
 interface AppointmentModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   appointmentType?: string;
+  appointment?: Appointment;
 }
 
 const mockTimeSlots = [
@@ -31,12 +32,19 @@ const mockTimeSlots = [
   { time: "3:30 PM", available: true },
 ];
 
-export const AppointmentModal = ({ open, onOpenChange, appointmentType }: AppointmentModalProps) => {
+export const AppointmentModal = ({ 
+  open, 
+  onOpenChange, 
+  appointmentType,
+  appointment 
+}: AppointmentModalProps) => {
   const [step, setStep] = useState(1);
-  const [selectedProvider, setSelectedProvider] = useState("");
-  const [selectedDate, setSelectedDate] = useState<Date>();
-  const [selectedTime, setSelectedTime] = useState("");
-  const [visitType, setVisitType] = useState<"virtual" | "in-person">("in-person");
+  const [selectedProvider, setSelectedProvider] = useState(appointment?.provider || "");
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(appointment?.date);
+  const [selectedTime, setSelectedTime] = useState(appointment?.time || "");
+  const [visitType, setVisitType] = useState<"virtual" | "in-person">(
+    appointment?.location || "in-person"
+  );
 
   const handleNext = () => {
     if (step < 4) setStep(step + 1);
@@ -47,7 +55,6 @@ export const AppointmentModal = ({ open, onOpenChange, appointmentType }: Appoin
   };
 
   const handleSubmit = () => {
-    // Here we would submit the appointment
     onOpenChange(false);
     setStep(1);
   };
