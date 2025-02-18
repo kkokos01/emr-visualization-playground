@@ -1,5 +1,5 @@
 
-import { Calendar, ClipboardList, Stethoscope, Users, UserCog, MessageSquare, UserPlus, DollarSign, Receipt, TestTube, CircleUser, Heart, Brain } from "lucide-react";
+import { Calendar, ClipboardList, Stethoscope, Users, UserCog, MessageSquare, UserPlus, DollarSign, Receipt, TestTube, CircleUser, Heart, Brain, Sparkles } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
@@ -56,6 +56,17 @@ export const Sidebar = () => {
         { title: "Payments & Invoices", icon: Receipt, url: "/billing/payments" },
       ],
     },
+    {
+      label: "Beta / Experimental",
+      items: [
+        { 
+          title: "Future You", 
+          icon: Sparkles, 
+          url: "/health-avatar",
+          className: "text-[#8B5CF6] hover:text-[#7C3AED] hover:bg-[#F5F3FF]"
+        },
+      ],
+    },
   ];
 
   return (
@@ -73,7 +84,8 @@ export const Sidebar = () => {
                         to={item.url}
                         className={cn(
                           "text-foreground/70 hover:text-primary hover:bg-primary/5",
-                          location.pathname === item.url && "text-primary bg-primary/5"
+                          location.pathname === item.url && "text-primary bg-primary/5",
+                          item.className
                         )}
                       >
                         <item.icon className="w-5 h-5" />
