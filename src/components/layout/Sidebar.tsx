@@ -1,3 +1,4 @@
+
 import { 
   Calendar, ClipboardList, Stethoscope, Users, UserCog, 
   MessageSquare, UserPlus, DollarSign, Receipt, TestTube, 
@@ -37,7 +38,7 @@ export const Sidebar = () => {
       label: "Clinical",
       items: [
         { title: "Patients", icon: Users, url: "/patients" },
-        { title: "Schedule", icon: Calendar, url: "/appointments" },
+        { title: "Schedule", icon: Calendar, url: "/admin/appointments" },
         { title: "Flow Board", icon: Activity, url: "/clinical/flow-board" },
         { title: "Orders & Results", icon: TestTube, url: "/clinical/orders" },
         { title: "Deep Analysis", icon: Brain, url: "/clinical/analysis" },
