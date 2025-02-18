@@ -32,7 +32,6 @@ export const HealthOverviewPanel = ({ patientId, onSectionChange }: HealthOvervi
       value: "128",
       trend: "up",
       status: "error",
-      status: "error",
       change: "+15",
       details: "Above target, action required"
     }
