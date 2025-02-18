@@ -1,5 +1,5 @@
 
-import { Calendar, ClipboardList, Stethoscope, Users, UserCog, MessageSquare, UserPlus, DollarSign, Receipt } from "lucide-react";
+import { Calendar, ClipboardList, Stethoscope, Users, UserCog, MessageSquare, UserPlus, DollarSign, Receipt, TestTube } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
@@ -30,6 +30,7 @@ export const Sidebar = () => {
       items: [
         { title: "Patients", icon: Users, url: "/patients" },
         { title: "Schedule", icon: Calendar, url: "/appointments" },
+        { title: "Orders & Results", icon: TestTube, url: "/clinical/orders" },
         { title: "Tasks", icon: ClipboardList, url: "/tasks" },
         { title: "Messages", icon: MessageSquare, url: "/messages" },
       ],
