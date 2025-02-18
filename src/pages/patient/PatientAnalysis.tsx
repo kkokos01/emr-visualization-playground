@@ -67,7 +67,7 @@ export default function PatientAnalysis() {
 
       {/* Quick Navigation Tiles */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="hover:shadow-md transition-all duration-300 cursor-pointer border-[#D3E4FD] hover:border-[#0A6EBD] bg-[#F5FAFD]">
+        <Card className="hover:shadow-md transition-all duration-300 cursor-pointer border-[#0A6EBD] hover:border-[#085a9d] bg-[#EBF5FB]">
           <CardContent className="pt-6">
             <h3 className="font-semibold text-lg mb-2 text-slate-800">
               Understanding Your Health
@@ -76,7 +76,7 @@ export default function PatientAnalysis() {
           </CardContent>
         </Card>
         
-        <Card className="hover:shadow-md transition-all duration-300 cursor-pointer border-[#D3E4FD] hover:border-[#2E8B57] bg-[#F2FCE2]">
+        <Card className="hover:shadow-md transition-all duration-300 cursor-pointer border-[#2E8B57] hover:border-[#247347] bg-[#F2FCE2]">
           <CardContent className="pt-6">
             <h3 className="font-semibold text-lg mb-2 text-slate-800">
               Recommendations
@@ -85,7 +85,7 @@ export default function PatientAnalysis() {
           </CardContent>
         </Card>
         
-        <Card className="hover:shadow-md transition-all duration-300 cursor-pointer border-[#D3E4FD] hover:border-[#0A6EBD] bg-[#E5DEFF]">
+        <Card className="hover:shadow-md transition-all duration-300 cursor-pointer border-[#E67E22] hover:border-[#D35400] bg-[#FEF7CD]">
           <CardContent className="pt-6">
             <h3 className="font-semibold text-lg mb-2 text-slate-800">
               Questions & Notes
