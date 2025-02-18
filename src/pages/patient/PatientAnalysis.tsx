@@ -67,27 +67,27 @@ export default function PatientAnalysis() {
 
       {/* Quick Navigation Tiles */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="hover:shadow-md transition-all duration-300 cursor-pointer border-[#D3E4FD] hover:border-[#0A6EBD] bg-white">
+        <Card className="hover:shadow-md transition-all duration-300 cursor-pointer border-[#D3E4FD] hover:border-[#0A6EBD] bg-[#F5FAFD]">
           <CardContent className="pt-6">
-            <h3 className="font-semibold text-lg mb-2 text-[#0A6EBD]">
+            <h3 className="font-semibold text-lg mb-2 text-slate-800">
               Understanding Your Health
             </h3>
             <p className="text-slate-600">Review your current health status and recent changes</p>
           </CardContent>
         </Card>
         
-        <Card className="hover:shadow-md transition-all duration-300 cursor-pointer border-[#D3E4FD] hover:border-[#2E8B57] bg-white">
+        <Card className="hover:shadow-md transition-all duration-300 cursor-pointer border-[#D3E4FD] hover:border-[#2E8B57] bg-[#F2FCE2]">
           <CardContent className="pt-6">
-            <h3 className="font-semibold text-lg mb-2 text-[#2E8B57]">
+            <h3 className="font-semibold text-lg mb-2 text-slate-800">
               Recommendations
             </h3>
             <p className="text-slate-600">See what steps you should take next</p>
           </CardContent>
         </Card>
         
-        <Card className="hover:shadow-md transition-all duration-300 cursor-pointer border-[#D3E4FD] hover:border-[#0A6EBD] bg-white">
+        <Card className="hover:shadow-md transition-all duration-300 cursor-pointer border-[#D3E4FD] hover:border-[#0A6EBD] bg-[#E5DEFF]">
           <CardContent className="pt-6">
-            <h3 className="font-semibold text-lg mb-2 text-[#0A6EBD]">
+            <h3 className="font-semibold text-lg mb-2 text-slate-800">
               Questions & Notes
             </h3>
             <p className="text-slate-600">Prepare for your next doctor visit</p>
