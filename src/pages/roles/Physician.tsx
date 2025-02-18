@@ -1,3 +1,4 @@
+
 import { ArrowLeft, Calendar, ClipboardList, Clock, MessageSquare, Stethoscope, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { MetricCard } from "@/components/dashboard/MetricCard";
@@ -13,9 +14,36 @@ const Physician = () => {
   ];
 
   const appointments = [
-    { time: "10:00 AM", patient: "Sarah Johnson", type: "Follow-up", status: "Checked In" },
-    { time: "10:30 AM", patient: "Michael Chen", type: "New Patient", status: "Scheduled" },
-    { time: "11:00 AM", patient: "Emma Davis", type: "Lab Review", status: "Scheduled" },
+    { 
+      time: "10:00 AM", 
+      patient: "Sarah Johnson", 
+      patientName: "Sarah Johnson", // Added required field
+      type: "Follow-up", 
+      status: "checked-in",
+      duration: "30min", // Added required field
+      date: new Date(), // Added required field
+      noShowRisk: false // Added required field
+    },
+    { 
+      time: "10:30 AM", 
+      patient: "Michael Chen", 
+      patientName: "Michael Chen", // Added required field
+      type: "New Patient", 
+      status: "scheduled",
+      duration: "45min", // Added required field
+      date: new Date(), // Added required field
+      noShowRisk: false // Added required field
+    },
+    { 
+      time: "11:00 AM", 
+      patient: "Emma Davis", 
+      patientName: "Emma Davis", // Added required field
+      type: "Lab Review", 
+      status: "scheduled",
+      duration: "30min", // Added required field
+      date: new Date(), // Added required field
+      noShowRisk: false // Added required field
+    },
   ];
 
   const tasks = [
