@@ -28,8 +28,7 @@ export const Sidebar = () => {
       ],
     },
     {
-      type: "separator",
-      label: "Professional Workflows"
+      type: "separator"
     },
     {
       label: "Clinical",
@@ -52,8 +51,7 @@ export const Sidebar = () => {
       ],
     },
     {
-      type: "separator",
-      label: "Patient Workflows"
+      type: "separator"
     },
     {
       label: "Patient Portal",
@@ -84,9 +82,8 @@ export const Sidebar = () => {
         {menuItems.map((group, index) => {
           if ('type' in group && group.type === 'separator') {
             return (
-              <div key={`separator-${index}`} className="px-2 py-4">
-                <div className="text-xs font-medium text-foreground/50 mb-2">{group.label}</div>
-                <SidebarSeparator />
+              <div key={`separator-${index}`} className="px-2 py-3">
+                <SidebarSeparator className="opacity-30" />
               </div>
             );
           }
