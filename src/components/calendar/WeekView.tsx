@@ -1,21 +1,14 @@
 
 import { format, startOfWeek, addDays } from "date-fns";
-import { cn } from "@/lib/utils";
 import { Appointment } from "@/types/appointments";
+import { AppointmentItem } from "@/components/appointments/AppointmentItem";
 
 interface WeekViewProps {
   selectedDate: Date;
   appointments: Appointment[];
-  onAppointmentClick: (appointment: Appointment) => void;
-  getAppointmentTypeColor: (type: string) => string;
 }
 
-export const WeekView = ({ 
-  selectedDate, 
-  appointments, 
-  onAppointmentClick, 
-  getAppointmentTypeColor 
-}: WeekViewProps) => {
+export const WeekView = ({ selectedDate, appointments }: WeekViewProps) => {
   const weekStart = startOfWeek(selectedDate);
   const weekDays = [...Array(7)].map((_, i) => addDays(weekStart, i));
 
@@ -33,19 +26,12 @@ export const WeekView = ({
         {weekDays.map((day, i) => (
           <div key={i} className="border-r last:border-r-0">
             <div className="space-y-2 p-2">
-              {appointments.map((apt, index) => (
-                <div
+              {appointments.map((appointment, index) => (
+                <AppointmentItem
                   key={index}
-                  className={cn(
-                    "p-2 rounded-md text-xs cursor-pointer",
-                    getAppointmentTypeColor(apt.type)
-                  )}
-                  onClick={() => onAppointmentClick(apt)}
-                >
-                  <div className="font-medium">{apt.time}</div>
-                  <div>{apt.patient}</div>
-                  <div className="text-muted-foreground">{apt.type}</div>
-                </div>
+                  appointment={appointment}
+                  variant="compact"
+                />
               ))}
             </div>
           </div>

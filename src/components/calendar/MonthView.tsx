@@ -2,20 +2,14 @@
 import { format, startOfMonth, endOfMonth, startOfWeek, addDays, isSameMonth } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Appointment } from "@/types/appointments";
+import { AppointmentItem } from "@/components/appointments/AppointmentItem";
 
 interface MonthViewProps {
   selectedDate: Date;
   appointments: Appointment[];
-  onAppointmentClick: (appointment: Appointment) => void;
-  getAppointmentTypeColor: (type: string) => string;
 }
 
-export const MonthView = ({ 
-  selectedDate, 
-  appointments, 
-  onAppointmentClick, 
-  getAppointmentTypeColor 
-}: MonthViewProps) => {
+export const MonthView = ({ selectedDate, appointments }: MonthViewProps) => {
   const monthStart = startOfMonth(selectedDate);
   const monthEnd = endOfMonth(selectedDate);
   const startDate = startOfWeek(monthStart);
@@ -47,17 +41,12 @@ export const MonthView = ({
           >
             <div className="text-sm font-medium mb-2">{format(day, 'd')}</div>
             <div className="space-y-1">
-              {appointments.map((apt, index) => (
-                <div
+              {appointments.map((appointment, index) => (
+                <AppointmentItem
                   key={index}
-                  className={cn(
-                    "p-1 rounded text-xs truncate cursor-pointer",
-                    getAppointmentTypeColor(apt.type)
-                  )}
-                  onClick={() => onAppointmentClick(apt)}
-                >
-                  {apt.time} - {apt.patient}
-                </div>
+                  appointment={appointment}
+                  variant="compact"
+                />
               ))}
             </div>
           </div>

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { AppointmentModal } from "@/components/appointments/AppointmentModal";
 import { DayView } from "@/components/calendar/DayView";
 import { WeekView } from "@/components/calendar/WeekView";
 import { MonthView } from "@/components/calendar/MonthView";
@@ -26,15 +25,13 @@ import {
 const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [view, setView] = useState<'day' | 'week' | 'month'>('day');
-  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Mock data
   const appointments: Appointment[] = [
     {
       time: "9:00 AM",
       patient: "John Smith",
-      patientName: "John Smith", // Added to match modal requirements
+      patientName: "John Smith",
       type: "Follow-up",
       duration: "30min",
       status: "checked-in",
@@ -46,7 +43,7 @@ const Calendar = () => {
     {
       time: "10:00 AM",
       patient: "Sarah Johnson",
-      patientName: "Sarah Johnson", // Added to match modal requirements
+      patientName: "Sarah Johnson",
       type: "New Patient",
       duration: "60min",
       status: "scheduled",
@@ -58,7 +55,7 @@ const Calendar = () => {
     {
       time: "11:30 AM",
       patient: "Michael Brown",
-      patientName: "Michael Brown", // Added to match modal requirements
+      patientName: "Michael Brown",
       type: "Lab Review",
       duration: "30min",
       status: "scheduled",
@@ -68,24 +65,6 @@ const Calendar = () => {
       balance: 0
     },
   ];
-
-  const handleAppointmentClick = (appointment: Appointment) => {
-    setSelectedAppointment(appointment);
-    setIsModalOpen(true);
-  };
-
-  const getAppointmentTypeColor = (type: string) => {
-    switch (type.toLowerCase()) {
-      case "follow-up":
-        return "bg-green-100 border-green-200 hover:bg-green-200";
-      case "new patient":
-        return "bg-blue-100 border-blue-200 hover:bg-blue-200";
-      case "lab review":
-        return "bg-purple-100 border-purple-200 hover:bg-purple-200";
-      default:
-        return "bg-gray-100";
-    }
-  };
 
   return (
     <div className="space-y-6">
@@ -195,38 +174,12 @@ const Calendar = () => {
               </div>
             </div>
 
-            {view === 'day' && (
-              <DayView
-                appointments={appointments}
-                onAppointmentClick={handleAppointmentClick}
-                getAppointmentTypeColor={getAppointmentTypeColor}
-              />
-            )}
-            {view === 'week' && (
-              <WeekView
-                selectedDate={selectedDate}
-                appointments={appointments}
-                onAppointmentClick={handleAppointmentClick}
-                getAppointmentTypeColor={getAppointmentTypeColor}
-              />
-            )}
-            {view === 'month' && (
-              <MonthView
-                selectedDate={selectedDate}
-                appointments={appointments}
-                onAppointmentClick={handleAppointmentClick}
-                getAppointmentTypeColor={getAppointmentTypeColor}
-              />
-            )}
+            {view === 'day' && <DayView appointments={appointments} />}
+            {view === 'week' && <WeekView selectedDate={selectedDate} appointments={appointments} />}
+            {view === 'month' && <MonthView selectedDate={selectedDate} appointments={appointments} />}
           </div>
         </Card>
       </div>
-
-      <AppointmentModal
-        open={isModalOpen}
-        onOpenChange={setIsModalOpen}
-        appointment={selectedAppointment}
-      />
     </div>
   );
 };
