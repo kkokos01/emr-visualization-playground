@@ -29,30 +29,28 @@ const DeepAnalysis = () => {
         <section>
           <h2 className="text-xl font-semibold mb-4">Executive Summary</h2>
           <p className="text-muted-foreground mb-4">
-            Comprehensive analysis of patient data reveals several key areas requiring immediate attention,
-            particularly regarding diabetes management and cardiovascular risk factors. Recent lab results
-            and vital signs trends suggest opportunities for treatment optimization.
+            Based on comprehensive analysis of patient data and current medical literature, this 54-year-old male with poorly controlled Type 2 Diabetes Mellitus (T2DM) and hypertension presents several areas requiring clinical attention. Recent trends suggest a deterioration in glycemic control despite current therapy, with cardiovascular risk factors becoming more prominent.
           </p>
           <div className="grid grid-cols-3 gap-4 mb-6">
             <Card className="bg-amber-50 border-amber-200">
               <CardContent className="p-4">
                 <AlertTriangle className="w-5 h-5 text-amber-500 mb-2" />
                 <h3 className="font-medium mb-1">Diabetes Control</h3>
-                <p className="text-sm text-muted-foreground">Suboptimal A1C trending</p>
+                <p className="text-sm text-muted-foreground">HbA1c trending upward despite therapy</p>
               </CardContent>
             </Card>
             <Card className="bg-red-50 border-red-200">
               <CardContent className="p-4">
                 <XCircle className="w-5 h-5 text-red-500 mb-2" />
                 <h3 className="font-medium mb-1">BP Control</h3>
-                <p className="text-sm text-muted-foreground">Elevated, requiring adjustment</p>
+                <p className="text-sm text-muted-foreground">Consistently elevated readings</p>
               </CardContent>
             </Card>
             <Card className="bg-green-50 border-green-200">
               <CardContent className="p-4">
                 <CheckCircle className="w-5 h-5 text-green-500 mb-2" />
                 <h3 className="font-medium mb-1">Medication Adherence</h3>
-                <p className="text-sm text-muted-foreground">Good compliance noted</p>
+                <p className="text-sm text-muted-foreground">Good compliance verified</p>
               </CardContent>
             </Card>
           </div>
@@ -64,8 +62,9 @@ const DeepAnalysis = () => {
       icon: AlertTriangle,
       iconColor: "text-amber-500",
       content: (
-        <section>
-          <h2 className="text-xl font-semibold mb-4">Diabetes Management</h2>
+        <section className="space-y-6">
+          <h2 className="text-xl font-semibold">Diabetes Management</h2>
+          
           <Card>
             <CardContent className="p-4">
               <div className="flex items-start justify-between">
@@ -74,25 +73,113 @@ const DeepAnalysis = () => {
                     <AlertTriangle className="w-4 h-4 text-amber-500" />
                     <h3 className="font-medium">Treatment Efficacy Analysis</h3>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-2">
-                    HbA1c has shown an upward trend over the past 3 months, rising from 7.2% to 7.8%.
-                    This suggests a need for treatment intensification.
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Current treatment regimen shows suboptimal glycemic control with HbA1c rising from 7.2% to 7.8% over 3 months{" "}
+                    <Button 
+                      variant="ghost" 
+                      className="text-primary px-1 h-auto text-sm"
+                      onClick={() => handleViewEvidence({
+                        title: "HbA1c Lab Results - Trend Analysis",
+                        content: "Mar 1, 2024: 7.8%\nDec 15, 2023: 7.5%\nSep 15, 2023: 7.2%\n\nTrend Analysis: Progressive increase in HbA1c values over 6-month period despite maintained medication adherence...",
+                        date: "March 1, 2024",
+                        type: "Lab Report Series"
+                      })}
+                    >
+                      [Ref 1]
+                    </Button>
+                    . Based on the ADA 2024 guidelines{" "}
+                    <Button 
+                      variant="ghost" 
+                      className="text-primary px-1 h-auto text-sm"
+                      onClick={() => handleViewEvidence({
+                        title: "ADA Guidelines 2024 - Glycemic Targets",
+                        content: "The American Diabetes Association recommends an HbA1c target of <7% for most nonpregnant adults with diabetes. More stringent targets (6.5%) may be appropriate for some patients, while less stringent targets (<8%) may be appropriate for patients with limited life expectancy or where the harms of treatment outweigh the benefits...",
+                        date: "January 2024",
+                        type: "Clinical Guidelines"
+                      })}
+                    >
+                      [Ref 2]
+                    </Button>
+                    , treatment intensification should be considered.
                   </p>
+                  <div className="space-y-2 mb-4">
+                    <h4 className="text-sm font-medium">Treatment Considerations:</h4>
+                    <ul className="text-sm text-muted-foreground list-disc pl-4 space-y-2">
+                      <li>
+                        Consider adding GLP-1 RA given demonstrated cardiovascular benefits{" "}
+                        <Button 
+                          variant="ghost" 
+                          className="text-primary px-1 h-auto text-sm"
+                          onClick={() => handleViewEvidence({
+                            title: "PIONEER 6 Trial Results",
+                            content: "The cardiovascular outcomes trial for oral semaglutide demonstrated significant reduction in major adverse cardiovascular events (MACE) in patients with type 2 diabetes at high cardiovascular risk...",
+                            date: "June 2023",
+                            type: "Clinical Trial"
+                          })}
+                        >
+                          [Ref 3]
+                        </Button>
+                      </li>
+                      <li>
+                        Weekly administration may improve adherence compared to daily injections{" "}
+                        <Button 
+                          variant="ghost" 
+                          className="text-primary px-1 h-auto text-sm"
+                          onClick={() => handleViewEvidence({
+                            title: "Medication Adherence Study",
+                            content: "Meta-analysis of adherence patterns shows significantly higher adherence rates with once-weekly vs. daily injectable medications (87% vs 74%, p<0.001)...",
+                            date: "September 2023",
+                            type: "Research Study"
+                          })}
+                        >
+                          [Ref 4]
+                        </Button>
+                      </li>
+                    </ul>
+                  </div>
                   <Button 
                     variant="ghost" 
                     className="text-sm text-primary p-0 h-auto"
                     onClick={() => handleViewEvidence({
-                      title: "HbA1c Lab Results",
-                      content: "Patient's HbA1c levels show consistent elevation...",
-                      date: "March 1, 2024",
-                      type: "Lab Report"
+                      title: "Complete Diabetes Management Analysis",
+                      content: "Comprehensive analysis of patient's diabetes management including medication history, adherence patterns, and treatment response...",
+                      date: "March 15, 2024",
+                      type: "Clinical Analysis"
                     })}
                   >
-                    View Evidence Chain
+                    View Complete Evidence Chain
                     <ArrowRight className="w-4 h-4 ml-1" />
                   </Button>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-4">
+              <h3 className="font-medium mb-3">Risk Stratification</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Patient's current risk profile indicates high cardiovascular risk based on:
+              </p>
+              <ul className="text-sm text-muted-foreground list-disc pl-4 space-y-2 mb-4">
+                <li>Duration of T2DM &gt; 10 years</li>
+                <li>Concurrent hypertension</li>
+                <li>Age &gt; 50 years</li>
+                <li>Male gender</li>
+              </ul>
+              <Button 
+                variant="ghost" 
+                className="text-sm text-primary p-0 h-auto"
+                onClick={() => handleViewEvidence({
+                  title: "Cardiovascular Risk Assessment",
+                  content: "ASCVD Risk Score: 15.2%\nRisk Factors Analysis...",
+                  date: "March 15, 2024",
+                  type: "Risk Assessment"
+                })}
+              >
+                View Risk Assessment Details
+                <ArrowRight className="w-4 h-4 ml-1" />
+              </Button>
             </CardContent>
           </Card>
         </section>
@@ -103,8 +190,9 @@ const DeepAnalysis = () => {
       icon: XCircle,
       iconColor: "text-red-500",
       content: (
-        <section>
-          <h2 className="text-xl font-semibold mb-4">Cardiovascular Risk</h2>
+        <section className="space-y-6">
+          <h2 className="text-xl font-semibold">Cardiovascular Risk Management</h2>
+          
           <Card>
             <CardContent className="p-4">
               <div className="flex items-start justify-between">
@@ -113,25 +201,105 @@ const DeepAnalysis = () => {
                     <XCircle className="w-4 h-4 text-red-500" />
                     <h3 className="font-medium">Blood Pressure Analysis</h3>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-2">
-                    Blood pressure readings consistently above target range (&gt;140/90) in last 5 visits.
-                    Consider medication adjustment based on current regimen efficacy.
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Blood pressure consistently elevated (&gt;140/90) in last 5 visits{" "}
+                    <Button 
+                      variant="ghost" 
+                      className="text-primary px-1 h-auto text-sm"
+                      onClick={() => handleViewEvidence({
+                        title: "Blood Pressure Readings - 6 Month Trend",
+                        content: "Mar 10, 2024: 142/88 mmHg\nFeb 10, 2024: 144/92 mmHg\nJan 10, 2024: 146/90 mmHg\nDec 10, 2023: 140/88 mmHg\nNov 10, 2023: 145/92 mmHg",
+                        date: "March 10, 2024",
+                        type: "Vital Signs Record"
+                      })}
+                    >
+                      [Ref 5]
+                    </Button>
+                    . Current evidence suggests increased cardiovascular risk in diabetic patients with uncontrolled hypertension{" "}
+                    <Button 
+                      variant="ghost" 
+                      className="text-primary px-1 h-auto text-sm"
+                      onClick={() => handleViewEvidence({
+                        title: "ACC/AHA Hypertension Guidelines",
+                        content: "For patients with diabetes and hypertension, blood pressure targets should be <130/80 mmHg...",
+                        date: "2023",
+                        type: "Clinical Guidelines"
+                      })}
+                    >
+                      [Ref 6]
+                    </Button>
                   </p>
-                  <Button 
-                    variant="ghost" 
-                    className="text-sm text-primary p-0 h-auto"
-                    onClick={() => handleViewEvidence({
-                      title: "Blood Pressure Readings",
-                      content: "Longitudinal analysis of blood pressure measurements...",
-                      date: "March 10, 2024",
-                      type: "Clinical Notes"
-                    })}
-                  >
-                    View Evidence Chain
-                    <ArrowRight className="w-4 h-4 ml-1" />
-                  </Button>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-4">
+              <h3 className="font-medium mb-3">Treatment Recommendations</h3>
+              <ul className="text-sm text-muted-foreground list-disc pl-4 space-y-2 mb-4">
+                <li>
+                  Consider adding amlodipine 5mg daily{" "}
+                  <Button 
+                    variant="ghost" 
+                    className="text-primary px-1 h-auto text-sm"
+                    onClick={() => handleViewEvidence({
+                      title: "ACCOMPLISH Trial Results",
+                      content: "The ACCOMPLISH trial demonstrated superior outcomes with ACE inhibitor/CCB combination compared to ACE inhibitor/diuretic combination...",
+                      date: "Updated 2023",
+                      type: "Clinical Trial"
+                    })}
+                  >
+                    [Ref 7]
+                  </Button>
+                </li>
+                <li>
+                  Maintain current ACE inhibitor given proven cardiovascular protection in diabetic patients{" "}
+                  <Button 
+                    variant="ghost" 
+                    className="text-primary px-1 h-auto text-sm"
+                    onClick={() => handleViewEvidence({
+                      title: "HOPE Study Long-term Follow-up",
+                      content: "Long-term follow-up of the HOPE study confirms sustained cardiovascular benefit of ACE inhibitors in diabetic patients...",
+                      date: "2022",
+                      type: "Research Study"
+                    })}
+                  >
+                    [Ref 8]
+                  </Button>
+                </li>
+              </ul>
+            </CardContent>
+          </Card>
+        </section>
+      ),
+    },
+    "lifestyle-modifications": {
+      title: "Lifestyle Modifications",
+      icon: CheckCircle,
+      iconColor: "text-green-500",
+      content: (
+        <section className="space-y-6">
+          <h2 className="text-xl font-semibold">Lifestyle Modifications</h2>
+          
+          <Card>
+            <CardContent className="p-4">
+              <h3 className="font-medium mb-3">Dietary Recommendations</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Evidence supports Mediterranean diet pattern for cardiovascular risk reduction{" "}
+                <Button 
+                  variant="ghost" 
+                  className="text-primary px-1 h-auto text-sm"
+                  onClick={() => handleViewEvidence({
+                    title: "PREDIMED Study Results",
+                    content: "The PREDIMED study demonstrated significant cardiovascular risk reduction with Mediterranean diet...",
+                    date: "2023",
+                    type: "Clinical Trial"
+                  })}
+                >
+                  [Ref 9]
+                </Button>
+              </p>
             </CardContent>
           </Card>
         </section>
@@ -193,10 +361,9 @@ const DeepAnalysis = () => {
                   <Button 
                     variant="ghost" 
                     className="w-full justify-start mb-1"
-                    onClick={() => setActiveSection("key-findings")}
                   >
                     <ChevronDown className="w-4 h-4 mr-2" />
-                    Key Findings
+                    Clinical Assessment
                   </Button>
                   <div className="pl-6 space-y-1">
                     <Button 
@@ -217,7 +384,30 @@ const DeepAnalysis = () => {
                       <XCircle className="w-3 h-3 mr-2 text-red-500" />
                       Cardiovascular Risk
                     </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full justify-start"
+                      onClick={() => setActiveSection("lifestyle-modifications")}
+                    >
+                      <CheckCircle className="w-3 h-3 mr-2 text-green-500" />
+                      Lifestyle Modifications
+                    </Button>
                   </div>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start mb-1"
+                  >
+                    <ChevronDown className="w-4 h-4 mr-2" />
+                    Treatment Plan
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start mb-1"
+                  >
+                    <ChevronDown className="w-4 h-4 mr-2" />
+                    Follow-up Recommendations
+                  </Button>
                 </div>
               </ScrollArea>
             </CardContent>
