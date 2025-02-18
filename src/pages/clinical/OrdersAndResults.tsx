@@ -1,15 +1,15 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Calendar as CalendarIcon, ClipboardList, Search, TestTube, CheckCircle2, Phone, Filter, AlertCircle } from "lucide-react";
+import { Calendar as CalendarIcon, ClipboardList, Search, TestTube, CheckCircle2, Phone, Filter, AlertCircle, Brain } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { DeepResearchPanel } from "@/components/research/DeepResearchPanel";
 
 interface Order {
   id: string;
@@ -27,6 +27,7 @@ interface Order {
 
 const OrdersAndResults = () => {
   const [date, setDate] = useState<Date>();
+  const [isResearchOpen, setIsResearchOpen] = useState(false);
 
   const orders: Order[] = [
     {
@@ -132,10 +133,16 @@ const OrdersAndResults = () => {
           <h1 className="text-3xl font-bold">Orders & Results</h1>
           <p className="text-muted-foreground">Manage and track patient orders and results</p>
         </div>
-        <Button className="gap-2">
-          <ClipboardList className="w-4 h-4" />
-          New Order
-        </Button>
+        <div className="flex gap-2">
+          <Button className="gap-2">
+            <ClipboardList className="w-4 h-4" />
+            New Order
+          </Button>
+          <Button variant="outline" onClick={() => setIsResearchOpen(true)} className="gap-2">
+            <Brain className="w-4 h-4" />
+            Deep Research
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-12 gap-6">
@@ -256,6 +263,12 @@ const OrdersAndResults = () => {
           </Card>
         </div>
       </div>
+
+      <DeepResearchPanel 
+        isOpen={isResearchOpen}
+        onClose={() => setIsResearchOpen(false)}
+        patientId="123"
+      />
     </div>
   );
 };
