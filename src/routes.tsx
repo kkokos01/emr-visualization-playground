@@ -1,4 +1,3 @@
-
 import { createBrowserRouter } from "react-router-dom";
 import { MainLayout } from "./components/layout/MainLayout";
 import { Outlet } from "react-router-dom";
@@ -18,6 +17,7 @@ import BillingDashboard from "./pages/billing/BillingDashboard";
 import ClaimDetail from "./pages/billing/ClaimDetail";
 import PaymentsAndInvoices from "./pages/billing/PaymentsAndInvoices";
 import OrdersAndResults from "./pages/clinical/OrdersAndResults";
+import LabResults from "./pages/patient/LabResults";
 
 export const router = createBrowserRouter([
   {
@@ -70,6 +70,10 @@ export const router = createBrowserRouter([
       {
         path: "/clinical/orders",
         element: <OrdersAndResults />,
+      },
+      {
+        path: "/patient/:id/results",
+        element: <LabResults />,
       },
       {
         path: "/roles/physician",
