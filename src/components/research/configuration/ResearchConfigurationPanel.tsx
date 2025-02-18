@@ -18,7 +18,6 @@ interface ResearchConfigurationPanelProps {
 export const ResearchConfigurationPanel = ({ patientId, mode = "physician" }: ResearchConfigurationPanelProps) => {
   const [additionalContext, setAdditionalContext] = useState("");
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
-  const [selectedNotes, setSelectedNotes] = useState<string[]>([]);
   const [saveForFuture, setSaveForFuture] = useState(false);
 
   const physicianNotes = [
@@ -28,6 +27,11 @@ export const ResearchConfigurationPanel = ({ patientId, mode = "physician" }: Re
     { id: "pat1", date: "2024-02-20", title: "Blood Sugar Readings.pdf", provider: "Patient Upload" },
     { id: "pat2", date: "2024-02-01", title: "Previous Medical Records.pdf", provider: "Patient Upload" },
   ];
+
+  // Initialize selectedNotes with all note IDs
+  const [selectedNotes, setSelectedNotes] = useState<string[]>(
+    physicianNotes.map(note => note.id)
+  );
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
