@@ -1,19 +1,112 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Activity, Pill, AlertCircle, Edit2 } from "lucide-react";
+import { Activity, Pill, AlertCircle, Edit2, ChevronDown, ChevronUp, X, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface PatientContextPanelProps {
   patientId?: string;
   mode?: "physician" | "patient";
 }
 
+interface EditableItem {
+  id: string;
+  name: string;
+  commonName?: string;
+  included: boolean;
+}
+
 export const PatientContextPanel = ({ patientId, mode = "physician" }: PatientContextPanelProps) => {
+  const [editSection, setEditSection] = useState<string | null>(null);
+  const [expandedSections, setExpandedSections] = useState<string[]>(["demographics", "medications", "conditions", "vitals"]);
+  
+  const [medications, setMedications] = useState<EditableItem[]>([
+    { id: "1", name: "Metformin 500mg BID", commonName: "Glucophage", included: true },
+    { id: "2", name: "Lisinopril 10mg Daily", commonName: "Prinivil", included: true },
+    { id: "3", name: "Atorvastatin 40mg Daily", commonName: "Lipitor", included: true }
+  ]);
+
+  const [conditions, setConditions] = useState<EditableItem[]>([
+    { id: "1", name: "Type 2 Diabetes", included: true },
+    { id: "2", name: "High Blood Pressure", commonName: "Hypertension", included: true },
+    { id: "3", name: "High Cholesterol", commonName: "Hyperlipidemia", included: true }
+  ]);
+
+  const [vitals, setVitals] = useState<EditableItem[]>([
+    { id: "1", name: "BP: 138/82 mmHg", commonName: "Blood Pressure", included: true },
+    { id: "2", name: "HR: 72 bpm", commonName: "Heart Rate", included: true },
+    { id: "3", name: "Temp: 98.6°F", included: true },
+    { id: "4", name: "SpO2: 98%", commonName: "Blood Oxygen", included: true }
+  ]);
+
   const handleEdit = (section: string) => {
-    console.log(`Editing ${section}`);
-    // Add your edit logic here
+    setEditSection(section);
   };
+
+  const toggleSection = (section: string) => {
+    setExpandedSections(prev => 
+      prev.includes(section) 
+        ? prev.filter(s => s !== section)
+        : [...prev, section]
+    );
+  };
+
+  const toggleItem = (section: string, itemId: string) => {
+    const updateItems = (items: EditableItem[]) =>
+      items.map(item =>
+        item.id === itemId ? { ...item, included: !item.included } : item
+      );
+
+    switch (section) {
+      case "medications":
+        setMedications(updateItems(medications));
+        break;
+      case "conditions":
+        setConditions(updateItems(conditions));
+        break;
+      case "vitals":
+        setVitals(updateItems(vitals));
+        break;
+    }
+  };
+
+  const EditDialog = ({ section, items, onClose }: { section: string, items: EditableItem[], onClose: () => void }) => (
+    <Dialog open={true} onOpenChange={onClose}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Edit {section}</DialogTitle>
+        </DialogHeader>
+        <div className="py-4">
+          <div className="space-y-4">
+            {items.map((item) => (
+              <div key={item.id} className="flex items-center space-x-2">
+                <Checkbox
+                  id={`${section}-${item.id}`}
+                  checked={item.included}
+                  onCheckedChange={() => toggleItem(section, item.id)}
+                />
+                <label
+                  htmlFor={`${section}-${item.id}`}
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  {item.name}
+                  {item.commonName && mode === "patient" && (
+                    <span className="text-muted-foreground ml-1">("{item.commonName}")</span>
+                  )}
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+        <DialogFooter>
+          <Button onClick={onClose}>Done</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
 
   const EditButton = ({ section }: { section: string }) => {
     if (mode === "physician") {
@@ -51,6 +144,44 @@ export const PatientContextPanel = ({ patientId, mode = "physician" }: PatientCo
     );
   };
 
+  const renderSection = (title: string, items: EditableItem[], section: string) => {
+    const isExpanded = expandedSections.includes(section);
+
+    return (
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium flex items-center gap-2">
+            {section === "medications" && <Pill className="w-4 h-4" />}
+            {section === "conditions" && <AlertCircle className="w-4 h-4" />}
+            {section === "vitals" && <Activity className="w-4 h-4" />}
+            <span className="flex items-center gap-2 cursor-pointer" onClick={() => toggleSection(section)}>
+              {title}
+              {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </span>
+          </CardTitle>
+          <EditButton section={section} />
+        </CardHeader>
+        {isExpanded && (
+          <CardContent>
+            <ul className="text-sm space-y-2">
+              {items.filter(item => item.included).map((item) => (
+                <li key={item.id} className="flex items-center justify-between">
+                  <span>
+                    {item.name}
+                    {item.commonName && mode === "patient" && (
+                      <span className="text-muted-foreground ml-1">("{item.commonName}")</span>
+                    )}
+                  </span>
+                  {!item.included && <X className="w-4 h-4 text-destructive" />}
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        )}
+      </Card>
+    );
+  };
+
   return (
     <div className="space-y-4 p-4">
       <Card>
@@ -66,57 +197,31 @@ export const PatientContextPanel = ({ patientId, mode = "physician" }: PatientCo
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium flex items-center gap-2">
-            <Pill className="w-4 h-4" />
-            Current Medications
-          </CardTitle>
-          <EditButton section="medications" />
-        </CardHeader>
-        <CardContent>
-          <ul className="text-sm space-y-2">
-            <li>Metformin 500mg BID</li>
-            <li>Lisinopril 10mg Daily</li>
-            <li>Atorvastatin 40mg Daily</li>
-          </ul>
-        </CardContent>
-      </Card>
+      {renderSection("Current Medications", medications, "medications")}
+      {renderSection("Active Conditions", conditions, "conditions")}
+      {renderSection("Recent Vitals", vitals, "vitals")}
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium flex items-center gap-2">
-            <AlertCircle className="w-4 h-4" />
-            Active Conditions
-          </CardTitle>
-          <EditButton section="conditions" />
-        </CardHeader>
-        <CardContent>
-          <ul className="text-sm space-y-2">
-            <li>Type 2 Diabetes</li>
-            <li>Hypertension</li>
-            <li>Hyperlipidemia</li>
-          </ul>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium flex items-center gap-2">
-            <Activity className="w-4 h-4" />
-            Recent Vitals
-          </CardTitle>
-          <EditButton section="vitals" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-sm space-y-2">
-            <p>BP: 138/82 mmHg</p>
-            <p>HR: 72 bpm</p>
-            <p>Temp: 98.6°F</p>
-            <p>SpO2: 98%</p>
-          </div>
-        </CardContent>
-      </Card>
+      {editSection === "medications" && (
+        <EditDialog 
+          section="medications" 
+          items={medications} 
+          onClose={() => setEditSection(null)} 
+        />
+      )}
+      {editSection === "conditions" && (
+        <EditDialog 
+          section="conditions" 
+          items={conditions} 
+          onClose={() => setEditSection(null)} 
+        />
+      )}
+      {editSection === "vitals" && (
+        <EditDialog 
+          section="vitals" 
+          items={vitals} 
+          onClose={() => setEditSection(null)} 
+        />
+      )}
     </div>
   );
 };
