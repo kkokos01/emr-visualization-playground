@@ -6,14 +6,7 @@ import {
   Pill, Plus, Stethoscope, TestTube, TrendingDown,
   TrendingUp, User, Image 
 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const PatientChart = () => {
   const { id } = useParams();

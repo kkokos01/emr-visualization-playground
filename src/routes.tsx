@@ -31,20 +31,12 @@ export const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "/patient/1",
+        path: "/patient/:id",
         element: <PatientChart />,
-      },
-      {
-        path: "/patient/2",
-        element: <PatientChartAlt />,
       },
       {
         path: "/patient/:id/chart",
         element: <ClinicalChart />,
-      },
-      {
-        path: "/chart",
-        element: <PatientChart />,
       },
       {
         path: "/messages",
