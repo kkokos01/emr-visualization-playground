@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -9,8 +8,8 @@ import { CitationExplorer } from "@/components/clinical/CitationExplorer";
 
 const DeepAnalysis = () => {
   const [activeSection, setActiveSection] = useState("executive-summary");
-  const [isCitationExplorerOpen, setIsCitationExplorerOpen] = useState(false);
-  const [selectedSource, setSelectedSource] = useState<{
+  const [isCitationExplorerOpen, setIsCitationExplorerOpen = useState(false);
+  const [selectedSource, setSelectedSource = useState<{
     title: string;
     content: string;
     date: string;
@@ -57,99 +56,43 @@ const DeepAnalysis = () => {
         </section>
       ),
     },
-    "diabetes-management": {
-      title: "Diabetes Management",
-      icon: AlertTriangle,
-      iconColor: "text-amber-500",
+    "clinical-context": {
+      title: "Clinical Context",
+      icon: FileText,
+      iconColor: "text-blue-500",
       content: (
         <section className="space-y-6">
-          <h2 className="text-xl font-semibold">Diabetes Management</h2>
+          <h2 className="text-xl font-semibold">Clinical Context</h2>
           
           <Card>
             <CardContent className="p-4">
-              <div className="flex items-start justify-between">
+              <h3 className="font-medium mb-3">Patient Profile</h3>
+              <div className="space-y-4">
                 <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <AlertTriangle className="w-4 h-4 text-amber-500" />
-                    <h3 className="font-medium">Treatment Efficacy Analysis</h3>
-                  </div>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Current treatment regimen shows suboptimal glycemic control with HbA1c rising from 7.2% to 7.8% over 3 months{" "}
+                  <h4 className="text-sm font-medium mb-2">Background</h4>
+                  <p className="text-sm text-muted-foreground">
+                    54-year-old male with 10-year history of T2DM, diagnosed with hypertension in 2019. Family history significant for premature CAD (father, MI at 52)
                     <Button 
                       variant="ghost" 
                       className="text-primary px-1 h-auto text-sm"
                       onClick={() => handleViewEvidence({
-                        title: "HbA1c Lab Results - Trend Analysis",
-                        content: "Mar 1, 2024: 7.8%\nDec 15, 2023: 7.5%\nSep 15, 2023: 7.2%\n\nTrend Analysis: Progressive increase in HbA1c values over 6-month period despite maintained medication adherence...",
+                        title: "Family History Assessment",
+                        content: "Detailed family history analysis reveals significant cardiovascular risk factors...",
                         date: "March 1, 2024",
-                        type: "Lab Report Series"
+                        type: "Clinical Assessment"
                       })}
                     >
-                      [Ref 1]
+                      [Ref 10]
                     </Button>
-                    . Based on the ADA 2024 guidelines{" "}
-                    <Button 
-                      variant="ghost" 
-                      className="text-primary px-1 h-auto text-sm"
-                      onClick={() => handleViewEvidence({
-                        title: "ADA Guidelines 2024 - Glycemic Targets",
-                        content: "The American Diabetes Association recommends an HbA1c target of <7% for most nonpregnant adults with diabetes. More stringent targets (6.5%) may be appropriate for some patients, while less stringent targets (<8%) may be appropriate for patients with limited life expectancy or where the harms of treatment outweigh the benefits...",
-                        date: "January 2024",
-                        type: "Clinical Guidelines"
-                      })}
-                    >
-                      [Ref 2]
-                    </Button>
-                    , treatment intensification should be considered.
                   </p>
-                  <div className="space-y-2 mb-4">
-                    <h4 className="text-sm font-medium">Treatment Considerations:</h4>
-                    <ul className="text-sm text-muted-foreground list-disc pl-4 space-y-2">
-                      <li>
-                        Consider adding GLP-1 RA given demonstrated cardiovascular benefits{" "}
-                        <Button 
-                          variant="ghost" 
-                          className="text-primary px-1 h-auto text-sm"
-                          onClick={() => handleViewEvidence({
-                            title: "PIONEER 6 Trial Results",
-                            content: "The cardiovascular outcomes trial for oral semaglutide demonstrated significant reduction in major adverse cardiovascular events (MACE) in patients with type 2 diabetes at high cardiovascular risk...",
-                            date: "June 2023",
-                            type: "Clinical Trial"
-                          })}
-                        >
-                          [Ref 3]
-                        </Button>
-                      </li>
-                      <li>
-                        Weekly administration may improve adherence compared to daily injections{" "}
-                        <Button 
-                          variant="ghost" 
-                          className="text-primary px-1 h-auto text-sm"
-                          onClick={() => handleViewEvidence({
-                            title: "Medication Adherence Study",
-                            content: "Meta-analysis of adherence patterns shows significantly higher adherence rates with once-weekly vs. daily injectable medications (87% vs 74%, p<0.001)...",
-                            date: "September 2023",
-                            type: "Research Study"
-                          })}
-                        >
-                          [Ref 4]
-                        </Button>
-                      </li>
-                    </ul>
-                  </div>
-                  <Button 
-                    variant="ghost" 
-                    className="text-sm text-primary p-0 h-auto"
-                    onClick={() => handleViewEvidence({
-                      title: "Complete Diabetes Management Analysis",
-                      content: "Comprehensive analysis of patient's diabetes management including medication history, adherence patterns, and treatment response...",
-                      date: "March 15, 2024",
-                      type: "Clinical Analysis"
-                    })}
-                  >
-                    View Complete Evidence Chain
-                    <ArrowRight className="w-4 h-4 ml-1" />
-                  </Button>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium mb-2">Current Medications</h4>
+                  <ul className="text-sm text-muted-foreground list-disc pl-4 space-y-1">
+                    <li>Metformin 1000mg BID</li>
+                    <li>Lisinopril 20mg daily</li>
+                    <li>Atorvastatin 40mg daily</li>
+                  </ul>
                 </div>
               </div>
             </CardContent>
@@ -157,76 +100,300 @@ const DeepAnalysis = () => {
 
           <Card>
             <CardContent className="p-4">
-              <h3 className="font-medium mb-3">Risk Stratification</h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Patient's current risk profile indicates high cardiovascular risk based on:
-              </p>
-              <ul className="text-sm text-muted-foreground list-disc pl-4 space-y-2 mb-4">
-                <li>Duration of T2DM &gt; 10 years</li>
-                <li>Concurrent hypertension</li>
-                <li>Age &gt; 50 years</li>
-                <li>Male gender</li>
-              </ul>
-              <Button 
-                variant="ghost" 
-                className="text-sm text-primary p-0 h-auto"
-                onClick={() => handleViewEvidence({
-                  title: "Cardiovascular Risk Assessment",
-                  content: "ASCVD Risk Score: 15.2%\nRisk Factors Analysis...",
-                  date: "March 15, 2024",
-                  type: "Risk Assessment"
-                })}
-              >
-                View Risk Assessment Details
-                <ArrowRight className="w-4 h-4 ml-1" />
-              </Button>
+              <h3 className="font-medium mb-3">Recent Clinical Events</h3>
+              <div className="space-y-3">
+                <div className="p-3 bg-muted rounded-md">
+                  <p className="text-sm font-medium">Emergency Department Visit (Jan 2024)</p>
+                  <p className="text-sm text-muted-foreground">Presented with elevated BP (162/95)
+                    <Button 
+                      variant="ghost" 
+                      className="text-primary px-1 h-auto text-sm"
+                      onClick={() => handleViewEvidence({
+                        title: "ED Visit Report",
+                        content: "Patient presented with symptoms of...",
+                        date: "January 15, 2024",
+                        type: "Clinical Note"
+                      })}
+                    >
+                      [Ref 11]
+                    </Button>
+                  </p>
+                </div>
+                <div className="p-3 bg-muted rounded-md">
+                  <p className="text-sm font-medium">Cardiology Consultation (Feb 2024)</p>
+                  <p className="text-sm text-muted-foreground">Stress test showed moderate ischemic changes
+                    <Button 
+                      variant="ghost" 
+                      className="text-primary px-1 h-auto text-sm"
+                      onClick={() => handleViewEvidence({
+                        title: "Cardiology Consultation",
+                        content: "Exercise stress test demonstrates...",
+                        date: "February 10, 2024",
+                        type: "Specialist Report"
+                      })}
+                    >
+                      [Ref 12]
+                    </Button>
+                  </p>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </section>
       ),
     },
-    "cardiovascular-risk": {
-      title: "Cardiovascular Risk",
-      icon: XCircle,
-      iconColor: "text-red-500",
+    "diagnostic-findings": {
+      title: "Diagnostic Findings",
+      icon: FileText,
+      iconColor: "text-purple-500",
       content: (
         <section className="space-y-6">
-          <h2 className="text-xl font-semibold">Cardiovascular Risk Management</h2>
+          <h2 className="text-xl font-semibold">Diagnostic Findings</h2>
           
           <Card>
             <CardContent className="p-4">
-              <div className="flex items-start justify-between">
+              <h3 className="font-medium mb-3">Laboratory Results</h3>
+              <div className="space-y-4">
                 <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <XCircle className="w-4 h-4 text-red-500" />
-                    <h3 className="font-medium">Blood Pressure Analysis</h3>
-                  </div>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Blood pressure consistently elevated (&gt;140/90) in last 5 visits{" "}
+                  <h4 className="text-sm font-medium mb-2">Glycemic Control</h4>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span>HbA1c</span>
+                      <span className="text-red-500">7.8%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>Fasting Glucose</span>
+                      <span className="text-red-500">165 mg/dL</span>
+                    </div>
                     <Button 
                       variant="ghost" 
-                      className="text-primary px-1 h-auto text-sm"
+                      className="text-primary px-0 h-auto text-sm"
                       onClick={() => handleViewEvidence({
-                        title: "Blood Pressure Readings - 6 Month Trend",
-                        content: "Mar 10, 2024: 142/88 mmHg\nFeb 10, 2024: 144/92 mmHg\nJan 10, 2024: 146/90 mmHg\nDec 10, 2023: 140/88 mmHg\nNov 10, 2023: 145/92 mmHg",
-                        date: "March 10, 2024",
-                        type: "Vital Signs Record"
+                        title: "Glycemic Control Analysis",
+                        content: "Trending analysis of glycemic markers shows...",
+                        date: "March 1, 2024",
+                        type: "Lab Analysis"
                       })}
                     >
-                      [Ref 5]
+                      View Trend Analysis →
                     </Button>
-                    . Current evidence suggests increased cardiovascular risk in diabetic patients with uncontrolled hypertension{" "}
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium mb-2">Lipid Panel</h4>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span>Total Cholesterol</span>
+                      <span>198 mg/dL</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>LDL</span>
+                      <span className="text-amber-500">128 mg/dL</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>HDL</span>
+                      <span className="text-red-500">38 mg/dL</span>
+                    </div>
+                    <Button 
+                      variant="ghost" 
+                      className="text-primary px-0 h-auto text-sm"
+                      onClick={() => handleViewEvidence({
+                        title: "Lipid Panel Analysis",
+                        content: "Current lipid profile indicates increased cardiovascular risk...",
+                        date: "March 1, 2024",
+                        type: "Lab Analysis"
+                      })}
+                    >
+                      View Detailed Analysis →
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-4">
+              <h3 className="font-medium mb-3">Imaging Studies</h3>
+              <div className="space-y-3">
+                <div className="p-3 bg-muted rounded-md">
+                  <p className="text-sm font-medium">Cardiac Stress Test (Feb 2024)</p>
+                  <p className="text-sm text-muted-foreground">
+                    Exercise stress test demonstrates moderate ischemic changes in the inferolateral leads
                     <Button 
                       variant="ghost" 
                       className="text-primary px-1 h-auto text-sm"
                       onClick={() => handleViewEvidence({
-                        title: "ACC/AHA Hypertension Guidelines",
-                        content: "For patients with diabetes and hypertension, blood pressure targets should be <130/80 mmHg...",
+                        title: "Stress Test Report",
+                        content: "Exercise tolerance test performed using Bruce protocol...",
+                        date: "February 10, 2024",
+                        type: "Imaging Report"
+                      })}
+                    >
+                      [View Report]
+                    </Button>
+                  </p>
+                </div>
+                <div className="p-3 bg-muted rounded-md">
+                  <p className="text-sm font-medium">Carotid Ultrasound (Jan 2024)</p>
+                  <p className="text-sm text-muted-foreground">
+                    Mild bilateral carotid stenosis noted
+                    <Button 
+                      variant="ghost" 
+                      className="text-primary px-1 h-auto text-sm"
+                      onClick={() => handleViewEvidence({
+                        title: "Carotid Ultrasound Report",
+                        content: "Bilateral carotid ultrasound demonstrates...",
+                        date: "January 20, 2024",
+                        type: "Imaging Report"
+                      })}
+                    >
+                      [View Report]
+                    </Button>
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+      ),
+    },
+    "treatment-plan": {
+      title: "Treatment Plan",
+      icon: FileText,
+      iconColor: "text-green-500",
+      content: (
+        <section className="space-y-6">
+          <h2 className="text-xl font-semibold">Treatment Plan</h2>
+          
+          <Card>
+            <CardContent className="p-4">
+              <h3 className="font-medium mb-3">Medication Adjustments</h3>
+              <div className="space-y-4">
+                <div className="p-3 border rounded-md">
+                  <h4 className="text-sm font-medium mb-2">Antidiabetic Therapy</h4>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Recommend addition of GLP-1 RA (semaglutide) based on:
+                  </p>
+                  <ul className="text-sm text-muted-foreground list-disc pl-4 space-y-1 mb-2">
+                    <li>Suboptimal glycemic control</li>
+                    <li>Presence of cardiovascular risk factors</li>
+                    <li>Evidence of cardiovascular benefit
+                      <Button 
+                        variant="ghost" 
+                        className="text-primary px-1 h-auto text-sm"
+                        onClick={() => handleViewEvidence({
+                          title: "PIONEER 6 Trial Results",
+                          content: "Cardiovascular outcomes with oral semaglutide...",
+                          date: "2023",
+                          type: "Clinical Trial"
+                        })}
+                      >
+                        [Ref 13]
+                      </Button>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div className="p-3 border rounded-md">
+                  <h4 className="text-sm font-medium mb-2">Antihypertensive Therapy</h4>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Add amlodipine 5mg daily based on:
+                  </p>
+                  <ul className="text-sm text-muted-foreground list-disc pl-4 space-y-1">
+                    <li>Persistent BP elevation despite ACE inhibitor</li>
+                    <li>Evidence supporting CCB addition
+                      <Button 
+                        variant="ghost" 
+                        className="text-primary px-1 h-auto text-sm"
+                        onClick={() => handleViewEvidence({
+                          title: "ACCOMPLISH Trial",
+                          content: "Benazepril plus amlodipine versus benazepril plus hydrochlorothiazide...",
+                          date: "2023",
+                          type: "Clinical Trial"
+                        })}
+                      >
+                        [Ref 14]
+                      </Button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-4">
+              <h3 className="font-medium mb-3">Monitoring Plan</h3>
+              <div className="space-y-3">
+                <div className="p-3 bg-muted rounded-md">
+                  <p className="text-sm font-medium">Short-term Monitoring</p>
+                  <ul className="text-sm text-muted-foreground list-disc pl-4 mt-2">
+                    <li>Weekly BP measurements</li>
+                    <li>Monthly fasting glucose monitoring</li>
+                    <li>HbA1c in 3 months</li>
+                  </ul>
+                </div>
+                <div className="p-3 bg-muted rounded-md">
+                  <p className="text-sm font-medium">Follow-up Schedule</p>
+                  <ul className="text-sm text-muted-foreground list-disc pl-4 mt-2">
+                    <li>PCP follow-up in 2 weeks</li>
+                    <li>Cardiology follow-up in 1 month</li>
+                    <li>Diabetes education session scheduled</li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+      ),
+    },
+    "literature-review": {
+      title: "Literature Review",
+      icon: FileText,
+      iconColor: "text-indigo-500",
+      content: (
+        <section className="space-y-6">
+          <h2 className="text-xl font-semibold">Literature Review</h2>
+          
+          <Card>
+            <CardContent className="p-4">
+              <h3 className="font-medium mb-3">Recent Guidelines</h3>
+              <div className="space-y-4">
+                <div className="p-3 border rounded-md">
+                  <h4 className="text-sm font-medium">ADA 2024 Guidelines</h4>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Updated recommendations for cardiovascular risk management in T2DM
+                    <Button 
+                      variant="ghost" 
+                      className="text-primary px-1 h-auto text-sm"
+                      onClick={() => handleViewEvidence({
+                        title: "ADA 2024 Guidelines",
+                        content: "Standards of Medical Care in Diabetes—2024...",
+                        date: "2024",
+                        type: "Clinical Guidelines"
+                      })}
+                    >
+                      [View Guidelines]
+                    </Button>
+                  </p>
+                </div>
+                
+                <div className="p-3 border rounded-md">
+                  <h4 className="text-sm font-medium">ACC/AHA Hypertension Guidelines</h4>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Guidelines for management of hypertension in patients with diabetes
+                    <Button 
+                      variant="ghost" 
+                      className="text-primary px-1 h-auto text-sm"
+                      onClick={() => handleViewEvidence({
+                        title: "ACC/AHA Guidelines",
+                        content: "Guideline for the Prevention, Detection, Evaluation, and Management of High Blood Pressure...",
                         date: "2023",
                         type: "Clinical Guidelines"
                       })}
                     >
-                      [Ref 6]
+                      [View Guidelines]
                     </Button>
                   </p>
                 </div>
@@ -236,70 +403,45 @@ const DeepAnalysis = () => {
 
           <Card>
             <CardContent className="p-4">
-              <h3 className="font-medium mb-3">Treatment Recommendations</h3>
-              <ul className="text-sm text-muted-foreground list-disc pl-4 space-y-2 mb-4">
-                <li>
-                  Consider adding amlodipine 5mg daily{" "}
-                  <Button 
-                    variant="ghost" 
-                    className="text-primary px-1 h-auto text-sm"
-                    onClick={() => handleViewEvidence({
-                      title: "ACCOMPLISH Trial Results",
-                      content: "The ACCOMPLISH trial demonstrated superior outcomes with ACE inhibitor/CCB combination compared to ACE inhibitor/diuretic combination...",
-                      date: "Updated 2023",
-                      type: "Clinical Trial"
-                    })}
-                  >
-                    [Ref 7]
-                  </Button>
-                </li>
-                <li>
-                  Maintain current ACE inhibitor given proven cardiovascular protection in diabetic patients{" "}
-                  <Button 
-                    variant="ghost" 
-                    className="text-primary px-1 h-auto text-sm"
-                    onClick={() => handleViewEvidence({
-                      title: "HOPE Study Long-term Follow-up",
-                      content: "Long-term follow-up of the HOPE study confirms sustained cardiovascular benefit of ACE inhibitors in diabetic patients...",
-                      date: "2022",
-                      type: "Research Study"
-                    })}
-                  >
-                    [Ref 8]
-                  </Button>
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
-        </section>
-      ),
-    },
-    "lifestyle-modifications": {
-      title: "Lifestyle Modifications",
-      icon: CheckCircle,
-      iconColor: "text-green-500",
-      content: (
-        <section className="space-y-6">
-          <h2 className="text-xl font-semibold">Lifestyle Modifications</h2>
-          
-          <Card>
-            <CardContent className="p-4">
-              <h3 className="font-medium mb-3">Dietary Recommendations</h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Evidence supports Mediterranean diet pattern for cardiovascular risk reduction{" "}
-                <Button 
-                  variant="ghost" 
-                  className="text-primary px-1 h-auto text-sm"
-                  onClick={() => handleViewEvidence({
-                    title: "PREDIMED Study Results",
-                    content: "The PREDIMED study demonstrated significant cardiovascular risk reduction with Mediterranean diet...",
-                    date: "2023",
-                    type: "Clinical Trial"
-                  })}
-                >
-                  [Ref 9]
-                </Button>
-              </p>
+              <h3 className="font-medium mb-3">Key Clinical Trials</h3>
+              <div className="space-y-3">
+                <div className="p-3 bg-muted rounded-md">
+                  <p className="text-sm font-medium">PIONEER 6 Trial (2019)</p>
+                  <p className="text-sm text-muted-foreground">
+                    Cardiovascular outcomes with oral semaglutide
+                    <Button 
+                      variant="ghost" 
+                      className="text-primary px-1 h-auto text-sm"
+                      onClick={() => handleViewEvidence({
+                        title: "PIONEER 6 Trial",
+                        content: "Cardiovascular outcomes with oral semaglutide in patients with type 2 diabetes...",
+                        date: "2019",
+                        type: "Clinical Trial"
+                      })}
+                    >
+                      [View Trial]
+                    </Button>
+                  </p>
+                </div>
+                <div className="p-3 bg-muted rounded-md">
+                  <p className="text-sm font-medium">ACCOMPLISH Trial (2008)</p>
+                  <p className="text-sm text-muted-foreground">
+                    Comparison of combination therapies in hypertension
+                    <Button 
+                      variant="ghost" 
+                      className="text-primary px-1 h-auto text-sm"
+                      onClick={() => handleViewEvidence({
+                        title: "ACCOMPLISH Trial",
+                        content: "Benazepril plus amlodipine or hydrochlorothiazide for hypertension...",
+                        date: "2008",
+                        type: "Clinical Trial"
+                      })}
+                    >
+                      [View Trial]
+                    </Button>
+                  </p>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </section>
@@ -349,21 +491,30 @@ const DeepAnalysis = () => {
             </CardHeader>
             <CardContent className="p-0">
               <ScrollArea className="h-[calc(100vh-16rem)]">
-                <div className="p-2">
+                <div className="p-2 space-y-1">
                   <Button 
                     variant="ghost" 
-                    className="w-full justify-start mb-1"
+                    className="w-full justify-start"
                     onClick={() => setActiveSection("executive-summary")}
                   >
-                    <ChevronDown className="w-4 h-4 mr-2" />
+                    <FileText className="w-4 h-4 mr-2" />
                     Executive Summary
                   </Button>
                   <Button 
                     variant="ghost" 
-                    className="w-full justify-start mb-1"
+                    className="w-full justify-start"
+                    onClick={() => setActiveSection("clinical-context")}
                   >
-                    <ChevronDown className="w-4 h-4 mr-2" />
-                    Clinical Assessment
+                    <FileText className="w-4 h-4 mr-2 text-blue-500" />
+                    Clinical Context
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start"
+                    onClick={() => setActiveSection("diagnostic-findings")}
+                  >
+                    <FileText className="w-4 h-4 mr-2 text-purple-500" />
+                    Diagnostic Findings
                   </Button>
                   <div className="pl-6 space-y-1">
                     <Button 
@@ -384,29 +535,22 @@ const DeepAnalysis = () => {
                       <XCircle className="w-3 h-3 mr-2 text-red-500" />
                       Cardiovascular Risk
                     </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="w-full justify-start"
-                      onClick={() => setActiveSection("lifestyle-modifications")}
-                    >
-                      <CheckCircle className="w-3 h-3 mr-2 text-green-500" />
-                      Lifestyle Modifications
-                    </Button>
                   </div>
                   <Button 
                     variant="ghost" 
-                    className="w-full justify-start mb-1"
+                    className="w-full justify-start"
+                    onClick={() => setActiveSection("treatment-plan")}
                   >
-                    <ChevronDown className="w-4 h-4 mr-2" />
+                    <FileText className="w-4 h-4 mr-2 text-green-500" />
                     Treatment Plan
                   </Button>
                   <Button 
                     variant="ghost" 
-                    className="w-full justify-start mb-1"
+                    className="w-full justify-start"
+                    onClick={() => setActiveSection("literature-review")}
                   >
-                    <ChevronDown className="w-4 h-4 mr-2" />
-                    Follow-up Recommendations
+                    <FileText className="w-4 h-4 mr-2 text-indigo-500" />
+                    Literature Review
                   </Button>
                 </div>
               </ScrollArea>
