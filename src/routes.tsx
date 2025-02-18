@@ -25,6 +25,7 @@ import DeepAnalysis from "./pages/clinical/DeepAnalysis";
 import PatientAnalysis from "./pages/patient/PatientAnalysis";
 import SecondOpinion from "./pages/patient/SecondOpinion";
 import HealthAvatar from "./pages/gamified/HealthAvatar";
+import FlowBoard from "./pages/clinical/FlowBoard";
 
 export const router = createBrowserRouter([
   {
@@ -141,6 +142,10 @@ export const router = createBrowserRouter([
       {
         path: "/health-avatar",
         element: <HealthAvatar />,
+      },
+      {
+        path: "/clinical/flow-board",
+        element: <FlowBoard />,
       }
     ]
   },
