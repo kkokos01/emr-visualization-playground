@@ -1,4 +1,3 @@
-
 import { createBrowserRouter } from "react-router-dom";
 import { MainLayout } from "./components/layout/MainLayout";
 import { Outlet } from "react-router-dom";
@@ -23,6 +22,7 @@ import LabResults from "./pages/patient/LabResults";
 import TestResults from "./pages/patient/TestResults";
 import PatientAppointments from "./pages/patient/Appointments";
 import DeepAnalysis from "./pages/clinical/DeepAnalysis";
+import PatientAnalysis from "./pages/patient/PatientAnalysis";
 
 export const router = createBrowserRouter([
   {
@@ -123,6 +123,10 @@ export const router = createBrowserRouter([
       {
         path: "/billing/payments",
         element: <PaymentsAndInvoices />,
+      },
+      {
+        path: "/patient/analysis/:id",
+        element: <PatientAnalysis />,
       }
     ]
   },
