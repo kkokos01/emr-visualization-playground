@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import PatientChart from "./pages/patients/PatientChart";
 import PatientChartAlt from "./pages/patients/PatientChartAlt";
 import ClinicalChart from "./pages/patients/ClinicalChart";
+import PatientRegistration from "./pages/patients/PatientRegistration";
 import Messages from "./pages/communication/Messages";
 import Calendar from "./pages/scheduling/Calendar";
 import Tasks from "./pages/tasks/Tasks";
@@ -37,6 +38,14 @@ export const router = createBrowserRouter([
       {
         path: "/patient/:id/chart",
         element: <ClinicalChart />,
+      },
+      {
+        path: "/patient/register",
+        element: <PatientRegistration />,
+      },
+      {
+        path: "/patient/:id/edit",
+        element: <PatientRegistration />,
       },
       {
         path: "/messages",
