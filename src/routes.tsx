@@ -14,6 +14,7 @@ import Tasks from "./pages/tasks/Tasks";
 import Physician from "./pages/roles/Physician";
 import Nurse from "./pages/roles/Nurse";
 import Admin from "./pages/roles/Admin";
+import BillingDashboard from "./pages/billing/BillingDashboard";
 
 export const router = createBrowserRouter([
   {
@@ -75,6 +76,10 @@ export const router = createBrowserRouter([
         path: "/roles/admin",
         element: <Admin />,
       },
+      {
+        path: "/billing",
+        element: <BillingDashboard />,
+      }
     ]
   },
 ]);
