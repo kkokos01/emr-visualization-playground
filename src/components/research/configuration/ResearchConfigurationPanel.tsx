@@ -8,9 +8,10 @@ import { Brain, Calendar, Search } from "lucide-react";
 
 interface ResearchConfigurationPanelProps {
   patientId?: string;
+  mode?: "physician" | "patient";
 }
 
-export const ResearchConfigurationPanel = ({ patientId }: ResearchConfigurationPanelProps) => {
+export const ResearchConfigurationPanel = ({ patientId, mode = "physician" }: ResearchConfigurationPanelProps) => {
   return (
     <div className="space-y-6 p-4">
       <Card>
