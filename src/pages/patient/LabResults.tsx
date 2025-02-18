@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ChevronDown, ChevronUp, Upload, AlertCircle, Info, AlertTriangle } from "lucide-react";
+import { ChevronDown, ChevronUp, AlertCircle, Info, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 import { LabResultVisual } from "@/components/clinical/LabResultVisual";
 import { cn } from "@/lib/utils";
@@ -74,6 +74,16 @@ const LabResults = () => {
   const [expandedResults, setExpandedResults] = useState<string[]>([]);
   const [summaryExpanded, setSummaryExpanded] = useState(true);
 
+  const toggleAll = () => {
+    if (expandedResults.length === mockResults.length && summaryExpanded) {
+      setExpandedResults([]);
+      setSummaryExpanded(false);
+    } else {
+      setExpandedResults(mockResults.map(result => result.id));
+      setSummaryExpanded(true);
+    }
+  };
+
   const toggleResult = (id: string) => {
     setExpandedResults(prev =>
       prev.includes(id)
@@ -82,55 +92,28 @@ const LabResults = () => {
     );
   };
 
-  const toggleAll = () => {
-    setExpandedResults(
-      expandedResults.length === mockResults.length
-        ? []
-        : mockResults.map(result => result.id)
-    );
-  };
-
   const abnormalResults = mockResults.filter(result => result.status !== "normal");
 
   return (
     <div className="container mx-auto py-8">
       <div className="flex justify-between items-center mb-4">
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            onClick={toggleAll}
-            className="gap-2"
-          >
-            {expandedResults.length === mockResults.length ? (
-              <>
-                <ChevronUp className="w-4 h-4" />
-                Collapse All Results
-              </>
-            ) : (
-              <>
-                <ChevronDown className="w-4 h-4" />
-                Expand All Results
-              </>
-            )}
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => setSummaryExpanded(!summaryExpanded)}
-            className="gap-2"
-          >
-            {summaryExpanded ? (
-              <>
-                <ChevronUp className="w-4 h-4" />
-                Collapse Summary
-              </>
-            ) : (
-              <>
-                <ChevronDown className="w-4 h-4" />
-                Expand Summary
-              </>
-            )}
-          </Button>
-        </div>
+        <Button
+          variant="outline"
+          onClick={toggleAll}
+          className="gap-2"
+        >
+          {expandedResults.length === mockResults.length && summaryExpanded ? (
+            <>
+              <ChevronUp className="w-4 h-4" />
+              Collapse All Results
+            </>
+          ) : (
+            <>
+              <ChevronDown className="w-4 h-4" />
+              Expand All Results
+            </>
+          )}
+        </Button>
       </div>
 
       <div className="mb-8 space-y-4">
