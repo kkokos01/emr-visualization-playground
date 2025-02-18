@@ -1,4 +1,3 @@
-
 import { 
   Calendar, ClipboardList, Stethoscope, Users, UserCog, 
   MessageSquare, UserPlus, DollarSign, Receipt, TestTube, 
@@ -148,8 +147,7 @@ export const Sidebar = () => {
     <SidebarContainer className={cn(
       "bg-[#D3E4FD] border-r border-border"
     )}>
-      <SidebarHeader className="flex items-center justify-between p-4">
-        <span className="text-lg font-semibold text-foreground">Dashboard</span>
+      <SidebarHeader className="flex items-center justify-end p-2">
         <SidebarTrigger>
           <ChevronLeft className="h-5 w-5" />
         </SidebarTrigger>
@@ -179,4 +177,3 @@ export const Sidebar = () => {
     </SidebarContainer>
   );
 };
-
