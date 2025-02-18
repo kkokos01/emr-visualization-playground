@@ -143,7 +143,7 @@ export const Sidebar = () => {
 
   return (
     <SidebarContainer className={cn(
-      "bg-muted border-r border-border custom-sheet"
+      "bg-muted border-r border-border [&_[data-mobile=true]]:!bg-background [&_[data-mobile=true]]:!text-foreground"
     )}>
       <SidebarContent>
         {menuItems.map((group, index) => {
