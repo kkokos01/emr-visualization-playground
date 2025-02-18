@@ -102,17 +102,6 @@ export const ResearchConfigurationPanel = ({ patientId, mode = "physician" }: Re
             </div>
           </div>
 
-          <Button className="w-full mt-6">
-            Start Deep Analysis
-          </Button>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg font-medium">Additional Context</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
           <div className="space-y-4">
             <Label>Research Objective</Label>
             <Textarea 
@@ -122,40 +111,46 @@ export const ResearchConfigurationPanel = ({ patientId, mode = "physician" }: Re
               className="min-h-[100px]"
             />
           </div>
+
+          <Button className="w-full mt-6">
+            Start Deep Analysis
+          </Button>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg font-medium">Physician Notes and Patient Context</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
           <div className="space-y-4">
-            <Label>Relevant Files</Label>
-            <div className="space-y-4">
-              <Input
-                type="file"
-                multiple
-                id="files"
-                className="hidden"
-                onChange={handleFileChange}
+            <Input
+              type="file"
+              multiple
+              id="files"
+              className="hidden"
+              onChange={handleFileChange}
+            />
+            <Button 
+              variant="secondary" 
+              className="w-full"
+              onClick={() => document.getElementById('files')?.click()}
+            >
+              <Upload className="w-4 h-4 mr-2" />
+              Upload Files
+            </Button>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="save-future"
+                checked={saveForFuture}
+                onCheckedChange={(checked) => setSaveForFuture(checked as boolean)}
               />
-              <Button 
-                variant="secondary" 
-                className="w-full"
-                onClick={() => document.getElementById('files')?.click()}
+              <label
+                htmlFor="save-future"
+                className="text-sm text-muted-foreground cursor-pointer"
               >
-                <Upload className="w-4 h-4 mr-2" />
-                Upload Files
-              </Button>
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="save-future"
-                  checked={saveForFuture}
-                  onCheckedChange={(checked) => setSaveForFuture(checked as boolean)}
-                />
-                <label
-                  htmlFor="save-future"
-                  className="text-sm text-muted-foreground cursor-pointer"
-                >
-                  Save for Future Reference
-                </label>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Upload any relevant medical records, test results, or other documents
-              </p>
+                Save for Future Reference
+              </label>
             </div>
             {selectedFiles && Array.from(selectedFiles).map((file, index) => (
               <div key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -164,15 +159,8 @@ export const ResearchConfigurationPanel = ({ patientId, mode = "physician" }: Re
               </div>
             ))}
           </div>
-        </CardContent>
-      </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg font-medium">Physician Notes and Patient Context</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
+          <div className="space-y-4 mt-6">
             {physicianNotes.map((note) => (
               <div key={note.id} className="flex items-start space-x-3 p-3 border rounded-lg">
                 <Checkbox
