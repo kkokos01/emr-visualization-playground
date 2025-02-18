@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Share2, Printer, Download, Search, BookmarkPlus, ArrowRight, ChevronDown, ChevronUp, MoveDown, MoveUp } from "lucide-react";
@@ -214,9 +213,9 @@ export default function PatientAnalysis() {
                       <Button 
                         variant="outline"
                         className="border-[#2E8B57] text-[#2E8B57] hover:bg-[#F2FCE2]"
-                        onClick={() => window.location.href = `/patient/${id}/deep-analysis`}
+                        onClick={() => window.location.href = `/patient/${id}/second-opinion`}
                       >
-                        Start Deep Analysis Research
+                        Get a Second Opinion
                       </Button>
                     </div>
                   </div>

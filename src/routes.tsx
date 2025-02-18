@@ -23,6 +23,7 @@ import TestResults from "./pages/patient/TestResults";
 import PatientAppointments from "./pages/patient/Appointments";
 import DeepAnalysis from "./pages/clinical/DeepAnalysis";
 import PatientAnalysis from "./pages/patient/PatientAnalysis";
+import SecondOpinion from "./pages/patient/SecondOpinion";
 
 export const router = createBrowserRouter([
   {
@@ -127,6 +128,14 @@ export const router = createBrowserRouter([
       {
         path: "/patient/analysis/:id",
         element: <PatientAnalysis />,
+      },
+      {
+        path: "/patient/:id/analysis",
+        element: <PatientAnalysis />,
+      },
+      {
+        path: "/patient/:id/second-opinion",
+        element: <SecondOpinion />,
       }
     ]
   },
