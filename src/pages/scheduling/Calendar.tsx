@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { PatientSearch } from "@/components/shared/PatientSearch";
+import { AppointmentModal } from "@/components/appointments/AppointmentModal";
 import { 
   Calendar as CalendarIcon, 
   ChevronLeft, 
@@ -25,6 +26,7 @@ const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [view, setView] = useState<'day' | 'week' | 'month'>('day');
   const [selectedAppointment, setSelectedAppointment] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Mock data
   const appointments = [
@@ -34,7 +36,10 @@ const Calendar = () => {
       type: "Follow-up",
       duration: "30min",
       status: "checked-in",
-      noShowRisk: false
+      noShowRisk: false,
+      date: new Date(),
+      insuranceStatus: "verified",
+      balance: 50
     },
     {
       time: "10:00 AM",
@@ -42,7 +47,10 @@ const Calendar = () => {
       type: "New Patient",
       duration: "60min",
       status: "scheduled",
-      noShowRisk: true
+      noShowRisk: true,
+      date: new Date(),
+      insuranceStatus: "pending",
+      balance: 150
     },
     {
       time: "11:30 AM",
@@ -50,9 +58,20 @@ const Calendar = () => {
       type: "Lab Review",
       duration: "30min",
       status: "scheduled",
-      noShowRisk: false
+      noShowRisk: false,
+      date: new Date(),
+      insuranceStatus: "expired",
+      balance: 0
     },
   ];
+
+  const handleAppointmentClick = (appointment: any) => {
+    setSelectedAppointment({
+      ...appointment,
+      patientName: appointment.patient
+    });
+    setIsModalOpen(true);
+  };
 
   const getAppointmentTypeColor = (type: string) => {
     switch (type.toLowerCase()) {
@@ -67,25 +86,6 @@ const Calendar = () => {
     }
   };
 
-  // Mock restrictions data (in real implementation, this would come from the patient's profile)
-  const patientRestrictions = [
-    {
-      type: "provider",
-      icon: "user",
-      description: "Must see Dr. Brown (primary physician)"
-    },
-    {
-      type: "time",
-      icon: "clock",
-      description: "Works 9-5, prefers telehealth during these hours"
-    },
-    {
-      type: "access",
-      icon: "wheelchair",
-      description: "Needs accessible room"
-    }
-  ];
-
   const renderDayView = () => (
     <div className="space-y-4">
       {appointments.map((apt, index) => (
@@ -96,6 +96,7 @@ const Calendar = () => {
             getAppointmentTypeColor(apt.type),
             apt.status === "checked-in" && "border-green-500",
           )}
+          onClick={() => handleAppointmentClick(apt)}
         >
           <div className="w-20 text-sm text-muted-foreground">
             {apt.time}
@@ -156,9 +157,10 @@ const Calendar = () => {
                   <div
                     key={index}
                     className={cn(
-                      "p-2 rounded-md text-xs",
+                      "p-2 rounded-md text-xs cursor-pointer",
                       getAppointmentTypeColor(apt.type)
                     )}
+                    onClick={() => handleAppointmentClick(apt)}
                   >
                     <div className="font-medium">{apt.time}</div>
                     <div>{apt.patient}</div>
@@ -209,9 +211,10 @@ const Calendar = () => {
                   <div
                     key={index}
                     className={cn(
-                      "p-1 rounded text-xs truncate",
+                      "p-1 rounded text-xs truncate cursor-pointer",
                       getAppointmentTypeColor(apt.type)
                     )}
+                    onClick={() => handleAppointmentClick(apt)}
                   >
                     {apt.time} - {apt.patient}
                   </div>
