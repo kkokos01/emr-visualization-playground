@@ -11,11 +11,11 @@ export default function PatientAnalysis() {
   return (
     <div className="container mx-auto p-6 max-w-7xl space-y-6">
       {/* Welcome Header */}
-      <Card className="bg-gradient-to-r from-[#FDE1D3] to-[#F5FAFD] border-none shadow-md">
+      <Card className="bg-[#F5FAFD] border-[#D3E4FD]">
         <CardHeader>
           <div className="flex justify-between items-start">
             <div>
-              <CardTitle className="text-3xl font-bold bg-gradient-to-r from-[#0A6EBD] to-[#2E8B57] bg-clip-text text-transparent">
+              <CardTitle className="text-3xl font-bold text-[#0A6EBD]">
                 Welcome, Sarah
               </CardTitle>
               <p className="text-slate-700 mt-3 text-lg">
@@ -27,15 +27,15 @@ export default function PatientAnalysis() {
               </p>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm" className="hover:bg-[#F2FCE2] hover:text-[#2E8B57] transition-all">
+              <Button variant="outline" size="sm" className="hover:bg-slate-50">
                 <Share2 className="w-4 h-4 mr-2" />
                 Share
               </Button>
-              <Button variant="outline" size="sm" className="hover:bg-[#F2FCE2] hover:text-[#2E8B57] transition-all">
+              <Button variant="outline" size="sm" className="hover:bg-slate-50">
                 <Printer className="w-4 h-4 mr-2" />
                 Print
               </Button>
-              <Button variant="outline" size="sm" className="hover:bg-[#F2FCE2] hover:text-[#2E8B57] transition-all">
+              <Button variant="outline" size="sm" className="hover:bg-slate-50">
                 <Download className="w-4 h-4 mr-2" />
                 Export
               </Button>
@@ -47,16 +47,16 @@ export default function PatientAnalysis() {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input 
-                className="pl-9 bg-white/80 border-[#E5DEFF] focus:border-[#8B5CF6] transition-all" 
+                className="pl-9 bg-white border-[#D3E4FD] focus:border-[#0A6EBD]" 
                 placeholder="Search within this report..."
               />
             </div>
             <div className="flex gap-2">
-              <Button className="bg-[#0A6EBD] hover:bg-[#085a9d] text-white shadow-lg hover:shadow-xl transition-all">
+              <Button className="bg-[#0A6EBD] hover:bg-[#085a9d] text-white">
                 <ArrowRight className="w-4 h-4 mr-2" />
                 Jump to recommendations
               </Button>
-              <Button variant="secondary" className="bg-[#F2FCE2] text-[#2E8B57] hover:bg-[#E2F0D2] border border-[#2E8B57]/20">
+              <Button variant="outline" className="border-[#2E8B57] text-[#2E8B57] hover:bg-[#F2FCE2]">
                 <BookmarkPlus className="w-4 h-4 mr-2" />
                 Save for later
               </Button>
@@ -67,27 +67,27 @@ export default function PatientAnalysis() {
 
       {/* Quick Navigation Tiles */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="group hover:shadow-lg transition-all duration-300 cursor-pointer border border-[#D3E4FD] hover:border-[#0A6EBD]/20 bg-gradient-to-b from-white to-[#F5FAFD]">
+        <Card className="hover:shadow-md transition-all duration-300 cursor-pointer border-[#D3E4FD] hover:border-[#0A6EBD] bg-white">
           <CardContent className="pt-6">
-            <h3 className="font-semibold text-lg mb-2 text-[#0A6EBD] group-hover:text-[#085a9d]">
+            <h3 className="font-semibold text-lg mb-2 text-[#0A6EBD]">
               Understanding Your Health
             </h3>
             <p className="text-slate-600">Review your current health status and recent changes</p>
           </CardContent>
         </Card>
         
-        <Card className="group hover:shadow-lg transition-all duration-300 cursor-pointer border border-[#F2FCE2] hover:border-[#2E8B57]/20 bg-gradient-to-b from-white to-[#F2FCE2]">
+        <Card className="hover:shadow-md transition-all duration-300 cursor-pointer border-[#D3E4FD] hover:border-[#2E8B57] bg-white">
           <CardContent className="pt-6">
-            <h3 className="font-semibold text-lg mb-2 text-[#2E8B57] group-hover:text-[#247347]">
+            <h3 className="font-semibold text-lg mb-2 text-[#2E8B57]">
               Recommendations
             </h3>
             <p className="text-slate-600">See what steps you should take next</p>
           </CardContent>
         </Card>
         
-        <Card className="group hover:shadow-lg transition-all duration-300 cursor-pointer border border-[#E5DEFF] hover:border-[#8B5CF6]/20 bg-gradient-to-b from-white to-[#E5DEFF]">
+        <Card className="hover:shadow-md transition-all duration-300 cursor-pointer border-[#D3E4FD] hover:border-[#0A6EBD] bg-white">
           <CardContent className="pt-6">
-            <h3 className="font-semibold text-lg mb-2 text-[#8B5CF6] group-hover:text-[#7C4DEE]">
+            <h3 className="font-semibold text-lg mb-2 text-[#0A6EBD]">
               Questions & Notes
             </h3>
             <p className="text-slate-600">Prepare for your next doctor visit</p>
@@ -96,9 +96,9 @@ export default function PatientAnalysis() {
       </div>
 
       {/* Executive Brief */}
-      <Card className="border border-[#FDE1D3] bg-gradient-to-r from-white to-[#FDE1D3]/20">
+      <Card className="border-[#D3E4FD] bg-white">
         <CardHeader>
-          <CardTitle className="text-[#F97316]">Executive Brief</CardTitle>
+          <CardTitle className="text-[#0A6EBD]">Executive Brief</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-slate-700">Content will be implemented in subsequent updates...</p>
