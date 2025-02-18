@@ -66,7 +66,7 @@ const PatientRegistration = () => {
         <Button 
           variant="outline"
           size="sm"
-          className="bg-[#E5DEFF] hover:bg-[#D3C9FF] border-0"
+          className="bg-primary/10 hover:bg-primary/20 border-0 text-primary"
           onClick={() => toggleAll(true)}
         >
           <Expand className="w-4 h-4 mr-2" />
@@ -75,7 +75,7 @@ const PatientRegistration = () => {
         <Button 
           variant="outline"
           size="sm"
-          className="bg-[#FFDEE2] hover:bg-[#FFD0D6] border-0"
+          className="bg-secondary/10 hover:bg-secondary/20 border-0 text-secondary"
           onClick={() => toggleAll(false)}
         >
           <Shrink className="w-4 h-4 mr-2" />
