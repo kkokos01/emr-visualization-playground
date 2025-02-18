@@ -1,4 +1,3 @@
-
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
@@ -13,7 +12,7 @@ export const DemographicsForm = () => {
   const [dob, setDob] = useState<Date>();
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 [&_input]:bg-white [&_input]:shadow-sm [&_button]:bg-white [&_button]:shadow-sm">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <Label htmlFor="firstName">First Name</Label>
