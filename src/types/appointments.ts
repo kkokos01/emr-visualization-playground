@@ -10,5 +10,7 @@ export interface Appointment {
   date: Date;
   insuranceStatus?: "verified" | "pending" | "expired";
   balance?: number;
-  aiInsight?: string; // Added optional aiInsight property
+  aiInsight?: string;
+  provider?: string;  // Added provider property
+  location?: "virtual" | "in-person";  // Added location property
 }
