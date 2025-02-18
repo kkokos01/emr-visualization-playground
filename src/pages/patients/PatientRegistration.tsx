@@ -1,20 +1,65 @@
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, Save, UserPlus } from "lucide-react";
+import { ArrowLeft, Save, ChevronDown, ChevronUp } from "lucide-react";
 import { Link } from "react-router-dom";
 import { DemographicsForm } from "@/components/registration/DemographicsForm";
 import { InsuranceForm } from "@/components/registration/InsuranceForm";
 import { PharmacyForm } from "@/components/registration/PharmacyForm";
 import { ContactsForm } from "@/components/registration/ContactsForm";
 import { AttachmentsForm } from "@/components/registration/AttachmentsForm";
+import { cn } from "@/lib/utils";
 
 const PatientRegistration = () => {
   const { id } = useParams();
   const isNewPatient = !id;
+  const [isSticky, setIsSticky] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
+    demographics: true,
+    insurance: true,
+    pharmacy: true,
+    contacts: true,
+    attachments: true
+  });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (navRef.current) {
+        const navPosition = navRef.current.getBoundingClientRect().top;
+        setIsSticky(navPosition <= 0);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const toggleSection = (section: string) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const yOffset = -60; // Adjust based on header height
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
+  const sections = [
+    { id: 'demographics', label: 'Demographics', component: DemographicsForm },
+    { id: 'insurance', label: 'Insurance', component: InsuranceForm },
+    { id: 'pharmacy', label: 'Pharmacy', component: PharmacyForm },
+    { id: 'contacts', label: 'Contacts', component: ContactsForm },
+    { id: 'attachments', label: 'Attachments', component: AttachmentsForm },
+  ];
 
   return (
     <div className="container max-w-7xl mx-auto px-4 py-8">
@@ -44,61 +89,49 @@ const PatientRegistration = () => {
         )}
       </div>
 
+      <div 
+        ref={navRef}
+        className={cn(
+          "flex gap-4 p-4 bg-background rounded-t-lg border-b transition-all duration-200",
+          isSticky && "fixed top-0 left-0 right-0 z-50 shadow-md"
+        )}
+      >
+        {sections.map(section => (
+          <button
+            key={section.id}
+            onClick={() => scrollToSection(section.id)}
+            className="text-muted-foreground hover:text-primary hover:underline px-4 py-2"
+          >
+            {section.label}
+          </button>
+        ))}
+      </div>
+
       <Card className="p-6">
-        <Tabs defaultValue="demographics" className="space-y-6">
-          <TabsList className="w-full justify-start bg-muted p-0 h-12">
-            <TabsTrigger
-              value="demographics"
-              className="h-12 px-6 data-[state=active]:bg-background rounded-none data-[state=active]:shadow-none data-[state=active]:border-primary data-[state=active]:border-b-2"
-            >
-              Demographics
-            </TabsTrigger>
-            <TabsTrigger
-              value="insurance"
-              className="h-12 px-6 data-[state=active]:bg-background rounded-none data-[state=active]:shadow-none data-[state=active]:border-primary data-[state=active]:border-b-2"
-            >
-              Insurance
-            </TabsTrigger>
-            <TabsTrigger
-              value="pharmacy"
-              className="h-12 px-6 data-[state=active]:bg-background rounded-none data-[state=active]:shadow-none data-[state=active]:border-primary data-[state=active]:border-b-2"
-            >
-              Pharmacy
-            </TabsTrigger>
-            <TabsTrigger
-              value="contacts"
-              className="h-12 px-6 data-[state=active]:bg-background rounded-none data-[state=active]:shadow-none data-[state=active]:border-primary data-[state=active]:border-b-2"
-            >
-              Contacts
-            </TabsTrigger>
-            <TabsTrigger
-              value="attachments"
-              className="h-12 px-6 data-[state=active]:bg-background rounded-none data-[state=active]:shadow-none data-[state=active]:border-primary data-[state=active]:border-b-2"
-            >
-              Attachments
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="demographics" className="space-y-4 mt-6">
-            <DemographicsForm />
-          </TabsContent>
-
-          <TabsContent value="insurance" className="space-y-4 mt-6">
-            <InsuranceForm />
-          </TabsContent>
-
-          <TabsContent value="pharmacy" className="space-y-4 mt-6">
-            <PharmacyForm />
-          </TabsContent>
-
-          <TabsContent value="contacts" className="space-y-4 mt-6">
-            <ContactsForm />
-          </TabsContent>
-
-          <TabsContent value="attachments" className="space-y-4 mt-6">
-            <AttachmentsForm />
-          </TabsContent>
-        </Tabs>
+        <div className="space-y-6">
+          {sections.map(({ id, label, component: Component }) => (
+            <div key={id} id={id} className="scroll-mt-20">
+              <div 
+                className="flex items-center justify-between cursor-pointer py-4"
+                onClick={() => toggleSection(id)}
+              >
+                <h2 className="text-xl font-semibold">{label}</h2>
+                <Button variant="ghost" size="icon">
+                  {expandedSections[id] ? (
+                    <ChevronUp className="h-4 w-4" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
+              {expandedSections[id] && (
+                <div className="pt-4">
+                  <Component />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
 
         <div className="flex justify-end gap-4 mt-8 pt-4 border-t">
           <Button variant="outline">Cancel</Button>
