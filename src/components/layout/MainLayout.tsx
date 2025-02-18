@@ -4,7 +4,6 @@ import { TopNav } from "./TopNav";
 import { Sidebar } from "./Sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AIAssistant } from "@/components/ai/AIAssistant";
-import { AISuggestions } from "@/components/ai/AISuggestions";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -18,7 +17,6 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
         <div className="flex-1 flex flex-col">
           <TopNav />
           <main className="flex-1 bg-background">
-            <AISuggestions />
             <div className="container max-w-7xl mx-auto px-4 pb-8">
               {children}
             </div>
