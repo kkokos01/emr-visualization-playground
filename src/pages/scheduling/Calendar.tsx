@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { PatientSearch } from "@/components/shared/PatientSearch";
 import { AppointmentModal } from "@/components/appointments/AppointmentModal";
+import { DayView } from "@/components/calendar/DayView";
+import { WeekView } from "@/components/calendar/WeekView";
+import { MonthView } from "@/components/calendar/MonthView";
+import { CalendarHeader } from "@/components/calendar/CalendarHeader";
+import { cn } from "@/lib/utils";
+import { Appointment } from "@/types/appointments";
 import { 
   Calendar as CalendarIcon, 
   ChevronLeft, 
@@ -19,17 +22,15 @@ import {
   ArrowRightLeft,
   BadgeAlert
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { format, startOfWeek, addDays, startOfMonth, endOfMonth, isSameMonth } from "date-fns";
 
 const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [view, setView] = useState<'day' | 'week' | 'month'>('day');
-  const [selectedAppointment, setSelectedAppointment] = useState<any>(null);
+  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Mock data
-  const appointments = [
+  const appointments: Appointment[] = [
     {
       time: "9:00 AM",
       patient: "John Smith",
@@ -65,7 +66,7 @@ const Calendar = () => {
     },
   ];
 
-  const handleAppointmentClick = (appointment: any) => {
+  const handleAppointmentClick = (appointment: Appointment) => {
     setSelectedAppointment({
       ...appointment,
       patientName: appointment.patient
@@ -86,239 +87,9 @@ const Calendar = () => {
     }
   };
 
-  const renderDayView = () => (
-    <div className="space-y-4">
-      {appointments.map((apt, index) => (
-        <div
-          key={index}
-          className={cn(
-            "flex items-center gap-4 p-4 rounded-lg border-2 transition-colors cursor-pointer",
-            getAppointmentTypeColor(apt.type),
-            apt.status === "checked-in" && "border-green-500",
-          )}
-          onClick={() => handleAppointmentClick(apt)}
-        >
-          <div className="w-20 text-sm text-muted-foreground">
-            {apt.time}
-          </div>
-          <div className="flex-1 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center">
-                <User className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <p className="font-medium">{apt.patient}</p>
-                <p className="text-sm text-muted-foreground">{apt.type}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Clock className="h-4 w-4" />
-                {apt.duration}
-              </div>
-              {apt.noShowRisk && (
-                <div className="flex items-center gap-1 text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded-full">
-                  <AlertCircle className="h-3 w-3" />
-                  High no-show risk
-                </div>
-              )}
-              {apt.status === "checked-in" && (
-                <div className="flex items-center gap-1 text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
-                  <CheckCircle2 className="h-3 w-3" />
-                  Checked in
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-
-  const renderWeekView = () => {
-    const weekStart = startOfWeek(selectedDate);
-    const weekDays = [...Array(7)].map((_, i) => addDays(weekStart, i));
-
-    return (
-      <div className="space-y-4">
-        <div className="grid grid-cols-7 gap-4">
-          {weekDays.map((day, i) => (
-            <div key={i} className="text-center p-2 border-b font-medium">
-              <div className="text-sm text-muted-foreground">{format(day, 'EEE')}</div>
-              <div>{format(day, 'd')}</div>
-            </div>
-          ))}
-        </div>
-        <div className="grid grid-cols-7 gap-4 min-h-[600px]">
-          {weekDays.map((day, i) => (
-            <div key={i} className="border-r last:border-r-0">
-              <div className="space-y-2 p-2">
-                {appointments.map((apt, index) => (
-                  <div
-                    key={index}
-                    className={cn(
-                      "p-2 rounded-md text-xs cursor-pointer",
-                      getAppointmentTypeColor(apt.type)
-                    )}
-                    onClick={() => handleAppointmentClick(apt)}
-                  >
-                    <div className="font-medium">{apt.time}</div>
-                    <div>{apt.patient}</div>
-                    <div className="text-muted-foreground">{apt.type}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
-  const renderMonthView = () => {
-    const monthStart = startOfMonth(selectedDate);
-    const monthEnd = endOfMonth(selectedDate);
-    const startDate = startOfWeek(monthStart);
-    const days = [];
-    let day = startDate;
-
-    while (day <= monthEnd) {
-      days.push(day);
-      day = addDays(day, 1);
-    }
-
-    return (
-      <div className="space-y-4">
-        <div className="grid grid-cols-7 gap-4">
-          {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-            <div key={day} className="text-center p-2 font-medium text-sm">
-              {day}
-            </div>
-          ))}
-        </div>
-        <div className="grid grid-cols-7 gap-4 min-h-[600px]">
-          {days.map((day, i) => (
-            <div
-              key={i}
-              className={cn(
-                "border rounded-lg p-2 min-h-[120px]",
-                !isSameMonth(day, selectedDate) && "bg-muted/50"
-              )}
-            >
-              <div className="text-sm font-medium mb-2">{format(day, 'd')}</div>
-              <div className="space-y-1">
-                {appointments.map((apt, index) => (
-                  <div
-                    key={index}
-                    className={cn(
-                      "p-1 rounded text-xs truncate cursor-pointer",
-                      getAppointmentTypeColor(apt.type)
-                    )}
-                    onClick={() => handleAppointmentClick(apt)}
-                  >
-                    {apt.time} - {apt.patient}
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div className="space-y-6">
-      {/* Header Section */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Schedule</h1>
-          <p className="text-muted-foreground">Manage appointments and view calendar</p>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" className="gap-2">
-            <Wand2 className="h-4 w-4" />
-            Optimize Schedule
-          </Button>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button className="gap-2">
-                <Plus className="h-4 w-4" />
-                New Appointment
-              </Button>
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Schedule New Appointment</SheetTitle>
-              </SheetHeader>
-              <div className="space-y-4 mt-6">
-                <PatientSearch />
-
-                {/* Patient Restrictions Section */}
-                <div className="rounded-lg border bg-muted/50 p-4">
-                  <h4 className="text-sm font-medium mb-3 flex items-center gap-2">
-                    <AlertCircle className="h-4 w-4 text-orange-500" />
-                    Patient Scheduling Restrictions
-                  </h4>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-sm p-2 bg-white rounded-md border">
-                      <User className="h-4 w-4 text-primary" />
-                      <span>Must see Dr. Brown (primary physician)</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm p-2 bg-white rounded-md border">
-                      <Clock className="h-4 w-4 text-orange-500" />
-                      <span>Works 9-5, prefers telehealth during these hours</span>
-                    </div>
-                  </div>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="w-full mt-2 text-xs h-8 text-muted-foreground hover:text-foreground"
-                  >
-                    <Plus className="h-3 w-3 mr-1" />
-                    Add Restriction
-                  </Button>
-                </div>
-
-                <Input type="datetime-local" />
-                <select className="w-full p-2 rounded-md border">
-                  <option>Follow-up (30min)</option>
-                  <option>New Patient (60min)</option>
-                  <option>Lab Review (30min)</option>
-                </select>
-                <textarea 
-                  className="w-full p-2 rounded-md border min-h-[100px]"
-                  placeholder="Notes..."
-                />
-
-                {/* AI Suggestions - Updated to consider restrictions */}
-                <div className="p-4 bg-blue-50 rounded-md">
-                  <h4 className="font-medium flex items-center gap-2">
-                    <Wand2 className="h-4 w-4" />
-                    AI Suggestions
-                  </h4>
-                  <ul className="mt-2 space-y-2 text-sm">
-                    <li className="flex items-center gap-2">
-                      <ArrowRightLeft className="h-4 w-4 text-blue-500" />
-                      Dr. Brown has availability at 2:30 PM
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <Clock className="h-4 w-4 text-blue-500" />
-                      Recommended: Telehealth appointment at 12:00 PM
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <AlertCircle className="h-4 w-4 text-blue-500" />
-                      Patient prefers morning appointments based on history
-                    </li>
-                  </ul>
-                </div>
-
-                <Button className="w-full">Schedule Appointment</Button>
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
-      </div>
+      <CalendarHeader />
 
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6">
         {/* Left Sidebar */}
@@ -424,12 +195,38 @@ const Calendar = () => {
               </div>
             </div>
 
-            {view === 'day' && renderDayView()}
-            {view === 'week' && renderWeekView()}
-            {view === 'month' && renderMonthView()}
+            {view === 'day' && (
+              <DayView
+                appointments={appointments}
+                onAppointmentClick={handleAppointmentClick}
+                getAppointmentTypeColor={getAppointmentTypeColor}
+              />
+            )}
+            {view === 'week' && (
+              <WeekView
+                selectedDate={selectedDate}
+                appointments={appointments}
+                onAppointmentClick={handleAppointmentClick}
+                getAppointmentTypeColor={getAppointmentTypeColor}
+              />
+            )}
+            {view === 'month' && (
+              <MonthView
+                selectedDate={selectedDate}
+                appointments={appointments}
+                onAppointmentClick={handleAppointmentClick}
+                getAppointmentTypeColor={getAppointmentTypeColor}
+              />
+            )}
           </div>
         </Card>
       </div>
+
+      <AppointmentModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        appointment={selectedAppointment}
+      />
     </div>
   );
 };
