@@ -142,7 +142,7 @@ export const Sidebar = () => {
   );
 
   return (
-    <SidebarContainer className="bg-muted border-r border-border">
+    <SidebarContainer className="bg-muted border-r border-border data-[mobile=true]:!bg-background">
       <SidebarContent>
         {menuItems.map((group, index) => {
           if ('type' in group && group.type === 'separator') {
