@@ -50,15 +50,6 @@ const PatientRegistration = () => {
     });
   };
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const yOffset = -60;
-      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    }
-  };
-
   const sections = [
     { id: 'demographics', label: 'Demographics', component: DemographicsForm },
     { id: 'insurance', label: 'Insurance', component: InsuranceForm },
@@ -71,42 +62,25 @@ const PatientRegistration = () => {
       {/* Document Upload Section */}
       <AttachmentsForm />
 
-      <div 
-        ref={navRef}
-        className={cn(
-          "flex items-center justify-between p-4 bg-background rounded-lg border mb-6 transition-all duration-200",
-          isSticky && "fixed top-0 left-0 right-0 z-50 shadow-md"
-        )}
-      >
-        <div className="flex gap-4">
-          {sections.map(section => (
-            <button
-              key={section.id}
-              onClick={() => scrollToSection(section.id)}
-              className="text-muted-foreground hover:text-primary hover:underline px-4 py-2"
-            >
-              {section.label}
-            </button>
-          ))}
-        </div>
-        <div className="flex gap-2">
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={() => toggleAll(true)}
-          >
-            <Expand className="w-4 h-4 mr-2" />
-            Expand All
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={() => toggleAll(false)}
-          >
-            <Shrink className="w-4 h-4 mr-2" />
-            Collapse All
-          </Button>
-        </div>
+      <div className="flex justify-end gap-2 mb-6">
+        <Button 
+          variant="outline"
+          size="sm"
+          className="bg-[#E5DEFF] hover:bg-[#D3C9FF] border-0"
+          onClick={() => toggleAll(true)}
+        >
+          <Expand className="w-4 h-4 mr-2" />
+          Expand All
+        </Button>
+        <Button 
+          variant="outline"
+          size="sm"
+          className="bg-[#FFDEE2] hover:bg-[#FFD0D6] border-0"
+          onClick={() => toggleAll(false)}
+        >
+          <Shrink className="w-4 h-4 mr-2" />
+          Collapse All
+        </Button>
       </div>
 
       <div className="space-y-6">
