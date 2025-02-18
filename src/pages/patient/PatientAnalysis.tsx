@@ -204,12 +204,21 @@ export default function PatientAnalysis() {
                       <li>Update to preventive care schedule</li>
                       <li>Discussion of lifestyle modifications</li>
                     </ul>
-                    <Button 
-                      className="w-full sm:w-auto bg-[#2E8B57] hover:bg-[#247347] text-white"
-                      onClick={() => window.location.href = '/appointments'}
-                    >
-                      Book Appointment Now
-                    </Button>
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <Button 
+                        className="bg-[#2E8B57] hover:bg-[#247347] text-white"
+                        onClick={() => window.location.href = '/appointments'}
+                      >
+                        Book Appointment Now
+                      </Button>
+                      <Button 
+                        variant="outline"
+                        className="border-[#2E8B57] text-[#2E8B57] hover:bg-[#F2FCE2]"
+                        onClick={() => window.location.href = `/patient/${id}/deep-analysis`}
+                      >
+                        Start Deep Analysis Research
+                      </Button>
+                    </div>
                   </div>
                 </div>
 
