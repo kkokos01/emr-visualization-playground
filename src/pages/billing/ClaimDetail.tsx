@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -6,12 +5,11 @@ import { Input } from "@/components/ui/input";
 import { FileText, Send, CreditCard, AlertCircle, Plus, CheckCircle2, ClipboardList, DollarSign, User, ShieldCheck } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useParams } from "react-router-dom";
 
-interface ClaimDetailProps {
-  claimId: string;
-}
+const ClaimDetail = () => {
+  const { id } = useParams();
 
-const ClaimDetail = ({ claimId }: ClaimDetailProps) => {
   const claimData = {
     patientName: "John Smith",
     dateOfService: new Date(2024, 1, 15),
@@ -50,9 +48,7 @@ const ClaimDetail = ({ claimId }: ClaimDetailProps) => {
       </div>
 
       <div className="grid grid-cols-12 gap-6">
-        {/* Main Content */}
         <div className="col-span-12 lg:col-span-8 space-y-6">
-          {/* Patient & Insurance Info */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -81,7 +77,6 @@ const ClaimDetail = ({ claimId }: ClaimDetailProps) => {
             </CardContent>
           </Card>
 
-          {/* Coding Section */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -161,7 +156,6 @@ const ClaimDetail = ({ claimId }: ClaimDetailProps) => {
             </CardContent>
           </Card>
 
-          {/* Encounter Documentation */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -184,7 +178,6 @@ const ClaimDetail = ({ claimId }: ClaimDetailProps) => {
           </Card>
         </div>
 
-        {/* AI Sidebar */}
         <div className="col-span-12 lg:col-span-4 space-y-6">
           <Card className="bg-primary/5 border-primary/20">
             <CardHeader>
