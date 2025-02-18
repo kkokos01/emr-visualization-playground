@@ -3,8 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Save, ChevronDown, ChevronUp } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Save, ChevronDown, ChevronUp } from "lucide-react";
 import { DemographicsForm } from "@/components/registration/DemographicsForm";
 import { InsuranceForm } from "@/components/registration/InsuranceForm";
 import { PharmacyForm } from "@/components/registration/PharmacyForm";
@@ -14,7 +13,6 @@ import { cn } from "@/lib/utils";
 
 const PatientRegistration = () => {
   const { id } = useParams();
-  const isNewPatient = !id;
   const [isSticky, setIsSticky] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
@@ -22,7 +20,6 @@ const PatientRegistration = () => {
     insurance: true,
     pharmacy: true,
     contacts: true,
-    attachments: true
   });
 
   useEffect(() => {
@@ -47,7 +44,7 @@ const PatientRegistration = () => {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const yOffset = -60; // Adjust based on header height
+      const yOffset = -60;
       const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
@@ -58,36 +55,12 @@ const PatientRegistration = () => {
     { id: 'insurance', label: 'Insurance', component: InsuranceForm },
     { id: 'pharmacy', label: 'Pharmacy', component: PharmacyForm },
     { id: 'contacts', label: 'Contacts', component: ContactsForm },
-    { id: 'attachments', label: 'Attachments', component: AttachmentsForm },
   ];
 
   return (
     <div className="container max-w-7xl mx-auto px-4 py-8">
-      <Link
-        to="/patients"
-        className="inline-flex items-center text-muted-foreground hover:text-foreground mb-6"
-      >
-        <ArrowLeft className="w-4 h-4 mr-2" />
-        Back to Patients
-      </Link>
-
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">
-            {isNewPatient ? "New Patient Registration" : "Edit Patient"}
-          </h1>
-          <p className="text-muted-foreground">
-            {isNewPatient
-              ? "Complete the form below to register a new patient"
-              : "Update patient information"}
-          </p>
-        </div>
-        {!isNewPatient && (
-          <div className="text-sm text-muted-foreground">
-            Patient ID: {id}
-          </div>
-        )}
-      </div>
+      {/* Document Upload Section */}
+      <AttachmentsForm />
 
       <div 
         ref={navRef}
