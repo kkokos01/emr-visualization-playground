@@ -35,9 +35,7 @@ export const RecommendationsPanel = ({ patientId }: RecommendationsPanelProps) =
         frequency: "One time"
       }
     ],
-    warningSign
-
-s: [
+    warningSigns: [
       "Chest pain or pressure",
       "Severe headache",
       "Shortness of breath",
@@ -102,7 +100,7 @@ s: [
             <div>
               <p className="font-medium mb-2">Seek immediate medical attention if you experience:</p>
               <ul className="list-disc pl-5 space-y-1">
-                {recommendations.warningSign.map((sign, index) => (
+                {recommendations.warningSigns.map((sign, index) => (
                   <li key={index} className="text-sm text-muted-foreground">{sign}</li>
                 ))}
               </ul>
