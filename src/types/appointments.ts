@@ -9,4 +9,5 @@ export interface Appointment {
   date: Date;
   insuranceStatus?: "verified" | "pending" | "expired";
   balance?: number;
+  patientName?: string; // Added to match modal requirements
 }

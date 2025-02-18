@@ -34,6 +34,7 @@ const Calendar = () => {
     {
       time: "9:00 AM",
       patient: "John Smith",
+      patientName: "John Smith", // Added to match modal requirements
       type: "Follow-up",
       duration: "30min",
       status: "checked-in",
@@ -45,6 +46,7 @@ const Calendar = () => {
     {
       time: "10:00 AM",
       patient: "Sarah Johnson",
+      patientName: "Sarah Johnson", // Added to match modal requirements
       type: "New Patient",
       duration: "60min",
       status: "scheduled",
@@ -56,6 +58,7 @@ const Calendar = () => {
     {
       time: "11:30 AM",
       patient: "Michael Brown",
+      patientName: "Michael Brown", // Added to match modal requirements
       type: "Lab Review",
       duration: "30min",
       status: "scheduled",
@@ -67,10 +70,7 @@ const Calendar = () => {
   ];
 
   const handleAppointmentClick = (appointment: Appointment) => {
-    setSelectedAppointment({
-      ...appointment,
-      patientName: appointment.patient
-    });
+    setSelectedAppointment(appointment);
     setIsModalOpen(true);
   };
 
