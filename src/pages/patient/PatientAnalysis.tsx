@@ -195,9 +195,26 @@ export default function PatientAnalysis() {
             </div>
             {expandedSections.recommendations && (
               <div className="p-4 bg-white">
-                <p className="text-slate-700 mb-4">Based on your current health status, consider these recommendations:</p>
+                <div className="mb-6 p-4 bg-[#F2FCE2] border-2 border-[#2E8B57] rounded-lg">
+                  <h4 className="text-lg font-semibold text-slate-800 mb-3">Recommended Physician Follow-up</h4>
+                  <div className="space-y-3">
+                    <p className="text-slate-700">Schedule an appointment with Dr. Thompson to discuss:</p>
+                    <ul className="list-disc list-inside space-y-2 text-slate-600 mb-4">
+                      <li>Review of recent lab results and medication adjustments</li>
+                      <li>Update to preventive care schedule</li>
+                      <li>Discussion of lifestyle modifications</li>
+                    </ul>
+                    <Button 
+                      className="w-full sm:w-auto bg-[#2E8B57] hover:bg-[#247347] text-white"
+                      onClick={() => window.location.href = '/appointments'}
+                    >
+                      Book Appointment Now
+                    </Button>
+                  </div>
+                </div>
+
+                <p className="text-slate-700 mb-4">Additional recommendations for your health management:</p>
                 <ul className="list-disc list-inside space-y-2 text-slate-600">
-                  <li>Schedule your annual wellness check-up</li>
                   <li>Continue current exercise routine with focus on strength training</li>
                   <li>Maintain current medication schedule</li>
                   <li>Consider scheduling a nutrition consultation</li>
