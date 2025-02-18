@@ -19,11 +19,14 @@ export const ResearchConfigurationPanel = ({ patientId, mode = "physician" }: Re
   const [additionalContext, setAdditionalContext] = useState("");
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   const [selectedNotes, setSelectedNotes] = useState<string[]>([]);
+  const [saveForFuture, setSaveForFuture] = useState(false);
 
   const physicianNotes = [
     { id: "note1", date: "2024-03-01", title: "Primary Care Visit Note", provider: "Dr. Smith" },
     { id: "note2", date: "2024-02-15", title: "Cardiology Consultation", provider: "Dr. Johnson" },
     { id: "note3", date: "2024-01-30", title: "Endocrinology Follow-up", provider: "Dr. Wilson" },
+    { id: "pat1", date: "2024-02-20", title: "Blood Sugar Readings.pdf", provider: "Patient Upload" },
+    { id: "pat2", date: "2024-02-01", title: "Previous Medical Records.pdf", provider: "Patient Upload" },
   ];
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -117,14 +120,35 @@ export const ResearchConfigurationPanel = ({ patientId, mode = "physician" }: Re
           </div>
           <div className="space-y-4">
             <Label>Relevant Files</Label>
-            <div className="grid w-full max-w-sm items-center gap-1.5">
+            <div className="space-y-4">
               <Input
-                id="files"
                 type="file"
                 multiple
+                id="files"
+                className="hidden"
                 onChange={handleFileChange}
-                className="cursor-pointer"
               />
+              <Button 
+                variant="secondary" 
+                className="w-full"
+                onClick={() => document.getElementById('files')?.click()}
+              >
+                <Upload className="w-4 h-4 mr-2" />
+                Upload Files
+              </Button>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="save-future"
+                  checked={saveForFuture}
+                  onCheckedChange={(checked) => setSaveForFuture(checked as boolean)}
+                />
+                <label
+                  htmlFor="save-future"
+                  className="text-sm text-muted-foreground cursor-pointer"
+                >
+                  Save for Future Reference
+                </label>
+              </div>
               <p className="text-sm text-muted-foreground">
                 Upload any relevant medical records, test results, or other documents
               </p>
@@ -141,7 +165,7 @@ export const ResearchConfigurationPanel = ({ patientId, mode = "physician" }: Re
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg font-medium">Physician Notes</CardTitle>
+          <CardTitle className="text-lg font-medium">Physician Notes and Patient Context</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
