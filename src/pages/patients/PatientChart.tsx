@@ -1,66 +1,64 @@
-
-import { Link, useParams } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { 
   Activity, AlertCircle, Brain, Calendar, ChartBar, 
-  FileText, Heart, LightbulbIcon, Pill, Plus, 
-  Stethoscope, TestTube, TrendingDown, TrendingUp
+  ClipboardList, FileText, Heart, LightbulbIcon, 
+  Pill, Plus, Stethoscope, TestTube, TrendingDown,
+  TrendingUp, User, Image 
 } from "lucide-react";
-import { PatientInfoCard } from "@/components/clinical/PatientInfoCard";
-import { MetricCard } from "@/components/clinical/MetricCard";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const PatientChart = () => {
   const { id } = useParams();
 
-  const patientInfo = {
-    name: "John Doe",
-    details: "Male, 45 years • DOB: 1978-05-15 • MRN: 123456",
-    alerts: [
-      { type: "allergy", message: "Allergy: Penicillin", severity: "error" as const },
-      { type: "condition", message: "Diabetic", severity: "warning" as const }
-    ],
-    actions: [
-      {
-        label: "New Note",
-        icon: <FileText className="h-4 w-4 mr-2" />,
-        onClick: () => {}
-      },
-      {
-        label: "Schedule Visit",
-        icon: <Calendar className="h-4 w-4 mr-2" />,
-        onClick: () => {}
-      }
-    ]
-  };
-
-  const vitals = [
-    { title: "Blood Pressure", value: "142/88 mmHg", trend: "up" as const, trendColor: "text-red-600" as const },
-    { title: "Heart Rate", value: "72 bpm" },
-    { title: "Temperature", value: "98.6°F" },
-    { title: "Weight", value: "185 lbs" }
-  ];
-
-  const labResults = [
-    { 
-      title: "HbA1c", 
-      value: "7.2%", 
-      trend: "up" as const, 
-      trendColor: "text-red-600" as const,
-      subtitle: "Target: <6.5% - Oct 15, 2023"
-    },
-    {
-      title: "Creatinine",
-      value: "1.1 mg/dL",
-      trend: "down" as const,
-      trendColor: "text-green-600" as const,
-      subtitle: "Within range - Oct 15, 2023"
-    }
-  ];
-
   return (
     <div className="space-y-6">
-      <PatientInfoCard {...patientInfo} />
+      <Card className="p-6" data-clickable="true">
+        <div className="flex items-start justify-between">
+          <div className="flex gap-4">
+            <div className="h-16 w-16 bg-muted rounded-full flex items-center justify-center">
+              <User className="h-8 w-8 text-muted-foreground" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold">John Doe</h1>
+              <div className="flex gap-4 text-sm text-muted-foreground">
+                <span>Male, 45 years</span>
+                <span>DOB: 1978-05-15</span>
+                <span>MRN: 123456</span>
+              </div>
+              <div className="flex gap-2 mt-2">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                  <AlertCircle className="h-3 w-3 mr-1" />
+                  Allergy: Penicillin
+                </span>
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                  <AlertCircle className="h-3 w-3 mr-1" />
+                  Diabetic
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <Link to={`/patient/${id}/chart`}>
+              <Button className="bg-[#0EA5E9] hover:bg-[#0EA5E9]/90 text-white">
+                <FileText className="h-4 w-4 mr-2" />
+                New Note
+              </Button>
+            </Link>
+            <Button className="bg-[#8B5CF6] hover:bg-[#8B5CF6]/90 text-white">
+              <Calendar className="h-4 w-4 mr-2" />
+              Schedule Visit
+            </Button>
+          </div>
+        </div>
+      </Card>
 
       <Card className="p-6 bg-primary/10 border-primary/20">
         <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-primary">
@@ -110,13 +108,24 @@ const PatientChart = () => {
 
           <Card className="p-6" data-clickable="true">
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <Activity className="h-5 w-5 text-primary" />
-              Recent Vitals
+              <Pill className="h-5 w-5 text-primary" />
+              Active Medications
             </h3>
-            <div className="space-y-4">
-              {vitals.map((vital, index) => (
-                <MetricCard key={index} icon={Activity} {...vital} />
-              ))}
+            <div className="space-y-3">
+              <div className="p-3 bg-muted rounded-lg border border-primary/10">
+                <div className="flex justify-between items-center">
+                  <span className="font-medium text-foreground">Metformin 500mg</span>
+                  <span className="text-sm text-primary">Twice daily</span>
+                </div>
+                <p className="text-sm text-primary/70 mt-1">Last refill: Oct 15, 2023</p>
+              </div>
+              <div className="p-3 bg-muted rounded-lg border border-primary/10">
+                <div className="flex justify-between items-center">
+                  <span className="font-medium text-foreground">Lisinopril 10mg</span>
+                  <span className="text-sm text-primary">Once daily</span>
+                </div>
+                <p className="text-sm text-primary/70 mt-1">Last refill: Sep 30, 2023</p>
+              </div>
             </div>
           </Card>
         </div>
@@ -124,17 +133,127 @@ const PatientChart = () => {
         <div className="space-y-6">
           <Card className="p-6" data-clickable="true">
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+              <Activity className="h-5 w-5 text-primary" />
+              Recent Vitals
+            </h3>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Blood Pressure</span>
+                <span className="font-medium text-red-600">142/88 mmHg ↑</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Heart Rate</span>
+                <span className="font-medium">72 bpm</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Temperature</span>
+                <span className="font-medium">98.6°F</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Weight</span>
+                <span className="font-medium">185 lbs</span>
+              </div>
+            </div>
+          </Card>
+
+          <Card className="p-6" data-clickable="true">
+            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
               <TestTube className="h-5 w-5 text-primary" />
               Recent Lab Results
             </h3>
             <div className="space-y-3">
-              {labResults.map((lab, index) => (
-                <MetricCard key={index} icon={TestTube} {...lab} />
-              ))}
+              <div className="p-3 bg-muted rounded-lg border border-primary/10">
+                <div className="flex justify-between items-center">
+                  <span className="font-medium">HbA1c</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-red-600 font-medium">7.2%</span>
+                    <TrendingUp className="h-4 w-4 text-red-600" />
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground mt-1">Target: &lt;6.5% - Oct 15, 2023</p>
+              </div>
+              <div className="p-3 bg-muted rounded-lg border border-primary/10">
+                <div className="flex justify-between items-center">
+                  <span className="font-medium">Creatinine</span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium">1.1 mg/dL</span>
+                    <TrendingDown className="h-4 w-4 text-green-600" />
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground mt-1">Within range - Oct 15, 2023</p>
+              </div>
+              <div className="p-3 bg-muted rounded-lg border border-primary/10">
+                <div className="flex justify-between items-center">
+                  <span className="font-medium">Lipid Panel</span>
+                  <span className="text-orange-500 font-medium">Pending</span>
+                </div>
+                <p className="text-sm text-muted-foreground mt-1">Ordered: Oct 20, 2023</p>
+              </div>
             </div>
           </Card>
         </div>
       </div>
+
+      <Card className="p-4 bg-muted">
+        <div className="flex items-center gap-2 mb-3">
+          <LightbulbIcon className="h-5 w-5 text-primary" />
+          <h4 className="font-medium text-primary">Smart Suggestions</h4>
+        </div>
+        <div className="space-y-2">
+          <div className="p-3 bg-card rounded-md border border-border">
+            <div className="flex items-start gap-2">
+              <AlertCircle className="h-4 w-4 text-primary mt-0.5" />
+              <div>
+                <p className="text-sm font-medium">HbA1c Overdue</p>
+                <p className="text-sm text-muted-foreground">Last result was 3 months ago. Consider ordering new test.</p>
+                <Button size="sm" className="mt-2 bg-[#0EA5E9] hover:bg-[#0EA5E9]/90 text-white">
+                  <Plus className="h-3 w-3 mr-1" />
+                  Add to Orders
+                </Button>
+              </div>
+            </div>
+          </div>
+          <div className="p-3 bg-card rounded-md border border-border">
+            <div className="flex items-start gap-2">
+              <TrendingUp className="h-4 w-4 text-primary mt-0.5" />
+              <div>
+                <p className="text-sm font-medium">BP Trending Up</p>
+                <p className="text-sm text-muted-foreground">Last 3 readings show upward trend. Consider adjustment.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      <Card className="p-6" data-clickable="true">
+        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+          <ChartBar className="h-5 w-5 text-primary" />
+          Recent Activity
+        </h3>
+        <div className="space-y-3">
+          <div className="p-3 bg-muted rounded-lg border border-primary/10">
+            <Calendar className="h-5 w-5 text-primary" />
+            <div>
+              <p className="font-medium text-foreground">Upcoming Visit: Dr. Thompson</p>
+              <p className="text-sm text-muted-foreground">Nov 15, 2023 at 2:30 PM - Annual Physical</p>
+            </div>
+          </div>
+          <div className="p-3 bg-muted rounded-lg border border-primary/10">
+            <Stethoscope className="h-5 w-5 text-primary" />
+            <div>
+              <p className="font-medium text-foreground">Last Visit: Dr. Smith</p>
+              <p className="text-sm text-muted-foreground">Oct 1, 2023 - Diabetes Follow-up</p>
+            </div>
+          </div>
+          <div className="p-3 bg-muted rounded-lg border border-primary/10">
+            <FileText className="h-5 w-5 text-primary" />
+            <div>
+              <p className="font-medium text-foreground">Lab Results Available</p>
+              <p className="text-sm text-muted-foreground">Comprehensive Metabolic Panel - Oct 5, 2023</p>
+            </div>
+          </div>
+        </div>
+      </Card>
     </div>
   );
 };
