@@ -1,3 +1,4 @@
+
 import { createBrowserRouter } from "react-router-dom";
 import { MainLayout } from "./components/layout/MainLayout";
 import { Outlet } from "react-router-dom";
@@ -84,6 +85,10 @@ export const router = createBrowserRouter([
       },
       {
         path: "/patient/:id/results",
+        element: <LabResults />,
+      },
+      {
+        path: "/patient/:id/records",
         element: <LabResults />,
       },
       {

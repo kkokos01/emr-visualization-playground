@@ -40,7 +40,7 @@ export const Sidebar = () => {
       label: "Patient Portal",
       items: [
         { title: "My Health", icon: Heart, url: "/roles/patient" },
-        { title: "Test Results", icon: TestTube, url: "/patient/1/results" },
+        { title: "Test Results", icon: TestTube, url: "/patient/results" },
         { title: "My Records", icon: FileText, url: "/patient/1/records" },
         { title: "My Messages", icon: MessageSquare, url: "/messages" },
         { title: "My Appointments", icon: Calendar, url: "/appointments" },
