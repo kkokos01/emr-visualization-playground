@@ -11,6 +11,12 @@ export interface Appointment {
   insuranceStatus?: "verified" | "pending" | "expired";
   balance?: number;
   aiInsight?: string;
-  provider?: string;  // Added provider property
-  location?: "virtual" | "in-person";  // Added location property
+  provider?: string;
+  location?: "virtual" | "in-person";
+  waitlistEntry?: {
+    requestedDate: Date;
+    preferredTimeRange: string;
+    urgency: "low" | "medium" | "high";
+    notes?: string;
+  };
 }

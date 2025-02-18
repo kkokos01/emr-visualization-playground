@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -5,6 +6,7 @@ import { DayView } from "@/components/calendar/DayView";
 import { WeekView } from "@/components/calendar/WeekView";
 import { MonthView } from "@/components/calendar/MonthView";
 import { CalendarHeader } from "@/components/calendar/CalendarHeader";
+import { WaitlistPanel } from "@/components/appointments/WaitlistPanel";
 import { cn } from "@/lib/utils";
 import { Appointment } from "@/types/appointments";
 import { 
@@ -136,49 +138,78 @@ const Calendar = () => {
               </div>
             </div>
           </Card>
+
+          {/* Waitlist Summary */}
+          <Card className="p-4">
+            <h3 className="font-medium mb-4">Waitlist Summary</h3>
+            <div className="space-y-3 text-sm">
+              <div className="flex items-center justify-between text-red-600">
+                <span className="flex items-center gap-2">
+                  <AlertCircle className="h-4 w-4" />
+                  High Priority
+                </span>
+                <span className="font-medium">3</span>
+              </div>
+              <div className="flex items-center justify-between text-yellow-600">
+                <span className="flex items-center gap-2">
+                  <Clock className="h-4 w-4" />
+                  Medium Priority
+                </span>
+                <span className="font-medium">5</span>
+              </div>
+              <Button variant="outline" size="sm" className="w-full mt-2">
+                View Full Waitlist
+              </Button>
+            </div>
+          </Card>
         </div>
 
         {/* Main Calendar View */}
-        <Card className="p-6">
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold">
-                {view === 'day' ? "Today's Schedule" : 
-                 view === 'week' ? "Weekly Schedule" : "Monthly Schedule"}
-              </h2>
-              <div className="flex gap-2">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className={cn(view === 'day' && "bg-primary/5")}
-                  onClick={() => setView('day')}
-                >
-                  Day
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  className={cn(view === 'week' && "bg-primary/5")}
-                  onClick={() => setView('week')}
-                >
-                  Week
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  className={cn(view === 'month' && "bg-primary/5")}
-                  onClick={() => setView('month')}
-                >
-                  Month
-                </Button>
+        <div className="space-y-6">
+          <Card className="p-6">
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-semibold">
+                  {view === 'day' ? "Today's Schedule" : 
+                   view === 'week' ? "Weekly Schedule" : "Monthly Schedule"}
+                </h2>
+                <div className="flex gap-2">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className={cn(view === 'day' && "bg-primary/5")}
+                    onClick={() => setView('day')}
+                  >
+                    Day
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className={cn(view === 'week' && "bg-primary/5")}
+                    onClick={() => setView('week')}
+                  >
+                    Week
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className={cn(view === 'month' && "bg-primary/5")}
+                    onClick={() => setView('month')}
+                  >
+                    Month
+                  </Button>
+                </div>
               </div>
-            </div>
 
-            {view === 'day' && <DayView appointments={appointments} />}
-            {view === 'week' && <WeekView selectedDate={selectedDate} appointments={appointments} />}
-            {view === 'month' && <MonthView selectedDate={selectedDate} appointments={appointments} />}
-          </div>
-        </Card>
+              {view === 'day' && <DayView appointments={appointments} />}
+              {view === 'week' && <WeekView selectedDate={selectedDate} appointments={appointments} />}
+              {view === 'month' && <MonthView selectedDate={selectedDate} appointments={appointments} />}
+            </div>
+          </Card>
+
+          {/* Waitlist Panel */}
+          <WaitlistPanel />
+        </div>
       </div>
     </div>
   );
