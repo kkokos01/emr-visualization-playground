@@ -22,6 +22,7 @@ import OrdersAndResults from "./pages/clinical/OrdersAndResults";
 import LabResults from "./pages/patient/LabResults";
 import TestResults from "./pages/patient/TestResults";
 import PatientAppointments from "./pages/patient/Appointments";
+import DeepAnalysis from "./pages/clinical/DeepAnalysis";
 
 export const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ export const router = createBrowserRouter([
       {
         path: "/clinical/orders",
         element: <OrdersAndResults />,
+      },
+      {
+        path: "/clinical/analysis",
+        element: <DeepAnalysis />,
       },
       {
         path: "/patient/results",
