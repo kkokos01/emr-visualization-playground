@@ -1,7 +1,7 @@
+
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { DeepResearchPanel } from "@/components/research/DeepResearchPanel";
 import { AlertTriangle, ArrowLeft, BookOpen, Brain, Search, Heart, FlaskConical, Pill, Activity, FileText } from "lucide-react";
 import { useParams, Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,7 +9,6 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 
 export default function SecondOpinion() {
   const { id } = useParams();
-  const [showResearchPanel, setShowResearchPanel] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
 
   return (
@@ -156,13 +155,13 @@ export default function SecondOpinion() {
               <div className="flex justify-between items-center border-t pt-6">
                 <Button 
                   variant="outline"
-                  onClick={() => setShowResearchPanel(true)}
+                  disabled
                 >
                   <Search className="w-4 h-4 mr-2" />
                   View Detailed Research
                 </Button>
 
-                <Button>
+                <Button disabled>
                   <FileText className="w-4 h-4 mr-2" />
                   Generate Professional Report
                 </Button>
@@ -191,12 +190,6 @@ export default function SecondOpinion() {
           </Tabs>
         </CardContent>
       </Card>
-
-      <DeepResearchPanel
-        isOpen={showResearchPanel}
-        onClose={() => setShowResearchPanel(false)}
-        patientId={id}
-      />
     </div>
   );
 }
