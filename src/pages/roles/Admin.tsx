@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { MetricCard } from "@/components/dashboard/MetricCard";
 import { ScheduleList } from "@/components/dashboard/ScheduleList";
 import { Card } from "@/components/ui/card";
+import { Appointment } from "@/types/appointments";
 
 const Admin = () => {
   const metrics = [
@@ -13,38 +14,38 @@ const Admin = () => {
     { label: "Pending Claims", value: "23", icon: FileText },
   ];
 
-  const appointments = [
+  const appointments: Appointment[] = [
     { 
       time: "9:00 AM", 
       patient: "John Smith",
-      patientName: "John Smith", // Added required field
+      patientName: "John Smith",
       type: "Follow-up", 
-      status: "scheduled",
-      duration: "30min", // Added required field
-      date: new Date(), // Added required field
-      noShowRisk: false, // Added required field
+      status: "scheduled" as const,
+      duration: "30min",
+      date: new Date(),
+      noShowRisk: false,
       aiInsight: "Patient consistently arrives 10 minutes early"
     },
     { 
       time: "10:30 AM", 
       patient: "Sarah Johnson",
-      patientName: "Sarah Johnson", // Added required field
+      patientName: "Sarah Johnson",
       type: "New Patient", 
-      status: "scheduled",
-      duration: "45min", // Added required field
-      date: new Date(), // Added required field
+      status: "scheduled" as const,
+      duration: "45min",
+      date: new Date(),
       noShowRisk: true,
       aiInsight: "First-time patient, high cancellation risk based on demographic data"
     },
     { 
       time: "11:45 AM", 
       patient: "Michael Chen",
-      patientName: "Michael Chen", // Added required field
+      patientName: "Michael Chen",
       type: "Consultation", 
-      status: "checked-in",
-      duration: "30min", // Added required field
-      date: new Date(), // Added required field
-      noShowRisk: false, // Added required field
+      status: "checked-in" as const,
+      duration: "30min",
+      date: new Date(),
+      noShowRisk: false
     },
   ];
 

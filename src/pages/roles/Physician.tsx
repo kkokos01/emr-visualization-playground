@@ -1,9 +1,9 @@
-
 import { ArrowLeft, Calendar, ClipboardList, Clock, MessageSquare, Stethoscope, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { MetricCard } from "@/components/dashboard/MetricCard";
 import { TaskList } from "@/components/dashboard/TaskList";
 import { ScheduleList } from "@/components/dashboard/ScheduleList";
+import { Appointment } from "@/types/appointments";
 
 const Physician = () => {
   const metrics = [
@@ -13,36 +13,36 @@ const Physician = () => {
     { label: "Unread Messages", value: "3", icon: MessageSquare },
   ];
 
-  const appointments = [
+  const appointments: Appointment[] = [
     { 
       time: "10:00 AM", 
       patient: "Sarah Johnson", 
-      patientName: "Sarah Johnson", // Added required field
+      patientName: "Sarah Johnson",
       type: "Follow-up", 
-      status: "checked-in",
-      duration: "30min", // Added required field
-      date: new Date(), // Added required field
-      noShowRisk: false // Added required field
+      status: "checked-in" as const,
+      duration: "30min",
+      date: new Date(),
+      noShowRisk: false
     },
     { 
       time: "10:30 AM", 
       patient: "Michael Chen", 
-      patientName: "Michael Chen", // Added required field
+      patientName: "Michael Chen",
       type: "New Patient", 
-      status: "scheduled",
-      duration: "45min", // Added required field
-      date: new Date(), // Added required field
-      noShowRisk: false // Added required field
+      status: "scheduled" as const,
+      duration: "45min",
+      date: new Date(),
+      noShowRisk: false
     },
     { 
       time: "11:00 AM", 
       patient: "Emma Davis", 
-      patientName: "Emma Davis", // Added required field
+      patientName: "Emma Davis",
       type: "Lab Review", 
-      status: "scheduled",
-      duration: "30min", // Added required field
-      date: new Date(), // Added required field
-      noShowRisk: false // Added required field
+      status: "scheduled" as const,
+      duration: "30min",
+      date: new Date(),
+      noShowRisk: false
     },
   ];
 
