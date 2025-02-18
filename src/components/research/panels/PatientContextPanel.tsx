@@ -26,6 +26,14 @@ const commonConditions = [
   { id: "common5", name: "Anxiety", included: false },
 ];
 
+const commonMedications = [
+  { id: "med1", name: "Metformin 500mg", commonName: "Glucophage", included: false },
+  { id: "med2", name: "Lisinopril 10mg", commonName: "Prinivil", included: false },
+  { id: "med3", name: "Atorvastatin 20mg", commonName: "Lipitor", included: false },
+  { id: "med4", name: "Aspirin 81mg", included: false },
+  { id: "med5", name: "Omeprazole 20mg", commonName: "Prilosec", included: false },
+];
+
 export const PatientContextPanel = ({ patientId, mode = "physician" }: PatientContextPanelProps) => {
   const [editSection, setEditSection] = useState<string | null>(null);
   const [expandedSections, setExpandedSections] = useState<string[]>(["demographics", "medications", "conditions", "vitals"]);
@@ -82,12 +90,181 @@ export const PatientContextPanel = ({ patientId, mode = "physician" }: PatientCo
 
   const EditDialog = ({ section, items, onClose }: { section: string, items: EditableItem[], onClose: () => void }) => {
     const [searchTerm, setSearchTerm] = useState("");
+    const [editingItem, setEditingItem] = useState<EditableItem | null>(null);
     
-    const addCondition = (condition: EditableItem) => {
-      if (section === "conditions") {
-        setConditions(prev => [...prev, { ...condition, included: true }]);
+    const addItem = (item: EditableItem) => {
+      switch (section) {
+        case "medications":
+          setMedications(prev => [...prev, { ...item, included: true }]);
+          break;
+        case "conditions":
+          setConditions(prev => [...prev, { ...item, included: true }]);
+          break;
       }
     };
+
+    const updateVital = (itemId: string, newValue: string) => {
+      setVitals(prev => prev.map(vital => 
+        vital.id === itemId ? { ...vital, name: newValue } : vital
+      ));
+    };
+
+    const renderMedicationsEdit = () => (
+      <>
+        <div className="mb-4">
+          <input
+            type="text"
+            placeholder="Search medications..."
+            className="w-full px-3 py-2 border rounded-md"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        <div className="mb-6">
+          <h4 className="text-sm font-medium mb-2">Common Medications</h4>
+          <div className="grid grid-cols-2 gap-2">
+            {commonMedications
+              .filter(med => !items.some(item => item.name === med.name))
+              .map((med) => (
+                <Button
+                  key={med.id}
+                  variant="outline"
+                  className="justify-start"
+                  onClick={() => addItem(med)}
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  {med.name}
+                  {med.commonName && mode === "patient" && (
+                    <span className="text-muted-foreground ml-1">
+                      ("{med.commonName}")
+                    </span>
+                  )}
+                </Button>
+              ))}
+          </div>
+        </div>
+        <div className="space-y-4">
+          <h4 className="text-sm font-medium mb-2">Current Medications</h4>
+          {items.map((item) => (
+            <div key={item.id} className="flex items-center justify-between space-x-4 p-2 border rounded-md">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id={`${section}-${item.id}`}
+                  checked={item.included}
+                  onCheckedChange={() => toggleItem(section, item.id)}
+                />
+                <label
+                  htmlFor={`${section}-${item.id}`}
+                  className="text-sm font-medium leading-none"
+                >
+                  {item.name}
+                  {item.commonName && mode === "patient" && (
+                    <span className="text-muted-foreground ml-1">("{item.commonName}")</span>
+                  )}
+                </label>
+              </div>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => setEditingItem(item)}
+              >
+                <Edit2 className="w-4 h-4" />
+              </Button>
+            </div>
+          ))}
+        </div>
+      </>
+    );
+
+    const renderVitalsEdit = () => (
+      <div className="space-y-4">
+        <h4 className="text-sm font-medium mb-2">Current Vitals</h4>
+        {items.map((item) => (
+          <div key={item.id} className="flex items-center space-x-4 p-2 border rounded-md">
+            <div className="flex items-center space-x-2 flex-1">
+              <Checkbox
+                id={`${section}-${item.id}`}
+                checked={item.included}
+                onCheckedChange={() => toggleItem(section, item.id)}
+              />
+              <div className="flex-1">
+                <label
+                  htmlFor={`vital-${item.id}`}
+                  className="text-sm font-medium mb-1 block"
+                >
+                  {item.commonName || item.name.split(":")[0]}
+                </label>
+                <input
+                  id={`vital-${item.id}`}
+                  type="text"
+                  className="w-full px-3 py-2 border rounded-md"
+                  value={item.name.split(":")[1]?.trim() || ""}
+                  onChange={(e) => updateVital(item.id, `${item.name.split(":")[0]}: ${e.target.value}`)}
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+
+    const renderConditionsEdit = () => (
+      <>
+        <div className="mb-4">
+          <input
+            type="text"
+            placeholder="Search conditions..."
+            className="w-full px-3 py-2 border rounded-md"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        <div className="mb-6">
+          <h4 className="text-sm font-medium mb-2">Common Conditions</h4>
+          <div className="grid grid-cols-2 gap-2">
+            {commonConditions
+              .filter(condition => !items.some(item => item.name === condition.name))
+              .map((condition) => (
+                <Button
+                  key={condition.id}
+                  variant="outline"
+                  className="justify-start"
+                  onClick={() => addItem(condition)}
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  {condition.name}
+                  {condition.commonName && mode === "patient" && (
+                    <span className="text-muted-foreground ml-1">
+                      ("{condition.commonName}")
+                    </span>
+                  )}
+                </Button>
+              ))}
+          </div>
+        </div>
+        <div className="space-y-4">
+          <h4 className="text-sm font-medium mb-2">Current Conditions</h4>
+          {items.map((item) => (
+            <div key={item.id} className="flex items-center space-x-2">
+              <Checkbox
+                id={`${section}-${item.id}`}
+                checked={item.included}
+                onCheckedChange={() => toggleItem(section, item.id)}
+              />
+              <label
+                htmlFor={`${section}-${item.id}`}
+                className="text-sm font-medium leading-none"
+              >
+                {item.name}
+                {item.commonName && mode === "patient" && (
+                  <span className="text-muted-foreground ml-1">("{item.commonName}")</span>
+                )}
+              </label>
+            </div>
+          ))}
+        </div>
+      </>
+    );
 
     return (
       <Dialog open={true} onOpenChange={onClose}>
@@ -96,65 +273,9 @@ export const PatientContextPanel = ({ patientId, mode = "physician" }: PatientCo
             <DialogTitle>Edit {section}</DialogTitle>
           </DialogHeader>
           <div className="py-4">
-            {section === "conditions" && (
-              <>
-                <div className="mb-4">
-                  <input
-                    type="text"
-                    placeholder="Search conditions..."
-                    className="w-full px-3 py-2 border rounded-md"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                </div>
-                <div className="mb-6">
-                  <h4 className="text-sm font-medium mb-2">Common Conditions</h4>
-                  <div className="grid grid-cols-2 gap-2">
-                    {commonConditions
-                      .filter(condition => !items.some(item => item.name === condition.name))
-                      .map((condition) => (
-                        <Button
-                          key={condition.id}
-                          variant="outline"
-                          className="justify-start"
-                          onClick={() => addCondition(condition)}
-                        >
-                          <Plus className="w-4 h-4 mr-2" />
-                          {condition.name}
-                          {condition.commonName && mode === "patient" && (
-                            <span className="text-muted-foreground ml-1">
-                              ("{condition.commonName}")
-                            </span>
-                          )}
-                        </Button>
-                      ))}
-                  </div>
-                </div>
-              </>
-            )}
-            <div className="space-y-4">
-              <h4 className="text-sm font-medium mb-2">
-                {section === "conditions" ? "Current Conditions" : "Current Items"}
-              </h4>
-              {items.map((item) => (
-                <div key={item.id} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={`${section}-${item.id}`}
-                    checked={item.included}
-                    onCheckedChange={() => toggleItem(section, item.id)}
-                  />
-                  <label
-                    htmlFor={`${section}-${item.id}`}
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    {item.name}
-                    {item.commonName && mode === "patient" && (
-                      <span className="text-muted-foreground ml-1">("{item.commonName}")</span>
-                    )}
-                  </label>
-                </div>
-              ))}
-            </div>
+            {section === "medications" && renderMedicationsEdit()}
+            {section === "conditions" && renderConditionsEdit()}
+            {section === "vitals" && renderVitalsEdit()}
           </div>
           <DialogFooter>
             <Button onClick={onClose}>Done</Button>
