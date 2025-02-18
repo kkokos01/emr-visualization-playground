@@ -1,5 +1,4 @@
-
-import { ArrowLeft, Calendar, CircleUser, ClipboardList, Heart, TestTube, MessageSquare, FileText, ChevronRight } from "lucide-react";
+import { ArrowLeft, Calendar, CircleUser, ClipboardList, Heart, TestTube, MessageSquare, FileText, ChevronRight, Brain } from "lucide-react";
 import { Link } from "react-router-dom";
 import { MetricCard } from "@/components/dashboard/MetricCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -79,6 +78,37 @@ const Patient = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Quick Actions */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Quick Actions</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-4">
+                <Button variant="outline" className="h-auto py-4 px-6 flex flex-col items-center gap-2">
+                  <Calendar className="w-5 h-5" />
+                  <span>Schedule Appointment</span>
+                </Button>
+                <Button variant="outline" className="h-auto py-4 px-6 flex flex-col items-center gap-2">
+                  <MessageSquare className="w-5 h-5" />
+                  <span>Message Provider</span>
+                </Button>
+                <Button variant="outline" className="h-auto py-4 px-6 flex flex-col items-center gap-2">
+                  <TestTube className="w-5 h-5" />
+                  <span>View Test Results</span>
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="h-auto py-4 px-6 flex flex-col items-center gap-2 border-primary/30 hover:border-primary"
+                  onClick={() => window.location.href = '/patient/1/second-opinion'}
+                >
+                  <Brain className="w-5 h-5 text-primary" />
+                  <span>Get a Second Opinion</span>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Upcoming Appointments */}
           <Card>
             <CardHeader>
@@ -102,33 +132,6 @@ const Patient = () => {
                     </div>
                   </div>
                 ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Quick Actions */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-4">
-                <Button variant="outline" className="h-auto py-4 px-6 flex flex-col items-center gap-2">
-                  <Calendar className="w-5 h-5" />
-                  <span>Schedule Appointment</span>
-                </Button>
-                <Button variant="outline" className="h-auto py-4 px-6 flex flex-col items-center gap-2">
-                  <MessageSquare className="w-5 h-5" />
-                  <span>Message Provider</span>
-                </Button>
-                <Button variant="outline" className="h-auto py-4 px-6 flex flex-col items-center gap-2">
-                  <TestTube className="w-5 h-5" />
-                  <span>View Test Results</span>
-                </Button>
-                <Button variant="outline" className="h-auto py-4 px-6 flex flex-col items-center gap-2">
-                  <FileText className="w-5 h-5" />
-                  <span>Request Records</span>
-                </Button>
               </div>
             </CardContent>
           </Card>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Calendar, ChevronDown, ChevronUp, AlertCircle, ArrowRight } from "lucide-react";
+import { Calendar, ChevronDown, ChevronUp, AlertCircle, ArrowRight, Brain } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -76,11 +76,21 @@ const TestResults = () => {
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold">Test Results</h1>
-          <Button variant="outline" onClick={() => setExpandedCategories(
-            expandedCategories.length === categories.length ? [] : categories
-          )}>
-            {expandedCategories.length === categories.length ? "Collapse All" : "Expand All"}
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => setExpandedCategories(
+              expandedCategories.length === categories.length ? [] : categories
+            )}>
+              {expandedCategories.length === categories.length ? "Collapse All" : "Expand All"}
+            </Button>
+            <Button 
+              variant="outline"
+              className="border-primary/30 hover:border-primary"
+              onClick={() => navigate('/patient/1/second-opinion')}
+            >
+              <Brain className="w-4 h-4 mr-2 text-primary" />
+              Research Results
+            </Button>
+          </div>
         </div>
 
         <Card className="bg-sky-50 border-sky-200">
@@ -92,6 +102,13 @@ const TestResults = () => {
                 <p className="text-sky-800 mt-1">
                   {testResults.filter(t => t.requiresReview).length} result(s) need your review. 
                   These items are marked for discussion with your healthcare provider.
+                  <Button 
+                    variant="link" 
+                    className="text-primary px-0 py-0 h-auto ml-1"
+                    onClick={() => navigate('/patient/1/second-opinion')}
+                  >
+                    Need help understanding your results?
+                  </Button>
                 </p>
               </div>
             </div>
