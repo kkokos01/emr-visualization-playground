@@ -1,6 +1,5 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Activity, Pill, AlertCircle, Edit2, ChevronDown, ChevronUp, X, Check } from "lucide-react";
+import { Activity, Pill, AlertCircle, Edit2, ChevronDown, ChevronUp, X, Check, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useState } from "react";
@@ -18,6 +17,14 @@ interface EditableItem {
   commonName?: string;
   included: boolean;
 }
+
+const commonConditions = [
+  { id: "common1", name: "Asthma", included: false },
+  { id: "common2", name: "Sleep Apnea", included: false },
+  { id: "common3", name: "Gastric Reflux", commonName: "GERD", included: false },
+  { id: "common4", name: "Depression", included: false },
+  { id: "common5", name: "Anxiety", included: false },
+];
 
 export const PatientContextPanel = ({ patientId, mode = "physician" }: PatientContextPanelProps) => {
   const [editSection, setEditSection] = useState<string | null>(null);
@@ -73,40 +80,89 @@ export const PatientContextPanel = ({ patientId, mode = "physician" }: PatientCo
     }
   };
 
-  const EditDialog = ({ section, items, onClose }: { section: string, items: EditableItem[], onClose: () => void }) => (
-    <Dialog open={true} onOpenChange={onClose}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Edit {section}</DialogTitle>
-        </DialogHeader>
-        <div className="py-4">
-          <div className="space-y-4">
-            {items.map((item) => (
-              <div key={item.id} className="flex items-center space-x-2">
-                <Checkbox
-                  id={`${section}-${item.id}`}
-                  checked={item.included}
-                  onCheckedChange={() => toggleItem(section, item.id)}
-                />
-                <label
-                  htmlFor={`${section}-${item.id}`}
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  {item.name}
-                  {item.commonName && mode === "patient" && (
-                    <span className="text-muted-foreground ml-1">("{item.commonName}")</span>
-                  )}
-                </label>
-              </div>
-            ))}
+  const EditDialog = ({ section, items, onClose }: { section: string, items: EditableItem[], onClose: () => void }) => {
+    const [searchTerm, setSearchTerm] = useState("");
+    
+    const addCondition = (condition: EditableItem) => {
+      if (section === "conditions") {
+        setConditions(prev => [...prev, { ...condition, included: true }]);
+      }
+    };
+
+    return (
+      <Dialog open={true} onOpenChange={onClose}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Edit {section}</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            {section === "conditions" && (
+              <>
+                <div className="mb-4">
+                  <input
+                    type="text"
+                    placeholder="Search conditions..."
+                    className="w-full px-3 py-2 border rounded-md"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+                <div className="mb-6">
+                  <h4 className="text-sm font-medium mb-2">Common Conditions</h4>
+                  <div className="grid grid-cols-2 gap-2">
+                    {commonConditions
+                      .filter(condition => !items.some(item => item.name === condition.name))
+                      .map((condition) => (
+                        <Button
+                          key={condition.id}
+                          variant="outline"
+                          className="justify-start"
+                          onClick={() => addCondition(condition)}
+                        >
+                          <Plus className="w-4 h-4 mr-2" />
+                          {condition.name}
+                          {condition.commonName && mode === "patient" && (
+                            <span className="text-muted-foreground ml-1">
+                              ("{condition.commonName}")
+                            </span>
+                          )}
+                        </Button>
+                      ))}
+                  </div>
+                </div>
+              </>
+            )}
+            <div className="space-y-4">
+              <h4 className="text-sm font-medium mb-2">
+                {section === "conditions" ? "Current Conditions" : "Current Items"}
+              </h4>
+              {items.map((item) => (
+                <div key={item.id} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={`${section}-${item.id}`}
+                    checked={item.included}
+                    onCheckedChange={() => toggleItem(section, item.id)}
+                  />
+                  <label
+                    htmlFor={`${section}-${item.id}`}
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    {item.name}
+                    {item.commonName && mode === "patient" && (
+                      <span className="text-muted-foreground ml-1">("{item.commonName}")</span>
+                    )}
+                  </label>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-        <DialogFooter>
-          <Button onClick={onClose}>Done</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
+          <DialogFooter>
+            <Button onClick={onClose}>Done</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  };
 
   const EditButton = ({ section }: { section: string }) => {
     if (mode === "physician") {
