@@ -15,6 +15,7 @@ import Physician from "./pages/roles/Physician";
 import Nurse from "./pages/roles/Nurse";
 import Admin from "./pages/roles/Admin";
 import BillingDashboard from "./pages/billing/BillingDashboard";
+import ClaimDetail from "./pages/billing/ClaimDetail";
 
 export const router = createBrowserRouter([
   {
@@ -79,6 +80,10 @@ export const router = createBrowserRouter([
       {
         path: "/billing",
         element: <BillingDashboard />,
+      },
+      {
+        path: "/billing/claim/:id",
+        element: <ClaimDetail />,
       }
     ]
   },
