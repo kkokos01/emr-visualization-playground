@@ -28,6 +28,13 @@ import HealthAvatar from "./pages/gamified/HealthAvatar";
 import FlowBoard from "./pages/clinical/FlowBoard";
 import AdminDashboard from "./pages/admin/Dashboard";
 import Users from "./pages/admin/Users";
+import Roles from "./pages/admin/Roles";
+import PracticeSettings from "./pages/admin/PracticeSettings";
+import SystemActivity from "./pages/admin/SystemActivity";
+import EmailTemplates from "./pages/admin/EmailTemplates";
+import ApiKeys from "./pages/admin/ApiKeys";
+import BackupRestore from "./pages/admin/BackupRestore";
+import SystemSettings from "./pages/admin/SystemSettings";
 
 export const router = createBrowserRouter([
   {
@@ -156,6 +163,34 @@ export const router = createBrowserRouter([
       {
         path: "/admin/users",
         element: <Users />,
+      },
+      {
+        path: "/admin/roles",
+        element: <Roles />,
+      },
+      {
+        path: "/admin/settings",
+        element: <PracticeSettings />,
+      },
+      {
+        path: "/admin/activity",
+        element: <SystemActivity />,
+      },
+      {
+        path: "/admin/email-templates",
+        element: <EmailTemplates />,
+      },
+      {
+        path: "/admin/api-keys",
+        element: <ApiKeys />,
+      },
+      {
+        path: "/admin/backup",
+        element: <BackupRestore />,
+      },
+      {
+        path: "/admin/system",
+        element: <SystemSettings />,
       }
     ]
   },
