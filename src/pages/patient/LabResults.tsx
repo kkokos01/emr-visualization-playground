@@ -133,7 +133,30 @@ const LabResults = () => {
         </Card>
 
         <Card className="bg-sky-50 border-sky-200">
-          <CardContent className="p-6">
+          <CardHeader className="p-6 pb-0">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-xl text-sky-900">Results Summary</CardTitle>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSummaryExpanded(!summaryExpanded)}
+                className="gap-2"
+              >
+                {summaryExpanded ? (
+                  <>
+                    <ChevronUp className="w-4 h-4" />
+                    Less
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="w-4 h-4" />
+                    More
+                  </>
+                )}
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="p-6 pt-4">
             <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <Info className="w-5 h-5 text-sky-600 mt-1 shrink-0" />
@@ -165,13 +188,29 @@ const LabResults = () => {
               {summaryExpanded && (
                 <>
                   <div className="pl-8">
-                    <div className="bg-white rounded-lg p-4">
-                      <h4 className="font-medium text-sky-900 mb-2">Key Points for Discussion</h4>
-                      <ul className="list-disc list-inside space-y-2 text-sky-800">
-                        <li>What lifestyle changes could help improve my elevated results?</li>
-                        <li>Should we adjust any medications based on these results?</li>
-                        <li>When should we retest to monitor these values?</li>
-                      </ul>
+                    <div className="space-y-4">
+                      <div className="bg-white rounded-lg p-4">
+                        <h4 className="font-medium text-sky-900 mb-2">Narrative Summary</h4>
+                        <p className="text-sky-800">
+                          Your recent lab results show {abnormalResults.length} value{abnormalResults.length !== 1 ? 's' : ''} outside 
+                          the normal range. The most significant findings are related to 
+                          {abnormalResults.map((result, index) => (
+                            <span key={result.id}>
+                              {index === 0 ? ' ' : index === abnormalResults.length - 1 ? ' and ' : ', '}
+                              {result.name.toLowerCase()}
+                            </span>
+                          ))}.
+                          These results suggest that adjustments to your current treatment plan may be needed.
+                        </p>
+                      </div>
+                      <div className="bg-white rounded-lg p-4">
+                        <h4 className="font-medium text-sky-900 mb-2">Key Points for Discussion</h4>
+                        <ul className="list-disc list-inside space-y-2 text-sky-800">
+                          <li>What lifestyle changes could help improve my elevated results?</li>
+                          <li>Should we adjust any medications based on these results?</li>
+                          <li>When should we retest to monitor these values?</li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </>
