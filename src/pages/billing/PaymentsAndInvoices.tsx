@@ -1,11 +1,10 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { CreditCard, Receipt, DollarSign, FileText, Search, Printer, ChevronRight, ChevronsUpDown } from "lucide-react";
+import { CreditCard, Receipt, DollarSign, FileText, Search, Printer, ChevronRight } from "lucide-react";
 
 interface PatientBalance {
   id: string;
@@ -68,56 +67,6 @@ const PaymentsAndInvoices = () => {
     }
   ];
 
-  const PaymentDialog = () => (
-    <Dialog>
-      <DialogContent className="max-w-2xl">
-        <DialogHeader>
-          <DialogTitle>Process Payment</DialogTitle>
-        </DialogHeader>
-        <div className="grid gap-6">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="text-sm font-medium mb-2 block">Payment Method</label>
-              <div className="flex gap-2">
-                <Button variant="outline" className="flex-1 gap-2">
-                  <CreditCard className="w-4 h-4" />
-                  Card
-                </Button>
-                <Button variant="outline" className="flex-1 gap-2">
-                  <DollarSign className="w-4 h-4" />
-                  Cash
-                </Button>
-                <Button variant="outline" className="flex-1 gap-2">
-                  <FileText className="w-4 h-4" />
-                  Check
-                </Button>
-              </div>
-            </div>
-            <div>
-              <label className="text-sm font-medium mb-2 block">Amount</label>
-              <Input type="number" placeholder="0.00" />
-            </div>
-          </div>
-          
-          <div>
-            <label className="text-sm font-medium mb-2 block">Reference / Check Number</label>
-            <Input placeholder="Enter reference or check number" />
-          </div>
-
-          <div>
-            <label className="text-sm font-medium mb-2 block">Notes</label>
-            <Input placeholder="Add payment notes" />
-          </div>
-
-          <div className="flex justify-end gap-2">
-            <Button variant="outline">Cancel</Button>
-            <Button>Process Payment</Button>
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-
   return (
     <div className="container mx-auto py-8">
       <div className="flex justify-between items-center mb-8">
@@ -138,7 +87,6 @@ const PaymentsAndInvoices = () => {
       </div>
 
       <div className="grid grid-cols-12 gap-6">
-        {/* Patient List */}
         <div className="col-span-12 lg:col-span-4">
           <Card>
             <CardHeader>
@@ -179,7 +127,6 @@ const PaymentsAndInvoices = () => {
           </Card>
         </div>
 
-        {/* Invoice Details */}
         <div className="col-span-12 lg:col-span-8">
           <Card>
             <CardHeader>
@@ -190,12 +137,59 @@ const PaymentsAndInvoices = () => {
                     <Printer className="w-4 h-4" />
                     Print Statement
                   </Button>
-                  <DialogTrigger asChild>
-                    <Button className="gap-2">
-                      <DollarSign className="w-4 h-4" />
-                      Record Payment
-                    </Button>
-                  </DialogTrigger>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button className="gap-2">
+                        <DollarSign className="w-4 h-4" />
+                        Record Payment
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl">
+                      <DialogHeader>
+                        <DialogTitle>Process Payment</DialogTitle>
+                      </DialogHeader>
+                      <div className="grid gap-6">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="text-sm font-medium mb-2 block">Payment Method</label>
+                            <div className="flex gap-2">
+                              <Button variant="outline" className="flex-1 gap-2">
+                                <CreditCard className="w-4 h-4" />
+                                Card
+                              </Button>
+                              <Button variant="outline" className="flex-1 gap-2">
+                                <DollarSign className="w-4 h-4" />
+                                Cash
+                              </Button>
+                              <Button variant="outline" className="flex-1 gap-2">
+                                <FileText className="w-4 h-4" />
+                                Check
+                              </Button>
+                            </div>
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium mb-2 block">Amount</label>
+                            <Input type="number" placeholder="0.00" />
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <label className="text-sm font-medium mb-2 block">Reference / Check Number</label>
+                          <Input placeholder="Enter reference or check number" />
+                        </div>
+
+                        <div>
+                          <label className="text-sm font-medium mb-2 block">Notes</label>
+                          <Input placeholder="Add payment notes" />
+                        </div>
+
+                        <div className="flex justify-end gap-2">
+                          <Button variant="outline">Cancel</Button>
+                          <Button>Process Payment</Button>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </div>
             </CardHeader>
@@ -241,8 +235,6 @@ const PaymentsAndInvoices = () => {
           </Card>
         </div>
       </div>
-
-      <PaymentDialog />
     </div>
   );
 };
