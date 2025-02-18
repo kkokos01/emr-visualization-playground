@@ -3,6 +3,7 @@ import { FileText, DollarSign, AlertCircle, CheckCircle, Calendar } from "lucide
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useNavigate } from "react-router-dom";
 
 interface ClaimEntry {
   id: string;
@@ -16,6 +17,8 @@ interface ClaimEntry {
 }
 
 const BillingDashboard = () => {
+  const navigate = useNavigate();
+  
   const claims: ClaimEntry[] = [
     {
       id: "CLM001",
@@ -60,11 +63,19 @@ const BillingDashboard = () => {
     }
   };
 
+  const handleClaimClick = (claimId: string) => {
+    navigate(`/billing/claim/${claimId}`);
+  };
+
   const ClaimsList = ({ claims, status }: { claims: ClaimEntry[], status: ClaimEntry["status"] }) => (
     <ScrollArea className="h-[600px] w-full rounded-md border">
       <div className="p-4 space-y-4">
         {claims.filter(claim => claim.status === status).map((claim) => (
-          <Card key={claim.id} className="p-4 hover:bg-accent cursor-pointer">
+          <Card 
+            key={claim.id} 
+            className="p-4 transition-colors hover:bg-muted"
+            onClick={() => handleClaimClick(claim.id)}
+          >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 {getStatusIcon(claim.status)}
