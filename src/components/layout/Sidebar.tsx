@@ -143,7 +143,7 @@ export const Sidebar = () => {
 
   return (
     <SidebarContainer className={cn(
-      "bg-muted border-r border-border [&_[data-mobile=true]]:!bg-background [&_[data-mobile=true]]:!text-foreground"
+      "bg-muted border-r border-border"
     )}>
       <SidebarContent>
         {menuItems.map((group, index) => {
@@ -170,3 +170,4 @@ export const Sidebar = () => {
     </SidebarContainer>
   );
 };
+

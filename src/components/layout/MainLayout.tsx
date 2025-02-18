@@ -23,12 +23,8 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
           </main>
         </div>
       </div>
-      <style>{`
-        [data-mobile=true].custom-sheet {
-          background-color: hsl(var(--background));
-        }
-      `}</style>
       <AIAssistant />
     </SidebarProvider>
   );
 };
+
