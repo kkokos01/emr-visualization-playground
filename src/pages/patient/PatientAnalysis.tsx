@@ -1,8 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Share2, Printer, Download, Search, BookmarkPlus, ArrowRight, ChevronDown, ChevronUp, MoveDown, MoveUp } from "lucide-react";
+import { Share2, Printer, Download, Search, BookmarkPlus, ArrowRight, ChevronDown, ChevronUp, MoveDown, MoveUp, Brain, Microscope, Stethoscope, BookOpen } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
 
 export default function PatientAnalysis() {
@@ -55,10 +55,10 @@ export default function PatientAnalysis() {
           <div className="flex justify-between items-start">
             <div>
               <CardTitle className="text-3xl font-bold text-[#0A6EBD]">
-                Welcome, Sarah
+                Your Health Analysis
               </CardTitle>
               <p className="text-slate-700 mt-3 text-lg">
-                I've carefully reviewed your health information and prepared this analysis for you.
+                We've analyzed your health information to help you better understand your health journey.
               </p>
               <p className="text-slate-600 mt-2 flex items-center">
                 <span className="inline-block w-2 h-2 rounded-full bg-[#2E8B57] mr-2"></span>
@@ -93,7 +93,7 @@ export default function PatientAnalysis() {
             <div className="flex gap-2">
               <Button className="bg-[#0A6EBD] hover:bg-[#085a9d] text-white" onClick={() => scrollToSection('recommendations')}>
                 <ArrowRight className="w-4 h-4 mr-2" />
-                Jump to recommendations
+                View key findings
               </Button>
               <Button variant="outline" className="border-[#2E8B57] text-[#2E8B57] hover:bg-[#F2FCE2]">
                 <BookmarkPlus className="w-4 h-4 mr-2" />
@@ -104,44 +104,40 @@ export default function PatientAnalysis() {
         </CardContent>
       </Card>
 
-      {/* Navigation Tiles */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card 
-          className="hover:shadow-md transition-all duration-300 cursor-pointer border-[#0A6EBD] hover:border-[#085a9d] bg-[#EBF5FB]"
-          onClick={() => scrollToSection('health')}
-        >
-          <CardContent className="pt-6">
-            <h3 className="font-semibold text-lg mb-2 text-slate-800">
-              Understanding Your Health
-            </h3>
-            <p className="text-slate-600">Review your current health status and recent changes</p>
-          </CardContent>
-        </Card>
-        
-        <Card 
-          className="hover:shadow-md transition-all duration-300 cursor-pointer border-[#2E8B57] hover:border-[#247347] bg-[#F2FCE2]"
-          onClick={() => scrollToSection('recommendations')}
-        >
-          <CardContent className="pt-6">
-            <h3 className="font-semibold text-lg mb-2 text-slate-800">
-              Recommendations
-            </h3>
-            <p className="text-slate-600">See what steps you should take next</p>
-          </CardContent>
-        </Card>
-        
-        <Card 
-          className="hover:shadow-md transition-all duration-300 cursor-pointer border-[#E67E22] hover:border-[#D35400] bg-[#FEF7CD]"
-          onClick={() => scrollToSection('questions')}
-        >
-          <CardContent className="pt-6">
-            <h3 className="font-semibold text-lg mb-2 text-slate-800">
-              Questions & Notes
-            </h3>
-            <p className="text-slate-600">Prepare for your next doctor visit</p>
-          </CardContent>
-        </Card>
-      </div>
+      {/* Educational Context Card */}
+      <Card className="border-[#8B5CF6] bg-[#F5F3FF]">
+        <CardContent className="p-6">
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="space-y-3">
+              <div className="bg-white p-4 rounded-lg border border-[#8B5CF6]/20">
+                <Brain className="w-6 h-6 text-[#8B5CF6] mb-2" />
+                <h3 className="font-semibold text-lg mb-2">Understanding Your Health</h3>
+                <p className="text-sm text-slate-600">
+                  Our AI analysis provides initial insights into your health patterns and potential areas of focus.
+                </p>
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="bg-white p-4 rounded-lg border border-[#8B5CF6]/20">
+                <Microscope className="w-6 h-6 text-[#8B5CF6] mb-2" />
+                <h3 className="font-semibold text-lg mb-2">Deeper Analysis Available</h3>
+                <p className="text-sm text-slate-600">
+                  Want to explore specific aspects of your health in detail? Our comprehensive second opinion service dives deeper.
+                </p>
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="bg-white p-4 rounded-lg border border-[#8B5CF6]/20">
+                <Stethoscope className="w-6 h-6 text-[#8B5CF6] mb-2" />
+                <h3 className="font-semibold text-lg mb-2">Expert Guidance</h3>
+                <p className="text-sm text-slate-600">
+                  Use these insights to have more informed discussions with your healthcare providers.
+                </p>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Main Content */}
       <Card className="border-[#D3E4FD] bg-white">
@@ -251,6 +247,72 @@ export default function PatientAnalysis() {
                 </ul>
               </div>
             )}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Second Opinion CTA */}
+      <Card className="border-[#8B5CF6] bg-gradient-to-r from-[#F5F3FF] to-white">
+        <CardContent className="p-8">
+          <div className="flex flex-col md:flex-row gap-8 items-center">
+            <div className="flex-1 space-y-4">
+              <h2 className="text-2xl font-bold text-[#8B5CF6]">
+                Want to Understand Your Health More Deeply?
+              </h2>
+              <p className="text-slate-700">
+                Our comprehensive Second Opinion service provides:
+              </p>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-2">
+                  <Brain className="w-5 h-5 text-[#8B5CF6] mt-1" />
+                  <div>
+                    <p className="font-medium">In-Depth Analysis</p>
+                    <p className="text-sm text-slate-600">Advanced AI analysis of your complete medical history</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-2">
+                  <BookOpen className="w-5 h-5 text-[#8B5CF6] mt-1" />
+                  <div>
+                    <p className="font-medium">Educational Insights</p>
+                    <p className="text-sm text-slate-600">Better understand your health conditions and treatment options</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Stethoscope className="w-5 h-5 text-[#8B5CF6] mt-1" />
+                  <div>
+                    <p className="font-medium">Informed Discussions</p>
+                    <p className="text-sm text-slate-600">Get prepared for more meaningful conversations with your healthcare team</p>
+                  </div>
+                </li>
+              </ul>
+              <Link to={`/patient/${id}/second-opinion`}>
+                <Button className="mt-4 bg-[#8B5CF6] hover:bg-[#7C3AED] text-white">
+                  <ArrowRight className="w-4 h-4 mr-2" />
+                  Explore Second Opinion Analysis
+                </Button>
+              </Link>
+            </div>
+            <div className="md:w-1/3 p-6 bg-white rounded-lg border border-[#8B5CF6]/20 shadow-lg">
+              <h3 className="font-semibold text-lg mb-4 text-[#8B5CF6]">What You'll Learn</h3>
+              <ul className="space-y-3 text-sm text-slate-600">
+                <li className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#8B5CF6]"></span>
+                  Detailed analysis of your health patterns
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#8B5CF6]"></span>
+                  Potential areas for preventive care
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#8B5CF6]"></span>
+                  Understanding of treatment effectiveness
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#8B5CF6]"></span>
+                  Personalized health insights
+                </li>
+              </ul>
+            </div>
           </div>
         </CardContent>
       </Card>
