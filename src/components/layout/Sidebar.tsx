@@ -11,6 +11,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarSeparator,
 } from "@/components/ui/sidebar";
 
 export const Sidebar = () => {
@@ -27,6 +28,10 @@ export const Sidebar = () => {
       ],
     },
     {
+      type: "separator",
+      label: "Professional Workflows"
+    },
+    {
       label: "Clinical",
       items: [
         { title: "Patients", icon: Users, url: "/patients" },
@@ -38,6 +43,19 @@ export const Sidebar = () => {
       ],
     },
     {
+      label: "Patient Management",
+      items: [
+        { title: "New Patient", icon: UserPlus, url: "/patient/register" },
+        { title: "Clinical Chart", icon: Stethoscope, url: "/patient/1/chart" },
+        { title: "Billing Dashboard", icon: DollarSign, url: "/billing" },
+        { title: "Payments & Invoices", icon: Receipt, url: "/billing/payments" },
+      ],
+    },
+    {
+      type: "separator",
+      label: "Patient Workflows"
+    },
+    {
       label: "Patient Portal",
       items: [
         { title: "My Health", icon: Heart, url: "/roles/patient" },
@@ -45,15 +63,6 @@ export const Sidebar = () => {
         { title: "Health Analysis", icon: Brain, url: "/patient/analysis/1" },
         { title: "My Messages", icon: MessageSquare, url: "/messages" },
         { title: "My Appointments", icon: Calendar, url: "/appointments" },
-      ],
-    },
-    {
-      label: "Patient Management",
-      items: [
-        { title: "New Patient", icon: UserPlus, url: "/patient/register" },
-        { title: "Clinical Chart", icon: Stethoscope, url: "/patient/1/chart" },
-        { title: "Billing Dashboard", icon: DollarSign, url: "/billing" },
-        { title: "Payments & Invoices", icon: Receipt, url: "/billing/payments" },
       ],
     },
     {
@@ -72,32 +81,43 @@ export const Sidebar = () => {
   return (
     <SidebarContainer className="bg-muted border-r border-border">
       <SidebarContent>
-        {menuItems.map((group) => (
-          <SidebarGroup key={group.label}>
-            <SidebarGroupLabel className="text-foreground/70">{group.label}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {group.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <Link 
-                        to={item.url}
-                        className={cn(
-                          "text-foreground/70 hover:text-primary hover:bg-primary/5",
-                          location.pathname === item.url && "text-primary bg-primary/5",
-                          item.className
-                        )}
-                      >
-                        <item.icon className="w-5 h-5" />
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+        {menuItems.map((group, index) => {
+          if ('type' in group && group.type === 'separator') {
+            return (
+              <div key={`separator-${index}`} className="px-2 py-4">
+                <div className="text-xs font-medium text-foreground/50 mb-2">{group.label}</div>
+                <SidebarSeparator />
+              </div>
+            );
+          }
+
+          return (
+            <SidebarGroup key={group.label}>
+              <SidebarGroupLabel className="text-foreground/70">{group.label}</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {('items' in group) && group.items.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <Link 
+                          to={item.url}
+                          className={cn(
+                            "text-foreground/70 hover:text-primary hover:bg-primary/5",
+                            location.pathname === item.url && "text-primary bg-primary/5",
+                            item.className
+                          )}
+                        >
+                          <item.icon className="w-5 h-5" />
+                          <span>{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          );
+        })}
       </SidebarContent>
     </SidebarContainer>
   );
