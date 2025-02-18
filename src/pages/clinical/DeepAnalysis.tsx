@@ -163,7 +163,7 @@ const DeepAnalysis = () => {
                                 <h3 className="font-medium">Cardiovascular Risk</h3>
                               </div>
                               <p className="text-sm text-muted-foreground mb-2">
-                                Blood pressure readings consistently above target range (>140/90) in last 5 visits.
+                                Blood pressure readings consistently above target range (&gt;140/90) in last 5 visits.
                                 Consider medication adjustment based on current regimen efficacy.
                               </p>
                               <div className="flex items-center gap-2 text-sm text-primary">
