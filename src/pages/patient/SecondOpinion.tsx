@@ -1,9 +1,8 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { DeepResearchPanel } from "@/components/research/DeepResearchPanel";
-import { AlertTriangle, ArrowLeft, BookOpen, Brain, Search, Heart, Flask, Pill, Activity, FileText } from "lucide-react";
+import { AlertTriangle, ArrowLeft, BookOpen, Brain, Search, Heart, FlaskConical, Pill, Activity, FileText } from "lucide-react";
 import { useParams, Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -60,7 +59,7 @@ export default function SecondOpinion() {
                 Vitals
               </TabsTrigger>
               <TabsTrigger value="labs" className="data-[state=active]:bg-transparent">
-                <Flask className="w-4 h-4 mr-2" />
+                <FlaskConical className="w-4 h-4 mr-2" />
                 Lab Results
               </TabsTrigger>
               <TabsTrigger value="medications" className="data-[state=active]:bg-transparent">
