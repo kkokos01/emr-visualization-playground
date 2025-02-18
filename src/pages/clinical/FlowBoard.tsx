@@ -11,6 +11,13 @@ import {
   TableHeader, 
   TableRow 
 } from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { 
   Activity,
   Clock,
@@ -43,6 +50,16 @@ interface FlowPatient {
   notes?: string;
 }
 
+const statusOptions: { value: PatientStatus; label: string }[] = [
+  { value: "scheduled", label: "Scheduled" },
+  { value: "checked_in", label: "Checked In" },
+  { value: "in_exam", label: "In Exam" },
+  { value: "ready_for_injection", label: "Ready for Injection" },
+  { value: "post_injection", label: "Post Injection" },
+  { value: "ready_for_discharge", label: "Ready for Discharge" },
+  { value: "completed", label: "Completed" }
+];
+
 const getStatusBadge = (status: PatientStatus) => {
   const statusConfig = {
     scheduled: { color: "bg-slate-100 text-slate-800", icon: Clock },
@@ -72,9 +89,7 @@ const getStatusBadge = (status: PatientStatus) => {
 
 export default function FlowBoard() {
   const [searchQuery, setSearchQuery] = useState("");
-
-  // Mock data - would be replaced with real data from backend
-  const patients: FlowPatient[] = [
+  const [patients, setPatients] = useState<FlowPatient[]>([
     {
       id: "1",
       name: "John Smith",
@@ -102,7 +117,18 @@ export default function FlowBoard() {
       status: "checked_in",
       waitTime: "0m"
     }
-  ];
+  ]);
+
+  const handleStatusChange = (patientId: string, newStatus: PatientStatus) => {
+    setPatients(currentPatients =>
+      currentPatients.map(patient =>
+        patient.id === patientId
+          ? { ...patient, status: newStatus }
+          : patient
+      )
+    );
+    // Here you would also make an API call to update the status in the backend
+  };
 
   const filteredPatients = patients.filter(patient =>
     patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -164,7 +190,28 @@ export default function FlowBoard() {
                   <TableCell>{patient.provider}</TableCell>
                   <TableCell>{patient.room || "-"}</TableCell>
                   <TableCell>
-                    {getStatusBadge(patient.status)}
+                    <Select
+                      value={patient.status}
+                      onValueChange={(value: PatientStatus) => 
+                        handleStatusChange(patient.id, value)
+                      }
+                    >
+                      <SelectTrigger className="w-[200px]">
+                        <SelectValue>
+                          {getStatusBadge(patient.status)}
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent>
+                        {statusOptions.map(option => (
+                          <SelectItem 
+                            key={option.value} 
+                            value={option.value}
+                          >
+                            {getStatusBadge(option.value)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </TableCell>
                   <TableCell>{patient.waitTime}</TableCell>
                   <TableCell className="text-muted-foreground">
