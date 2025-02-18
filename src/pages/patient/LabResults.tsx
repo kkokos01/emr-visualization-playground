@@ -1,8 +1,7 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ChevronDown, ChevronUp, Upload, AlertCircle, Info } from "lucide-react";
+import { ChevronDown, ChevronUp, Upload, AlertCircle, Info, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 import { LabResultVisual } from "@/components/clinical/LabResultVisual";
 import { cn } from "@/lib/utils";
@@ -73,6 +72,7 @@ const mockResults: LabResult[] = [
 
 const LabResults = () => {
   const [expandedResults, setExpandedResults] = useState<string[]>([]);
+  const [summaryExpanded, setSummaryExpanded] = useState(true);
 
   const toggleResult = (id: string) => {
     setExpandedResults(prev =>
@@ -94,60 +94,108 @@ const LabResults = () => {
 
   return (
     <div className="container mx-auto py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-4">Your Lab Results</h1>
+      <div className="flex justify-between items-center mb-4">
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            onClick={toggleAll}
+            className="gap-2"
+          >
+            {expandedResults.length === mockResults.length ? (
+              <>
+                <ChevronUp className="w-4 h-4" />
+                Collapse All Results
+              </>
+            ) : (
+              <>
+                <ChevronDown className="w-4 h-4" />
+                Expand All Results
+              </>
+            )}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => setSummaryExpanded(!summaryExpanded)}
+            className="gap-2"
+          >
+            {summaryExpanded ? (
+              <>
+                <ChevronUp className="w-4 h-4" />
+                Collapse Summary
+              </>
+            ) : (
+              <>
+                <ChevronDown className="w-4 h-4" />
+                Expand Summary
+              </>
+            )}
+          </Button>
+        </div>
+      </div>
+
+      <div className="mb-8 space-y-4">
+        <h1 className="text-3xl font-bold">Your Lab Results</h1>
+        
+        <Card className="border-l-4 border-l-amber-500">
+          <CardContent className="p-4">
+            <div className="flex items-center gap-2 text-amber-800 mb-2">
+              <AlertTriangle className="w-5 h-5" />
+              <span className="font-medium">Important Notice</span>
+            </div>
+            <p className="text-muted-foreground text-sm">
+              These results and their interpretations are for informational purposes only and do not constitute a medical diagnosis. 
+              Always discuss your results with your healthcare provider during your next visit.
+            </p>
+          </CardContent>
+        </Card>
+
         <Card className="bg-sky-50 border-sky-200">
           <CardContent className="p-6">
-            <div className="flex items-start gap-3">
-              <Info className="w-5 h-5 text-sky-600 mt-1" />
-              <div>
-                <h3 className="text-lg font-medium text-sky-900 mb-2">Summary of Your Results</h3>
-                <p className="text-sky-800 mb-4">
-                  Your recent lab tests show mostly normal results, with a few areas that need attention:
-                </p>
-                <ul className="list-disc list-inside space-y-2 text-sky-800 mb-4">
-                  {abnormalResults.map(result => (
-                    <li key={result.id}>
-                      Your {result.name} is {result.status}, at {result.value} {result.unit}
-                    </li>
-                  ))}
-                </ul>
-                <div className="bg-white rounded-lg p-4">
-                  <h4 className="font-medium text-sky-900 mb-2">Suggested Questions for Your Doctor:</h4>
-                  <ul className="list-disc list-inside space-y-2 text-sky-800">
-                    <li>What lifestyle changes could help improve my elevated results?</li>
-                    <li>Should we adjust any medications based on these results?</li>
-                    <li>When should we retest to monitor these values?</li>
-                  </ul>
+            <div className="space-y-4">
+              <div className="flex items-start gap-3">
+                <Info className="w-5 h-5 text-sky-600 mt-1 shrink-0" />
+                <div>
+                  <h3 className="text-lg font-medium text-sky-900 mb-2">Areas Needing Attention</h3>
+                  <div className="space-y-2">
+                    {abnormalResults.map(result => (
+                      <div 
+                        key={result.id}
+                        className={cn(
+                          "p-3 rounded-md",
+                          result.status === "high" && "bg-red-50 text-red-800",
+                          result.status === "low" && "bg-orange-50 text-orange-800",
+                          result.status === "critical" && "bg-red-100 text-red-900"
+                        )}
+                      >
+                        <p className="font-medium">
+                          {result.name}: {result.value} {result.unit}
+                        </p>
+                        <p className="text-sm mt-1">
+                          {result.interpretation}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
+
+              {summaryExpanded && (
+                <>
+                  <div className="pl-8">
+                    <div className="bg-white rounded-lg p-4">
+                      <h4 className="font-medium text-sky-900 mb-2">Key Points for Discussion</h4>
+                      <ul className="list-disc list-inside space-y-2 text-sky-800">
+                        <li>What lifestyle changes could help improve my elevated results?</li>
+                        <li>Should we adjust any medications based on these results?</li>
+                        <li>When should we retest to monitor these values?</li>
+                      </ul>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </CardContent>
         </Card>
-      </div>
-
-      <div className="flex justify-between items-center mb-4">
-        <Button
-          variant="outline"
-          onClick={toggleAll}
-          className="gap-2"
-        >
-          {expandedResults.length === mockResults.length ? (
-            <>
-              <ChevronUp className="w-4 h-4" />
-              Collapse All
-            </>
-          ) : (
-            <>
-              <ChevronDown className="w-4 h-4" />
-              Expand All
-            </>
-          )}
-        </Button>
-        <Button className="gap-2">
-          <Upload className="w-4 h-4" />
-          Upload Results
-        </Button>
       </div>
 
       <ScrollArea className="h-[600px] pr-4">
