@@ -1,3 +1,7 @@
+import {
+  ERROR_MESSAGES
+} from '../types/api/responses/common';
+
 import type {
   TokenResponse,
   ApiError,
@@ -5,7 +9,8 @@ import type {
   OpenEMRAppointment,
   LoginRequest,
   RefreshTokenRequest,
-  PaginatedResponse
+  PaginatedResponse,
+  SuccessResponse
 } from '../types/api';
 
 class OpenEMRApi {
@@ -35,6 +40,9 @@ class OpenEMRApi {
     this.accessToken = null;
   }
 
+  /**
+   * Enhanced request method with error handling and response type mapping
+   */
   private async request<T>(
     endpoint: string,
     options: RequestInit = {}
@@ -48,20 +56,66 @@ class OpenEMRApi {
       headers.set('Authorization', `Bearer ${this.accessToken}`);
     }
 
-    const response = await fetch(`${this.baseUrl}${endpoint}`, {
-      ...options,
-      headers: headers,
-    });
+    try {
+      const response = await fetch(`${this.baseUrl}${endpoint}`, {
+        ...options,
+        headers: headers,
+      });
 
-    if (!response.ok) {
-      const error: ApiError = {
-        message: response.statusText,
-        status: response.status,
-      };
+      // Handle specific error cases
+      if (!response.ok) {
+        let errorData: ApiError;
+        try {
+          errorData = await response.json();
+        } catch {
+          // If error response isn't JSON, create a standard error
+          errorData = {
+            status: response.status,
+            message: response.statusText || 'An unknown error occurred',
+            code: `HTTP_${response.status}`
+          };
+        }
+
+        // Handle specific status codes
+        switch (response.status) {
+          case 401:
+            this.clearAccessToken(); // Clear invalid token
+            errorData.code = 'AUTH001';
+            break;
+          case 403:
+            errorData.code = 'AUTH002';
+            break;
+          case 404:
+            errorData.code = 'NOT_FOUND';
+            break;
+          case 422:
+            errorData.code = 'VALIDATION';
+            break;
+          case 500:
+            errorData.code = 'SERVER_ERROR';
+            break;
+        }
+
+        // Add user-friendly message if available
+        if (errorData.code && ERROR_MESSAGES[errorData.code]) {
+          errorData.message = ERROR_MESSAGES[errorData.code];
+        }
+
+        throw errorData;
+      }
+
+      return response.json();
+    } catch (error) {
+      // Handle network errors
+      if (error instanceof TypeError && error.message === 'Failed to fetch') {
+        throw {
+          status: 0,
+          code: 'NETWORK_ERROR',
+          message: ERROR_MESSAGES.NETWORK_ERROR
+        } as ApiError;
+      }
       throw error;
     }
-
-    return response.json();
   }
 
   // Authentication
@@ -92,12 +146,20 @@ class OpenEMRApi {
   }
 
   // Patient endpoints
-  public async getPatients(): Promise<Patient[]> {
-    return this.request<Patient[]>('/api/patient');
+  /**
+   * Get a paginated list of patients
+   */
+  public async getPatients(page = 1, perPage = 10): Promise<PaginatedResponse<Patient>> {
+    return this.request<PaginatedResponse<Patient>>(
+      `/api/patient?page=${page}&per_page=${perPage}`
+    );
   }
 
-  public async getPatient(id: string): Promise<Patient> {
-    return this.request<Patient>(`/api/patient/${id}`);
+  /**
+   * Get a single patient by ID
+   */
+  public async getPatient(id: string): Promise<SuccessResponse<Patient>> {
+    return this.request<SuccessResponse<Patient>>(`/api/patient/${id}`);
   }
 
   // Add more API methods as needed:

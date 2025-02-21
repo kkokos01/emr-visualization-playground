@@ -1,17 +1,16 @@
 /**
- * Common types shared across the API
+ * Core model types shared across the API
  */
 
-export interface ApiError {
-  message: string;
-  status: number;
-  code?: string;
-  detail?: string;
+// Base interface for all API resources
+export interface Resource {
+  id: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
-export interface PaginatedResponse<T> {
-  data: T[];
-  total: number;
-  limit: number;
-  offset: number;
+// Base interface for soft-deletable resources
+export interface SoftDeletableResource extends Resource {
+  deleted_at?: string | null;
+  is_active: boolean;
 }
