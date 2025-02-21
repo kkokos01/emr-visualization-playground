@@ -1,0 +1,87 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+@layer base {
+  :root {
+    --background: 0 0% 100%; /* #FFFFFF */
+    --foreground: 209 42% 24%; /* #2C3E50 */
+    --card: 0 0% 100%; /* #FFFFFF */
+    --card-foreground: 209 42% 24%; /* #2C3E50 */
+    --popover: 0 0% 100%; /* #FFFFFF */
+    --popover-foreground: 209 42% 24%; /* #2C3E50 */
+    
+    /* Primary Colors - Vibrant blue */
+    --primary: 207 91% 39%; /* #0A6EBD */
+    --primary-dark: 207 91% 29%; /* #085a9d */
+    --primary-light: 207 91% 49%; /* #0c82dd */
+    --primary-foreground: 0 0% 100%; /* #FFFFFF */
+    
+    /* Secondary Colors */
+    --secondary: 146 32% 36%; /* #2E8B57 */
+    --secondary-foreground: 0 0% 100%; /* #FFFFFF */
+    --muted: 204 94% 97%; /* #F5FAFD */
+    --muted-foreground: 209 42% 44%; /* #4a6278 */
+    
+    /* Status Colors */
+    --success: 145 55% 41%; /* #27AE60 */
+    --success-foreground: 0 0% 100%;
+    --warning: 37 91% 51%; /* #F39C12 */
+    --warning-foreground: 0 0% 100%;
+    --destructive: 360 71% 51%; /* #D63031 */
+    --destructive-foreground: 0 0% 100%;
+    --info: 207 91% 39%; /* #0A6EBD */
+    --info-foreground: 0 0% 100%;
+    
+    /* Border and Input Colors */
+    --border: 207 91% 95%; /* #e8f3fc */
+    --input: 207 91% 95%;
+    --ring: 207 91% 80%; /* #a5d3f3 */
+    
+    --radius: 0.75rem;
+  }
+ 
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased font-inter;
+  }
+
+  /* Smooth animations */
+  .fade-in {
+    animation: fadeIn 0.3s ease-in;
+  }
+
+  .slide-in {
+    animation: slideIn 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideIn {
+    from { transform: translateY(10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* Glass effect with improved contrast */
+  .glass {
+    @apply bg-white/90 backdrop-blur-lg border border-white/40 rounded-2xl shadow-lg;
+    @apply hover:shadow-xl hover:border-primary/20 hover:bg-white transition-all duration-200;
+    @apply data-[clickable=true]:cursor-pointer data-[clickable=true]:hover:scale-[1.02];
+  }
+
+  /* Card styles with hover effects */
+  .card-gradient {
+    @apply bg-card border border-border shadow-sm;
+    @apply hover:shadow-md hover:border-primary/20 hover:bg-white/50 transition-all duration-200;
+    @apply data-[clickable=true]:cursor-pointer data-[clickable=true]:hover:scale-[1.02];
+  }
+}
