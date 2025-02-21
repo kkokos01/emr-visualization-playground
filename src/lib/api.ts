@@ -1,25 +1,12 @@
-// Types for API responses
-interface TokenResponse {
-  token_type: string;
-  access_token: string;
-  expires_in: number;
-  refresh_token?: string;
-}
-
-interface ApiError {
-  message: string;
-  status: number;
-}
-
-// Basic patient type - expand as needed
-interface Patient {
-  id: string;
-  pid?: number;
-  fname?: string;
-  lname?: string;
-  DOB?: string;
-  // Add more fields as needed
-}
+import type {
+  TokenResponse,
+  ApiError,
+  OpenEMRPatient as Patient,
+  OpenEMRAppointment,
+  LoginRequest,
+  RefreshTokenRequest,
+  PaginatedResponse
+} from '../types/api';
 
 class OpenEMRApi {
   private static instance: OpenEMRApi;
