@@ -1,7 +1,13 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import { MainLayout } from "./components/layout/MainLayout";
 import { Outlet } from "react-router-dom";
+
+// Auth Pages
 import Login from "./pages/auth/Login";
+import Callback from "./pages/auth/Callback";
+
+// Protected Route Wrapper
+import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import PatientChart from "./pages/patients/PatientChart";
 import PatientChartAlt from "./pages/patients/PatientChartAlt";
@@ -37,12 +43,33 @@ import BackupRestore from "./pages/admin/BackupRestore";
 import SystemSettings from "./pages/admin/SystemSettings";
 
 export const router = createBrowserRouter([
+  // Public Routes
   {
-    path: "/login",
-    element: <Login />,
+    path: "/",
+    children: [
+      {
+        path: "",
+        element: <Navigate to="/dashboard" replace />,
+      },
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "oauth/callback",
+        element: <Callback />,
+      },
+    ],
   },
+  // Protected Routes
   {
-    element: <MainLayout><Outlet /></MainLayout>,
+    element: (
+      <ProtectedRoute>
+        <MainLayout>
+          <Outlet />
+        </MainLayout>
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: "/",

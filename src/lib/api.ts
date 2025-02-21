@@ -1,7 +1,6 @@
-import {
-  ERROR_MESSAGES
-} from '../types/api/responses/common';
-
+import { ERROR_MESSAGES } from '../types/api/responses/common';
+import { oauth2Config } from '@/config/auth';
+import { createTokenRequestHeaders } from '@/lib/auth/oauth2';
 import type {
   TokenResponse,
   ApiError,
@@ -10,8 +9,10 @@ import type {
   LoginRequest,
   RefreshTokenRequest,
   PaginatedResponse,
-  SuccessResponse
+  SuccessResponse,
+  UserInfo
 } from '../types/api';
+import type { AuthorizationCodeRequest } from '@/types/auth/oauth2';
 
 class OpenEMRApi {
   private static instance: OpenEMRApi;
@@ -22,6 +23,12 @@ class OpenEMRApi {
     this.baseUrl = import.meta.env.VITE_API_URL;
     if (!this.baseUrl) {
       throw new Error('API URL not configured. Please check your environment variables.');
+    }
+
+    // Initialize access token from storage
+    const storedToken = localStorage.getItem('auth_token');
+    if (storedToken) {
+      this.accessToken = storedToken;
     }
   }
 
@@ -41,6 +48,35 @@ class OpenEMRApi {
     this.accessToken = null;
     localStorage.removeItem('auth_token');
   }
+
+  /**
+   * Exchange authorization code for tokens
+   * @param request Authorization code request
+   * @returns Token response
+   */
+  public async exchangeAuthorizationCode(request: AuthorizationCodeRequest): Promise<TokenResponse> {
+    const headers = createTokenRequestHeaders(oauth2Config);
+    const body = new URLSearchParams({
+      ...request,
+      client_id: oauth2Config.clientId,
+      redirect_uri: oauth2Config.redirectUri
+    });
+
+    const response = await fetch(oauth2Config.tokenEndpoint, {
+      method: 'POST',
+      headers,
+      body
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error_description || error.error || 'Failed to exchange authorization code');
+    }
+
+    return response.json();
+  }
+
+
 
   /**
    * Enhanced request method with error handling and response type mapping
@@ -187,6 +223,7 @@ class OpenEMRApi {
 
   /**
    * Get information about the currently authenticated user
+   * @returns User information from OpenEMR
    */
   public async getUserInfo(): Promise<UserInfo> {
     return this.request<UserInfo>('/api/user/info');

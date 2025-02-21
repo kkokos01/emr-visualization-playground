@@ -1,6 +1,15 @@
 import { createContext, useContext, useState, useCallback, ReactNode, useEffect } from 'react';
 import { api } from '../lib/api';
 import type { TokenResponse, ApiError, LoginRequest, RefreshTokenRequest } from '../types/api';
+import { oauth2Config } from '@/config/auth';
+import {
+  generateOAuth2State,
+  extractAuthCode,
+  createAuthorizationCodeRequest,
+  buildAuthorizeUrl,
+  validateOAuth2State
+} from '@/lib/auth/oauth2';
+import type { OAuth2State } from '@/types/auth/oauth2';
 
 interface UserInfo {
   userId: string;
@@ -14,6 +23,8 @@ interface AuthContextType {
   isAuthenticated: boolean;
   userInfo: UserInfo | null;
   login: (username: string, password: string) => Promise<void>;
+  loginWithOAuth2: () => Promise<void>;
+  handleOAuth2Callback: (searchParams: string) => Promise<void>;
   logout: () => void;
   error: string | null;
   isLoading: boolean;
@@ -31,6 +42,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [oauth2State, setOAuth2State] = useState<OAuth2State | null>(null);
 
   // Initialize auth state from storage
   useEffect(() => {
@@ -133,11 +145,85 @@ export function AuthProvider({ children }: AuthProviderProps) {
     localStorage.removeItem('user_info');
   }, []);
 
+  const loginWithOAuth2 = useCallback(async () => {
+    try {
+      setError(null);
+      setIsLoading(true);
+
+      // Generate and store OAuth2 state
+      const state = await generateOAuth2State();
+      setOAuth2State(state);
+      sessionStorage.setItem('oauth2_state', JSON.stringify(state));
+
+      // Redirect to OpenEMR's authorization endpoint
+      const authUrl = buildAuthorizeUrl(oauth2Config, state);
+      window.location.href = authUrl;
+    } catch (err) {
+      const error = err as Error;
+      setError(error.message || 'Failed to initialize OAuth2 login');
+      setIsLoading(false);
+    }
+  }, []);
+
+  const handleOAuth2Callback = useCallback(async (searchParams: string) => {
+    try {
+      setError(null);
+      setIsLoading(true);
+
+      // Retrieve stored state
+      const storedStateJson = sessionStorage.getItem('oauth2_state');
+      if (!storedStateJson) {
+        throw new Error('No OAuth2 state found');
+      }
+      const storedState = JSON.parse(storedStateJson) as OAuth2State;
+
+      // Extract and validate the authorization code
+      const code = extractAuthCode(searchParams, storedState);
+
+      // Exchange code for tokens
+      const tokenRequest = createAuthorizationCodeRequest(
+        oauth2Config,
+        code,
+        storedState.pkce.codeVerifier
+      );
+
+      const response = await api.exchangeAuthorizationCode(tokenRequest);
+      setAccessToken(response.access_token);
+      api.setAccessToken(response.access_token);
+
+      if (response.refresh_token) {
+        setRefreshToken(response.refresh_token);
+        localStorage.setItem('refresh_token', response.refresh_token);
+      }
+
+      // Clear OAuth2 state
+      sessionStorage.removeItem('oauth2_state');
+      setOAuth2State(null);
+
+      // Fetch user info
+      const userInfoResponse = await api.getUserInfo();
+      setUserInfo(userInfoResponse);
+      localStorage.setItem('user_info', JSON.stringify(userInfoResponse));
+    } catch (err) {
+      const error = err as Error;
+      setError(error.message || 'Failed to complete OAuth2 authentication');
+      setAccessToken(null);
+      setRefreshToken(null);
+      setUserInfo(null);
+      api.clearAccessToken();
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   const value = {
     accessToken,
     isAuthenticated: !!accessToken,
     userInfo,
     login,
+    loginWithOAuth2,
+    handleOAuth2Callback,
     logout,
     error,
     isLoading
