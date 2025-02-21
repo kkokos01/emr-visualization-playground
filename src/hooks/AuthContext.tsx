@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useCallback, ReactNode, useEffect } from 'react';
 import { api } from '../lib/api';
-import type { TokenResponse, ApiError, LoginRequest, RefreshTokenRequest } from '../types/api';
+import type { TokenResponse, ApiError, LoginRequest, RefreshTokenRequest, UserInfo as ApiUserInfo } from '../types/api';
 import { oauth2Config } from '@/config/auth';
 import {
   generateOAuth2State,
@@ -16,6 +16,18 @@ interface UserInfo {
   role: string;
   name: string;
   permissions: string[];
+}
+
+/**
+ * Maps API user info response to our internal UserInfo type
+ */
+function mapApiUserInfoToUserInfo(apiUserInfo: ApiUserInfo): UserInfo {
+  return {
+    userId: apiUserInfo.id,
+    role: apiUserInfo.role,
+    name: `${apiUserInfo.firstName} ${apiUserInfo.lastName}`,
+    permissions: apiUserInfo.permissions,
+  };
 }
 
 interface AuthContextType {
@@ -117,7 +129,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       // Fetch user info after successful login
       try {
         const userInfoResponse = await api.getUserInfo();
-        setUserInfo(userInfoResponse);
+        const mappedUserInfo = mapApiUserInfoToUserInfo(userInfoResponse);
+        setUserInfo(mappedUserInfo);
         localStorage.setItem('user_info', JSON.stringify(userInfoResponse));
       } catch (userInfoErr) {
         console.error('Failed to fetch user info', userInfoErr);
@@ -202,7 +215,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       // Fetch user info
       const userInfoResponse = await api.getUserInfo();
-      setUserInfo(userInfoResponse);
+      const mappedUserInfo = mapApiUserInfoToUserInfo(userInfoResponse);
+      setUserInfo(mappedUserInfo);
       localStorage.setItem('user_info', JSON.stringify(userInfoResponse));
     } catch (err) {
       const error = err as Error;
