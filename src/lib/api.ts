@@ -34,10 +34,12 @@ class OpenEMRApi {
 
   public setAccessToken(token: string) {
     this.accessToken = token;
+    localStorage.setItem('auth_token', token);
   }
 
   public clearAccessToken() {
     this.accessToken = null;
+    localStorage.removeItem('auth_token');
   }
 
   /**
@@ -137,12 +139,57 @@ class OpenEMRApi {
     });
 
     if (!response.ok) {
-      throw new Error('Login failed');
+      const error = await response.json();
+      throw {
+        message: error.error_description || 'Login failed',
+        status: response.status,
+        code: error.error || 'AUTH_ERROR'
+      } as ApiError;
     }
 
     const data: TokenResponse = await response.json();
     this.setAccessToken(data.access_token);
     return data;
+  }
+
+  /**
+   * Refresh the access token using a refresh token
+   */
+  public async refreshToken(request: RefreshTokenRequest): Promise<TokenResponse> {
+    const formData = new URLSearchParams();
+    formData.append('grant_type', 'refresh_token');
+    formData.append('refresh_token', request.refresh_token);
+    if (request.scope) {
+      formData.append('scope', request.scope);
+    }
+
+    const response = await fetch(`${this.baseUrl}/oauth2/default/token`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw {
+        message: error.error_description || 'Failed to refresh token',
+        status: response.status,
+        code: error.error || 'AUTH_ERROR'
+      } as ApiError;
+    }
+
+    const data: TokenResponse = await response.json();
+    this.setAccessToken(data.access_token);
+    return data;
+  }
+
+  /**
+   * Get information about the currently authenticated user
+   */
+  public async getUserInfo(): Promise<UserInfo> {
+    return this.request<UserInfo>('/api/user/info');
   }
 
   // Patient endpoints
@@ -162,7 +209,69 @@ class OpenEMRApi {
     return this.request<SuccessResponse<Patient>>(`/api/patient/${id}`);
   }
 
-  // Add more API methods as needed:
+  // Appointment endpoints
+  /**
+   * Get a paginated list of appointments
+   * @param page Page number (1-based)
+   * @param perPage Number of items per page
+   * @param patientId Optional patient ID to filter appointments
+   */
+  public async getAppointments(
+    page = 1,
+    perPage = 10,
+    patientId?: string
+  ): Promise<PaginatedResponse<OpenEMRAppointment>> {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      per_page: perPage.toString(),
+      ...(patientId && { patient_id: patientId })
+    });
+
+    return this.request<PaginatedResponse<OpenEMRAppointment>>(
+      `/api/appointment?${params.toString()}`
+    );
+  }
+
+  /**
+   * Get a single appointment by ID
+   */
+  public async getAppointment(id: string): Promise<SuccessResponse<OpenEMRAppointment>> {
+    return this.request<SuccessResponse<OpenEMRAppointment>>(`/api/appointment/${id}`);
+  }
+
+  /**
+   * Create a new appointment
+   */
+  public async createAppointment(
+    appointment: Omit<OpenEMRAppointment, 'id' | 'created_at' | 'updated_at'>
+  ): Promise<SuccessResponse<OpenEMRAppointment>> {
+    return this.request<SuccessResponse<OpenEMRAppointment>>('/api/appointment', {
+      method: 'POST',
+      body: JSON.stringify(appointment)
+    });
+  }
+
+  /**
+   * Update an existing appointment
+   */
+  public async updateAppointment(
+    id: string,
+    appointment: Partial<OpenEMRAppointment>
+  ): Promise<SuccessResponse<OpenEMRAppointment>> {
+    return this.request<SuccessResponse<OpenEMRAppointment>>(`/api/appointment/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(appointment)
+    });
+  }
+
+  /**
+   * Delete an appointment
+   */
+  public async deleteAppointment(id: string): Promise<void> {
+    await this.request<void>(`/api/appointment/${id}`, {
+      method: 'DELETE'
+    });
+  }
   // - getAppointments()
   // - createAppointment()
   // - updatePatient()
