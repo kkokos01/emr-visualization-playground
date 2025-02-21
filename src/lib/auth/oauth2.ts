@@ -6,18 +6,28 @@ const MIN_CODE_VERIFIER_LENGTH = 43;
 const MAX_CODE_VERIFIER_LENGTH = 128;
 
 /**
- * Generates a cryptographically secure random string for PKCE verifier or state
- * @param length Length of the random string (43-128 chars per spec)
+ * Generates a cryptographically secure random string
+ * @param length Length of the random string
  * @returns Random string of specified length
  */
 function generateRandomString(length: number): string {
+  // We need more bytes to account for base64 encoding (4 chars per 3 bytes)
+  const bytesNeeded = Math.ceil(length * 0.75);
+  const array = new Uint8Array(bytesNeeded);
+  crypto.getRandomValues(array);
+  return base64URLEncode(array).slice(0, length);
+}
+
+/**
+ * Generates a cryptographically secure random string for PKCE verifier
+ * @param length Length of the random string (43-128 chars per spec)
+ * @returns Random string of specified length
+ */
+function generatePKCEVerifier(length: number = MIN_CODE_VERIFIER_LENGTH): string {
   if (length < MIN_CODE_VERIFIER_LENGTH || length > MAX_CODE_VERIFIER_LENGTH) {
     throw new Error(`Code verifier length must be between ${MIN_CODE_VERIFIER_LENGTH} and ${MAX_CODE_VERIFIER_LENGTH}`);
   }
-
-  const array = new Uint8Array(length);
-  crypto.getRandomValues(array);
-  return base64URLEncode(array).slice(0, length);
+  return generateRandomString(length);
 }
 
 /**
@@ -50,7 +60,7 @@ function base64URLEncode(buffer: Uint8Array): string {
  * @returns PKCE parameters including verifier and challenge
  */
 export async function generatePKCE(): Promise<PKCEParams> {
-  const codeVerifier = generateRandomString(MIN_CODE_VERIFIER_LENGTH);
+  const codeVerifier = generatePKCEVerifier();
   const codeChallenge = await sha256(codeVerifier);
   
   return {
@@ -109,7 +119,10 @@ export function createTokenRequestHeaders(config: OAuth2Config): Headers {
     'Content-Type': 'application/x-www-form-urlencoded',
   });
 
-  if (!config.isPublicClient && config.clientSecret) {
+  if (!config.isPublicClient) {
+    if (!config.clientSecret) {
+      throw new Error('Client secret is required for private clients');
+    }
     const credentials = btoa(`${config.clientId}:${config.clientSecret}`);
     headers.set('Authorization', `Basic ${credentials}`);
   }
@@ -126,7 +139,7 @@ export function createTokenRequestHeaders(config: OAuth2Config): Headers {
 export function validateOAuth2State(savedState: OAuth2State, returnedState: string): boolean {
   // Check if state has expired
   if (Date.now() - savedState.timestamp > STATE_TIMEOUT_MS) {
-    throw new Error('Authorization state has expired');
+    return false;
   }
 
   // Validate state matches
